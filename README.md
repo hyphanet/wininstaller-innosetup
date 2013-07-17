@@ -1,0 +1,1 @@
+Alternative installer for Freenet using Inno Setup
