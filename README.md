@@ -1,4 +1,4 @@
-Alternative installer for Freenet using Inno Setup further to [this](https://bugs.freenetproject.org/view.php?id=5456#c9883).
+Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to [this](https://bugs.freenetproject.org/view.php?id=5456#c9883).
 
 ## ⚠ Status: Only for testing purpose ! ⚠ ##
 
