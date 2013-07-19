@@ -4,7 +4,7 @@
 #define MyAppName "Freenet"
 #define MyAppVersion "0.7.5 build 1447"
 #define MyAppPublisher "freenetproject.org"
-#define MyAppURL "http://freenetproject.org/"
+#define MyAppURL "https://freenetproject.org/"
 #define MyAppExeName "freenet.exe"
 
 [Setup]
@@ -20,25 +20,27 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={localappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=FreenetInstaller_InnoSetup_1447
+OutputBaseFilename=FreenetInstaller_1447_InnoSetup_alpha2
 SetupIconFile=FreenetInstaller_InnoSetup.ico
 SolidCompression=yes
 PrivilegesRequired=lowest
 WizardImageFile=Wizard_FreenetInstall.bmp
 WizardSmallImageFile=blue_bunny_package.bmp
-ExtraDiskSpaceRequired=682000000
+;Space needed 650 Mo
+ExtraDiskSpaceRequired=681574400
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl,.\translations\Messages_fr.isl"
 
 [Files]
+Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jre-online-installer.exe"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "install_node\bcprov-jdk15on-147.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\freenet.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\freenet.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: FreenetJarDoAfterInstall
 Source: "install_node\freenetlauncher.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\README.txt"; DestDir: "{app}"; Flags: ignoreversion
@@ -58,8 +60,7 @@ Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; 
 Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
-Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion
-Source: "install_node\freenet.ini"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: DoAfterInstall
+Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion; AfterInstall: WrapperConfDoAfterInstall
 Source: "install_node\installid.dat"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -72,32 +73,42 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Filename: "{app}\{#MyAppExeName}"; Parameters: "/welcome"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"
 
 [UninstallDelete]
-Type: files; Name: "{app}\*"; Tasks: quicklaunchicon desktopicon
-Type: files; Name: "{app}\freenet.ini"
+Type: filesandordirs; Name: "{app}\*"
 
 [ThirdParty]
 UseRelativePaths=True
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
+Name: "startwithwindows"; Description: "{cm:StartFreenetWithWindows}"; GroupDescription: "{cm:AdditionalOptions}"; Flags: unchecked
 
 [CustomMessages]
 english.JavaMissingPageCaption=Freenet requirements
 english.JavaMissingPageDescription=Java dependency
-english.JavaMissingText=Freenet requires the Java Runtime Environment, but your system does not appear to have an up-to-date version installed. You can install Java by using the included online installer, which will download and install the necessary files from the Java website automatically
-english.JavaMissingNextButton=Before continue, install Java !
+english.JavaMissingText=Freenet requires the Java Runtime Environment, but your system does not appear to have an up-to-date version installed. You can install Java by using the included online installer, which will download and install the necessary files from the Java website automatically.
 english.ButtonInstallJava=Install Java
-english.ErrorLaunchJavaInstaller=Error can't launch Java Installer
+english.JavaInstalled=Java has been installed on your system.
+english.ErrorLaunchJavaInstaller=Can't launch Java Installer.%n%nError (%1): %2.
+english.AdditionalOptions=Additional options :
+english.StartFreenetWithWindows=Start Freenet on Windows startup
+
+[Registry]
+Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
 
 [Code]
-
 var
   JavaMissingPage: TWizardPage;
   bIsJavaInstalled: boolean;
   ButtonInstallJava: TNewButton;
   TextJavaMissing: TNewStaticText;
 
+  sWrapperJavaMaxMemory, sFproxyPort, sFcpPort :string;
+
+function IsPortAvailable(sIpAddress: ansistring; wPort: word): boolean;
+external 'fIsPortAvailable@files:FreenetInstaller_InnoSetup_library.dll stdcall setuponly';
+
+function MemoryTotalPhys(var NodeMaxMem: integer): boolean;
+external 'fMemoryTotalPhys@files:FreenetInstaller_InnoSetup_library.dll stdcall setuponly';
 
 function fCheckJavaInstall():boolean;
 var
@@ -118,34 +129,47 @@ end;
 procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
+  sErrorCode: string;
+
 begin
   ButtonInstallJava.Enabled := False;
   ExtractTemporaryFiles('{tmp}\jre-online-installer.exe');
   if not ShellExec('runas',ExpandConstant('{tmp}\jre-online-installer.exe'),'','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
-    MsgBox(CustomMessage('ErrorLaunchJavaInstaller'), mbError, MB_OK)
+    sErrorCode := inttostr(ErrorCode);
+    MsgBox(FmtMessage(CustomMessage('ErrorLaunchJavaInstaller'),[sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
-  end else
-    if fCheckJavaInstall() then WizardForm.NextButton.Enabled :=  True;
+  end else begin
+    ButtonInstallJava.Enabled := True;
+    if fCheckJavaInstall() then begin
+      ButtonInstallJava.Visible := False;
+      TextJavaMissing.Caption := CustomMessage('JavaInstalled');
+      WizardForm.NextButton.Enabled :=  True;
+      WizardForm.NextButton.Default := True;
+    end;
+  end;
 end;
 
-function fJavaIsMissing():boolean;
+procedure FreenetJarDoAfterInstall();
+var
+  sConfigLines : array[0..4] of string;
 begin
-  TextJavaMissing.Caption :=  CustomMessage('JavaMissingText');
-  ButtonInstallJava.Caption := CustomMessage('ButtonInstallJava');
+  sConfigLines[0] := 'fproxy.port=' + sFproxyPort;
+  sConfigLines[1] := 'fcp.port=' + sFcpPort;
+  sConfigLines[2] := 'pluginmanager.loadplugin=JSTUN;KeyUtils;ThawIndexBrowser;UPnP;Library';
+  sConfigLines[3] := 'node.updater.autoupdate=true';
+  sConfigLines[4] := 'End';
+  SaveStringsToUTF8File(ExpandConstant('{app}\freenet.ini'), sConfigLines, False);
 end;
 
-
-procedure DoAfterInstall();
+procedure WrapperConfDoAfterInstall();
 begin
-  SaveStringToFile(ExpandConstant('{app}\freenet.ini'), 'fproxy.port=8888' + #13#10 , True);
-  SaveStringToFile(ExpandConstant('{app}\freenet.ini'), 'fcp.port=9481' + #13#10 , True);
-  SaveStringToFile(ExpandConstant('{app}\freenet.ini'), 'pluginmanager.loadplugin=JSTUN;KeyUtils;ThawIndexBrowser;UPnP;Library' + #13#10 , True);
-  SaveStringToFile(ExpandConstant('{app}\freenet.ini'), 'node.l10n=' + #13#10 , True);
-  SaveStringToFile(ExpandConstant('{app}\freenet.ini'), 'node.updater.autoupdate=true' + #13#10 , True);
-  SaveStringToFile(ExpandConstant('{app}\freenet.ini'), 'End' + #13#10 , True);
+  SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), '# Memory limit for the node' + #13#10 , True);
+  SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.maxmemory=' + sWrapperJavaMaxMemory + #13#10 , True);
 end;
 
 procedure InitializeWizard;
+var
+  iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
 begin
   bIsJavaInstalled := False;
   JavaMissingPage := CreateCustomPage(wpWelcome, CustomMessage('JavaMissingPageCaption'), CustomMessage('JavaMissingPageDescription'));
@@ -155,18 +179,53 @@ begin
   TextJavaMissing.AutoSize := True;
   TextJavaMissing.WordWrap := True;
   TextJavaMissing.Parent := JavaMissingPage.Surface;
-  //TextJavaMissing.Caption := ''
+  TextJavaMissing.Caption :=  CustomMessage('JavaMissingText');
   TextJavaMissing.Width := ScaleX(400);
 
   ButtonInstallJava := TNewButton.Create(JavaMissingPage);
-  ButtonInstallJava.Top := 60;
+  ButtonInstallJava.Top := 80;
   ButtonInstallJava.Left := 150;
-  ButtonInstallJava.Width := ScaleX(75);
-  ButtonInstallJava.Height := ScaleY(23);
-  //ButtonInstallJava.Caption := '';
+  ButtonInstallJava.Width := ScaleX(80);
+  ButtonInstallJava.Height := ScaleY(30);
+  ButtonInstallJava.Caption := CustomMessage('ButtonInstallJava');
   ButtonInstallJava.OnClick := @ButtonInstallJavaOnClick;
   ButtonInstallJava.Parent := JavaMissingPage.Surface;
 
+
+  iFproxyPort := 8888;
+  repeat
+    if IsPortAvailable('127.0.0.1', iFproxyPort) then
+      Break
+    else begin
+      iFproxyPort := iFproxyPort + 1;
+      Continue;
+    end;
+  until iFproxyPort = iFproxyPort + 256;
+  sFproxyPort := IntToStr(iFproxyPort);
+
+  iFcpPort := 9481;
+  repeat
+    if IsPortAvailable('127.0.0.1', iFcpPort) then
+      Break
+    else begin
+      iFcpPort := iFcpPort + 1;
+      Continue;
+    end;
+  until iFcpPort = iFcpPort + 256;
+  sFcpPort := IntToStr(iFcpPort);
+
+  MemoryTotalPhys(iMemTotalPhys);
+  if iMemTotalPhys >= 2048 then
+    iWrapperJavaMaxMemory := 512
+  else if iMemTotalPhys >= 1024 then
+    iWrapperJavaMaxMemory := 256
+  else if iMemTotalPhys >= 512 then
+    iWrapperJavaMaxMemory := 192
+  else
+    iWrapperJavaMaxMemory := 128;
+
+  sWrapperJavaMaxMemory := InttoStr(iWrapperJavaMaxMemory);
+ 
   fCheckJavaInstall();
 end;
 
@@ -174,18 +233,6 @@ procedure CurPageChanged(CurPageID: Integer);
 begin
   if (CurPageID = JavaMissingPage.ID) then begin
     WizardForm.NextButton.Enabled := False;
-    fJavaIsMissing();
-  end;
-    
-end;
-
-function NextButtonClick(CurPageID: Integer): Boolean;
-begin
-  if (CurPageID = JavaMissingPage.ID) And (bIsJavaInstalled = False) then begin
-    MsgBox(CustomMessage('JavaMissingNextButton'), mbInformation, MB_OK);
-    Result := False;
-  end else begin
-    Result := True;
   end;
 end;
 
@@ -193,5 +240,3 @@ function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   if (PageID = JavaMissingPage.ID) And (bIsJavaInstalled = True) then Result := True;
 end;
-
-
