@@ -7,7 +7,7 @@ Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/i
 * Port availability is handled by a [dll](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd827/FreenetInstaller_InnoSetup_library?at=master) (only way to do complex operations) ([ref](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd82779ee22324993884d77ca3c1e6593/FreenetInstaller_InnoSetup_library/FreenetInstaller_InnoSetup_library.lpr?at=master#cl-16))
 * Preset of wrapper.java.maxmemory (via the dll too) ([ref](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd82779ee22324993884d77ca3c1e6593/FreenetInstaller_InnoSetup_library/FreenetInstaller_InnoSetup_library.lpr?at=master#cl-46))
 * Correction typo ([ref](https://github.com/freenet/wininstaller-staging/issues/12#issuecomment-21206216))
-* Added, more verbose error message if launching of jre-online-installer.exe fail ([ref](https://github.com/freenet/wininstaller-staging/issues/12#issuecomment-21206216))
+* Added, more verbose error message if launching of jre-online-installer.exe fails ([ref](https://github.com/freenet/wininstaller-staging/issues/12#issuecomment-21206216))
 * Added, additional options : Start Freenet on Windows startup
 * Added, text when Java is successfully  installed 
 * Modified, use SaveStringsToUTF8File to write freenet.ini instead of SaveStringsToFile  
