@@ -9,7 +9,7 @@ uses
   winsock,
   Windows;
 
-  { Function fIsPortAvailable is directly inspired from :
+  { Function fIsPortAvailable is directly inspired by :
    https://theroadtodelphi.wordpress.com/2010/02/21/checking-if-a-tcp-port-is-open-using-delphi-and-winsocks/
    Thank you Rodrigo ! }
 

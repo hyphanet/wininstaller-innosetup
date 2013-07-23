@@ -18,6 +18,6 @@ Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/i
   
 * Doesn't check port availability ([ref](https://github.com/freenet/wininstaller-staging/blob/master/src/freenetinstaller/FreenetInstaller.ahk#L292))
 * Doesn't set wrapper.java.maxmemory ([ref](https://github.com/freenet/wininstaller-staging/blob/master/src/freenetinstaller/FreenetInstaller.ahk#L341))
-* No translations of the custom Java page and other custom texts(but can always be manually imported [from current installer translations](https://github.com/freenet/wininstaller-staging/tree/master/src/include_translator))
+* No translations of the custom Java page and other custom texts (but can always be manually imported [from current installer translations](https://github.com/freenet/wininstaller-staging/tree/master/src/include_translator))
 * *maybe I forget other ?*
 
