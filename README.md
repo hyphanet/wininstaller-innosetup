@@ -3,7 +3,7 @@ Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/i
 ## ⚠ Status: For testing purpose only ! ⚠
 
 ### 2013-07-23 | Alpha 3 | [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads)  
-* Freenet files updated with the build 1149
+* Freenet files updated with the build 1449
 
 ### 2013-07-19 | Alpha 2 | 
 * Port availability is handled by a [dll](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd827/FreenetInstaller_InnoSetup_library?at=master) (only way to do complex operations) ([ref](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd82779ee22324993884d77ca3c1e6593/FreenetInstaller_InnoSetup_library/FreenetInstaller_InnoSetup_library.lpr?at=master#cl-1))

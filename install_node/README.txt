@@ -1,7 +1,7 @@
 QUICK START:
 
 If the installer did not do it for you, start Freenet and open a browser pointing
-to http://127.0.0.1:8888/
+to http://localhost:8888/
 
 INTRODUCTION:
 

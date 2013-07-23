@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Freenet"
-#define MyAppVersion "0.7.5 build 1447"
+#define MyAppVersion "0.7.5 build 1449"
 #define MyAppPublisher "freenetproject.org"
 #define MyAppURL "https://freenetproject.org/"
 #define MyAppExeName "freenet.exe"
@@ -20,7 +20,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={localappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=FreenetInstaller_1447_InnoSetup_alpha2
+OutputBaseFilename=FreenetInstaller_1449_InnoSetup_alpha3
 SetupIconFile=FreenetInstaller_InnoSetup.ico
 SolidCompression=yes
 PrivilegesRequired=lowest
