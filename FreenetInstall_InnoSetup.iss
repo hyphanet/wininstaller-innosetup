@@ -144,7 +144,6 @@ begin
       ButtonInstallJava.Visible := False;
       TextJavaMissing.Caption := CustomMessage('JavaInstalled');
       WizardForm.NextButton.Enabled :=  True;
-      WizardForm.NextButton.Default := True;
     end;
   end;
 end;
@@ -200,7 +199,7 @@ begin
       iFproxyPort := iFproxyPort + 1;
       Continue;
     end;
-  until iFproxyPort = iFproxyPort + 256;
+  until iFproxyPort = 8888 + 256;
   sFproxyPort := IntToStr(iFproxyPort);
 
   iFcpPort := 9481;
@@ -211,7 +210,7 @@ begin
       iFcpPort := iFcpPort + 1;
       Continue;
     end;
-  until iFcpPort = iFcpPort + 256;
+  until iFcpPort = 9481 + 256;
   sFcpPort := IntToStr(iFcpPort);
 
   MemoryTotalPhys(iMemTotalPhys);
