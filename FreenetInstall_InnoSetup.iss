@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Freenet"
-#define MyAppVersion "0.7.5 build 1449"
+#define MyAppVersion "0.7.5 build 1451"
 #define MyAppPublisher "freenetproject.org"
 #define MyAppURL "https://freenetproject.org/"
 #define MyAppExeName "freenet.exe"
@@ -20,7 +20,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={localappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=FreenetInstaller_1449_InnoSetup_alpha3
+OutputBaseFilename=FreenetInstaller_1451_InnoSetup_alpha4
 SetupIconFile=FreenetInstaller_InnoSetup.ico
 SolidCompression=yes
 PrivilegesRequired=lowest
@@ -56,10 +56,10 @@ Source: "install_node\updater\sha1test.jar"; DestDir: "{app}\updater"; Flags: ig
 Source: "install_node\updater\startssl.pem"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\update.cmd"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\wget.exe"; DestDir: "{app}\updater"; Flags: ignoreversion
-Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+;Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
-Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+;Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion; AfterInstall: WrapperConfDoAfterInstall
 Source: "install_node\installid.dat"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
