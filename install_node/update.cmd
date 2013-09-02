@@ -199,15 +199,36 @@ ECHO    - Update script is current.
 ECHO -----
 
 :: Check for dependencies.
-:: Check for bcprov-jdk15on-147.jar
+:: Check for bcprov-jdk15on-149.jar
 :: Necessary to run 1422 and later.
 
-IF NOT EXIST bcprov-jdk15on-147.jar updater\wget.exe -o NUL --timeout=5 --tries=5 --waitretry=10 https://downloads.freenetproject.org/alpha/deps/bcprov-jdk15on-147.jar -O bcprov-jdk15on-147.jar
+IF NOT EXIST bcprov-jdk15on-149.jar updater\wget.exe -o NUL --timeout=5 --tries=5 --waitretry=10 https://downloads.freenetproject.org/alpha/deps/bcprov-jdk15on-149.jar -O bcprov-jdk15on-149.jar
 
+:: If it has bcprov 149 we are OK.
+FIND "bcprov-jdk15on-149.jar" %WRAPPER% > NUL
+IF NOT ERRORLEVEL 1 GOTO has149
+:: If it has bcprov 147 we need a new wrapper.conf
 FIND "bcprov-jdk15on-147.jar" %WRAPPER% > NUL
-IF NOT ERRORLEVEL 1 GOTO checkeddeps
-:: We can simply append to wrapper.conf, no need to clobber it.
-ECHO wrapper.java.classpath.3=bcprov-jdk15on-147.jar >> %WRAPPER%
+IF NOT ERRORLEVEL 1 GOTO error5
+:: If it has neither, we can simply append to wrapper.conf, no need to clobber it.
+ECHO wrapper.java.classpath.3=bcprov-jdk15on-149.jar >> %WRAPPER%
+GOTO checkwrapperjar
+
+:has149
+FIND "bcprov-jdk15on-147.jar" %WRAPPER% > NUL
+if ERRORLEVEL 1 GOTO checkwrapperjar
+:if it has both we need to replace the wrapper.conf anyway
+GOTO error5
+
+:: Check for wrapper.jar
+:: Get the original ext 29 version if wrapper.jar doesn't exist
+:: There are later versions but then it will exist.
+:checkwrapperjar
+IF NOT EXIST wrapper\wrapper.jar updater\wget.exe -o NUL --timeout=5 --tries=5 --waitretry=10 https://downloads.freenetproject.org/alpha/deps/wrapper.jar.from-ext29 -O wrapper\wrapper.jar
+
+:: Now check the wrapper.conf
+FIND "wrapper.jar" %WRAPPER% > NUL
+IF ERRORLEVEL 1 GOTO error5
 
 :checkeddeps
 
@@ -1230,8 +1251,7 @@ GOTO veryend
 :newwrapper
 IF EXIST %WRAPPER% MOVE %WRAPPER% %WRAPPERBAK%
 :: This will set the memory settings back to default, but it can't be helped.
-SET WRAPPERURL=https://downloads.freenetproject.org/alpha/update/wrapper.conf
-IF %NEWINSTALL%==1 SET WRAPPERURL=https://downloads.freenetproject.org/alpha/update/wrapper.conf.no-service
+SET WRAPPERURL=https://downloads.freenetproject.org/alpha/update/wrapper.conf.windows
 updater\wget.exe -o NUL --timeout=5 --tries=5 --waitretry=10 %WRAPPERURL% -O %WRAPPER%
 IF NOT EXIST %WRAPPER% GOTO wrappererror
 IF EXIST wrapper.password type wrapper.password >> %WRAPPER%

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Freenet"
-#define MyAppVersion "0.7.5 build 1451"
+#define MyAppVersion "0.7.5 build 1455"
 #define MyAppPublisher "freenetproject.org"
 #define MyAppURL "https://freenetproject.org/"
 #define MyAppExeName "freenet.exe"
@@ -20,7 +20,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={localappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=FreenetInstaller_1451_InnoSetup_alpha4
+OutputBaseFilename=FreenetInstaller_1455_InnoSetup_alpha5
 SetupIconFile=FreenetInstaller_InnoSetup.ico
 SolidCompression=yes
 PrivilegesRequired=lowest
@@ -28,6 +28,8 @@ WizardImageFile=Wizard_FreenetInstall.bmp
 WizardSmallImageFile=blue_bunny_package.bmp
 ;Space needed 650 Mo
 ExtraDiskSpaceRequired=681574400
+Compression=lzma2/ultra
+InternalCompressLevel=ultra
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -36,15 +38,19 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl,.\translations\Mess
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jre-online-installer.exe"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "install_node\bcprov-jdk15on-147.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\bcprov-jdk15on-149.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: FreenetJarDoAfterInstall
 Source: "install_node\freenetlauncher.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\freenetuninstaller.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\installid.dat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\installlayout.dat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\seednodes.fref"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\update.cmd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\licenses\LICENSE.Freenet"; DestDir: "{app}\licenses"; Flags: ignoreversion
 Source: "install_node\licenses\LICENSE.Mantissa"; DestDir: "{app}\licenses"; Flags: ignoreversion
 Source: "install_node\plugins\JSTUN.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
@@ -52,17 +58,13 @@ Source: "install_node\plugins\KeyUtils.jar"; DestDir: "{app}\plugins"; Flags: ig
 Source: "install_node\plugins\Library.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "install_node\plugins\ThawIndexBrowser.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "install_node\plugins\UPnP.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
-Source: "install_node\updater\sha1test.jar"; DestDir: "{app}\updater"; Flags: ignoreversion
-Source: "install_node\updater\startssl.pem"; DestDir: "{app}\updater"; Flags: ignoreversion
-Source: "install_node\updater\update.cmd"; DestDir: "{app}\updater"; Flags: ignoreversion
-Source: "install_node\updater\wget.exe"; DestDir: "{app}\updater"; Flags: ignoreversion
-;Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\updater\sha1test.jar"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\updater\startssl.pem"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\updater\wget.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
-;Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion; AfterInstall: WrapperConfDoAfterInstall
-Source: "install_node\installid.dat"; DestDir: "{app}"; Flags: ignoreversion
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "install_node\wrapper\wrapper.jar"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -94,6 +96,12 @@ english.StartFreenetWithWindows=Start Freenet on Windows startup
 
 [Registry]
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
+
+[Dirs]
+Name: "{app}\install_node\licenses"
+Name: "{app}\install_node\plugins"
+Name: "{app}\install_node\updater"
+Name: "{app}\install_node\wrapper"
 
 [Code]
 var

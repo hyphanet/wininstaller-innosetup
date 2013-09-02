@@ -1,12 +1,19 @@
-Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to [this](https://bugs.freenetproject.org/view.php?id=5456#c9883).
+Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to https://bugs.freenetproject.org/view.php?id=5456#c9883.  
+		
+See:  
+* https://bugs.freenetproject.org/view.php?id=5862  
+* https://github.com/freenet/wininstaller-staging/issues/12  
 
 ## ⚠ Status: For testing purpose only ! ⚠
 
-### 2013-08-14 | Alpha 4 | [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads)  
+### 2013-09-02 | Alpha 5 | [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads)  
+* Freenet files updated with Freenet 0.7.5 build 1455
+
+### 2013-08-14 | Alpha 4 |  
 * Freenet files updated with Freenet 0.7.5 build 1451
 
-### 2013-07-23 | Alpha 3 | [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads)  
-* Freenet files updated with the build 1449
+### 2013-07-23 | Alpha 3 |   
+* Freenet files updated with the build 1449 
 
 ### 2013-07-19 | Alpha 2 | 
 * Port availability is handled by a [dll](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd827/FreenetInstaller_InnoSetup_library?at=master) (only way to do complex operations) ([ref](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/src/9fc675ccd82779ee22324993884d77ca3c1e6593/FreenetInstaller_InnoSetup_library/FreenetInstaller_InnoSetup_library.lpr?at=master#cl-1))
