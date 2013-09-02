@@ -1,8 +1,9 @@
-Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to https://bugs.freenetproject.org/view.php?id=5456#c9883.  
+Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to [Issue 5456#c9883](https://bugs.freenetproject.org/view.php?id=5456#c9883).  
 		
-See:  
-* https://bugs.freenetproject.org/view.php?id=5862  
-* https://github.com/freenet/wininstaller-staging/issues/12  
+See: 
+  
+* [Issue 5862](https://bugs.freenetproject.org/view.php?id=5862)  
+* [Freenet wininstaller with InnoSetup (PoC)](https://github.com/freenet/wininstaller-staging/issues/12)  
 
 ## ⚠ Status: For testing purpose only ! ⚠
 
