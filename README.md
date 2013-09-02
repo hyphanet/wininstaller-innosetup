@@ -7,7 +7,8 @@ See:
 ## ⚠ Status: For testing purpose only ! ⚠
 
 ### 2013-09-02 | Alpha 5 | [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads)  
-* Freenet files updated with Freenet 0.7.5 build 1455
+* Freenet files updated with Freenet 0.7.5 build 1455  
+* MD5: 44417e38448363c01f62bd6e9986059b  
 
 ### 2013-08-14 | Alpha 4 |  
 * Freenet files updated with Freenet 0.7.5 build 1451
