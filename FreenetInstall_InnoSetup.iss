@@ -92,7 +92,7 @@ english.JavaMissingText=Freenet requires the Java Runtime Environment, but your 
 english.ButtonInstallJava=Install Java
 english.JavaInstalled=Java has been installed on your system.
 english.ErrorLaunchJavaInstaller=Can't launch Java Installer.%n%nError (%1): %2.
-english.AdditionalOptions=Additional options :
+english.AdditionalOptions=Additional options:
 english.StartFreenetWithWindows=Start Freenet on Windows startup
 
 [Registry]
