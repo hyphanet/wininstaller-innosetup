@@ -13,6 +13,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{3196C62F-9C7B-4392-88B4-05C037D05518}
 AppName={#MyAppName}
+UninstallDisplayName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
