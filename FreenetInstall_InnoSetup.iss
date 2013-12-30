@@ -95,6 +95,9 @@ english.ErrorLaunchJavaInstaller=Can't launch Java Installer.%n%nError (%1): %2.
 english.AdditionalOptions=Additional options:
 english.StartFreenetWithWindows=Start Freenet on Windows startup
 
+[Messages]
+english.WelcomeLabel2=This will install [name/ver] on your computer.
+
 [Registry]
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
 

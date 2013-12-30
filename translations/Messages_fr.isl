@@ -7,3 +7,6 @@ JavaInstalled=Java a été installé sur votre système.
 ErrorLaunchJavaInstaller=Impossible de lancer Java.%n%nErreur (%1): %2.
 AdditionalOptions=Options supplémentaires :
 StartFreenetWithWindows=Démarrer Freenet avec Windows
+
+[Messages]
+WelcomeLabel2=Cet assistant va vous guider dans l'installation de [name/ver] sur votre ordinateur.
