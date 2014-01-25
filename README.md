@@ -6,18 +6,18 @@ See:
 * [Freenet wininstaller with InnoSetup (PoC)](https://github.com/freenet/wininstaller-staging/issues/12)
   
 --
-### How to build	
+## How to build	
 * Download InnoSetup from http://www.jrsoftware.org/download.php/is-unicode.exe (see http://www.jrsoftware.org/isdl.php)	
 * Download AutoHotkey104805.zip from http://ahkscript.org/download/1.0/		
 * Extract AutoHotkey104805.zip and copy the content of the folder "Compiler" into \tools\ahk\Compiler		
 
-** On Linux (with wine) **	
+### On Linux (with wine)	
 * Install InnoSetup : wine is-unicode.exe /SILENT	
 * Build AHK binaries (folder AutoHotKey_files) : wine cmd /c build_AHK_binaries.cmd		
 * Build the Setup :  wine "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" "FreenetInstall_InnoSetup.iss"		
 * See Output folder 	
 
-** On Windows **	
+### On Windows		
 * Install InnoSetup	
 * Build AHK binaries (folder AutoHotKey_files) : build_AHK_binaries.cmd	
 * Build the Setup : ISCC.exe "FreenetInstall_InnoSetup.iss"	
