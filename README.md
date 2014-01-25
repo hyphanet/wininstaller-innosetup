@@ -1,15 +1,38 @@
-Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to [Issue 5456#c9883](https://bugs.freenetproject.org/view.php?id=5456#c9883).  
+﻿Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to [Issue 5456#c9883](https://bugs.freenetproject.org/view.php?id=5456#c9883).  
 		
 See: 
-  
+ 
 * [Issue 5862](https://bugs.freenetproject.org/view.php?id=5862)  
-* [Freenet wininstaller with InnoSetup (PoC)](https://github.com/freenet/wininstaller-staging/issues/12)  
+* [Freenet wininstaller with InnoSetup (PoC)](https://github.com/freenet/wininstaller-staging/issues/12)
+  
+--
+### How to build	
+* Download InnoSetup from http://www.jrsoftware.org/download.php/is-unicode.exe (see http://www.jrsoftware.org/isdl.php)	
+* Download AutoHotkey104805.zip from http://ahkscript.org/download/1.0/		
+* Extract AutoHotkey104805.zip and copy the content of the folder "Compiler" into \tools\ahk\Compiler		
 
-## ⚠ Status: For testing purpose only ! ⚠
+** On Linux (with wine) **	
+* Install InnoSetup : wine is-unicode.exe /SILENT	
+* Build AHK binaries (folder AutoHotKey_files) : wine cmd /c build_AHK_binaries.cmd		
+* Build the Setup :  wine "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" "FreenetInstall_InnoSetup.iss"		
+* See Output folder 	
 
-### 2013-09-02 | Alpha 5 | [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads)  
-* Freenet files updated with Freenet 0.7.5 build 1455  
-* MD5: 44417e38448363c01f62bd6e9986059b  
+** On Windows **	
+* Install InnoSetup	
+* Build AHK binaries (folder AutoHotKey_files) : build_AHK_binaries.cmd	
+* Build the Setup : ISCC.exe "FreenetInstall_InnoSetup.iss"	
+* See Output folder	
+
+
+### ⚠ Status: For testing purpose only ! ⚠	
+
+[Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads) 	
+
+### 2014-01-25 | Alpha 6 |	
+See [Issue 5456#c9883](https://bugs.freenetproject.org/view.php?id=5456#c9883)	
+
+### 2013-09-02 | Alpha 5 |  
+* Freenet files updated with Freenet 0.7.5 build 1455   
 
 ### 2013-08-14 | Alpha 4 |  
 * Freenet files updated with Freenet 0.7.5 build 1451
