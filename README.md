@@ -29,7 +29,7 @@ See:
 [Download](https://bitbucket.org/romnbb/freenet_wininstaller_innosetup/downloads) 	
 
 ### 2014-01-25 | Alpha 6 |	
-See [Issue 5456#c9883](https://bugs.freenetproject.org/view.php?id=5456#c9883)	
+See [Issue 5862#c10304](https://bugs.freenetproject.org/view.php?id=5862#c10304)	
 
 ### 2013-09-02 | Alpha 5 |  
 * Freenet files updated with Freenet 0.7.5 build 1455   
