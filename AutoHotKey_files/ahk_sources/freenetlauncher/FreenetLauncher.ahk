@@ -226,7 +226,7 @@ TestPortAvailability(_Port)
 	VarSetCapacity(SocketAddress, SizeOfSocketAddress)
 	InsertInteger(2, SocketAddress, 0, AF_INET)
 	InsertInteger(DllCall("Ws2_32\htons", "UShort", _Port), SocketAddress, 2, 2)
-	InsertInteger(DllCall("Ws2_32\inet_addr", "Str", "127.0.0.1"), SocketAddress, 4, 4) ; this does not take a DNS name, so use 127.blah
+	InsertInteger(DllCall("Ws2_32\inet_addr", "AStr", "127.0.0.1"), SocketAddress, 4, 4) ; this does not take a DNS name, so use 127.blah
 
 	If DllCall("Ws2_32\connect", "UInt", _Socket, "UInt", &SocketAddress, "Int", SizeOfSocketAddress)
 	{
