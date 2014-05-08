@@ -43,7 +43,6 @@ Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "install_node\bcprov-jdk15on-149.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\Freenet.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\freenet.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetLauncher.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
