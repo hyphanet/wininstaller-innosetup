@@ -159,6 +159,7 @@ namespace FreenetTray
             bool running = IsRunning();
             startFreenetMenuItem.Enabled = !running;
             stopFreenetMenuItem.Enabled = running;
+            hideIconMenuItem.Visible = running;
         }
 
         private Boolean IsRunning()
