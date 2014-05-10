@@ -23,8 +23,8 @@ namespace FreenetTray
         private const int ERROR_ACCESS_DENIED = 0x5;
 
         private const string WrapperFilename = @"wrapper\freenetwrapper.exe";
-        private const string WrapperConfFilename = @"wrapper\wrapper.conf";
         private const string FreenetIniFilename = @"freenet.ini";
+        private const string WrapperConfFilename = "wrapper.conf";
 
         private readonly ProcessStartInfo WrapperInfo = new ProcessStartInfo();
         private Process Wrapper_;
@@ -49,7 +49,9 @@ namespace FreenetTray
             PidFilename = "freenet.pid";
             try
             {
-                foreach (var line in File.ReadAllLines(WrapperConfFilename))
+                // wrapper.conf is relative to the wrapper's location.
+                var WrapperDir = Directory.GetParent(WrapperFilename);
+                foreach (var line in File.ReadAllLines(WrapperDir.FullName + '\\' + WrapperConfFilename))
                 {
                     // TODO: Map between constants and variables to reduce repetition?
                     if (Defines(line, "wrapper.logfile"))
@@ -67,6 +69,10 @@ namespace FreenetTray
                 }
             }
             catch (FileNotFoundException)
+            {
+                MissingFileExit(WrapperFilename);
+            }
+            catch (DirectoryNotFoundException)
             {
                 MissingFileExit(WrapperFilename);
             }
@@ -128,7 +134,7 @@ namespace FreenetTray
              */
             WrapperInfo.FileName = WrapperFilename;
             // TODO: Is it worthwhile to omit the pidfile here when it's in the config file?
-            WrapperInfo.Arguments = "-c wrapper.conf wrapper.pidfile=" + PidFilename;
+            WrapperInfo.Arguments = "-c " + WrapperConfFilename + " wrapper.pidfile=" + PidFilename;
             WrapperInfo.UseShellExecute = false;
             WrapperInfo.CreateNoWindow = true;
 
