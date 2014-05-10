@@ -6,7 +6,7 @@ ButtonInstallJava=Install Java
 JavaInstalled=Java has been installed on your system.
 ErrorLaunchJavaInstaller=Can't launch Java Installer.%n%nError (%1): %2.
 AdditionalOptions=Additional options:
-StartFreenetWithWindows=Start Freenet on Windows startup
+StartFreenetWithWindows=Start Freenet when Windows starts
 
 [Messages]
 WelcomeLabel2=This will install [name/ver] on your computer.
