@@ -160,6 +160,14 @@ namespace FreenetTray
             startFreenetMenuItem.Enabled = !running;
             stopFreenetMenuItem.Enabled = running;
             hideIconMenuItem.Visible = running;
+            if (running)
+            {
+                trayIcon.Icon = Properties.Resources.Online;
+            }
+            else
+            {
+                trayIcon.Icon = Properties.Resources.Offline;
+            }
         }
 
         private Boolean IsRunning()
