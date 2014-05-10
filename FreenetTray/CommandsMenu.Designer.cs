@@ -48,6 +48,7 @@
             // 
             resources.ApplyResources(this.trayIcon, "trayIcon");
             this.trayIcon.ContextMenuStrip = this.contextMenu;
+            this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
             // 
             // contextMenu
             // 
@@ -116,12 +117,12 @@
             this.exitMenuItem.Name = "exitMenuItem";
             this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
-            // Form1
+            // CommandsMenu
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Form1";
+            this.Name = "CommandsMenu";
             this.ShowInTaskbar = false;
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.contextMenu.ResumeLayout(false);

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Resources;
 using System.IO;
 using System.Runtime.InteropServices;
+using FreenetTray.Browsers;
 
 namespace FreenetTray
 {
@@ -32,6 +33,8 @@ namespace FreenetTray
         private readonly string PidFilename;
         private readonly string WrapperLogFilename;
         private readonly int FProxyPort;
+
+        private readonly BrowserUtil browsers;
 
         public CommandsMenu()
         {
@@ -129,6 +132,8 @@ namespace FreenetTray
             WrapperInfo.UseShellExecute = false;
             WrapperInfo.CreateNoWindow = true;
 
+            browsers = new BrowserUtil();
+
             InitializeComponent();
             RefreshRunning();
         }
@@ -170,8 +175,12 @@ namespace FreenetTray
         private void openFreenetMenuItem_Click(object sender, EventArgs e)
         {
             Start();
-            // TODO: Find browsers; launch them.
-            Process.Start(String.Format("http://localhost:{0:d}", FProxyPort));
+            /*
+             * TODO: Check that FProxy is listening first? The browser should wait before timing out
+             * so there's some time for startup, but the error message the browser gives doesn't make
+             * it clear what's going on.
+             */
+            browsers.Open(new Uri(String.Format("http://localhost:{0:d}", FProxyPort)));
         }
 
         private void startFreenetMenuItem_Click(object sender, EventArgs e)
@@ -268,6 +277,14 @@ namespace FreenetTray
                 strings.FileNotFoundTitle,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             Application.Exit();
+        }
+
+        private void trayIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                openFreenetMenuItem_Click(sender, e);
+            }
         }
     }
 }

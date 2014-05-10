@@ -79,6 +79,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browsers\BrowserUtil.cs" />
+    <Compile Include="Browsers\Chrome.cs" />
+    <Compile Include="Browsers\Firefox.cs" />
+    <Compile Include="Browsers\InternetExplorer.cs" />
+    <Compile Include="Browsers\Opera.cs" />
     <Compile Include="CommandsMenu.cs">
       <SubType>Form</SubType>
     </Compile>

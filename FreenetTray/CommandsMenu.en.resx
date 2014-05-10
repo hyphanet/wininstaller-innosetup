@@ -121,29 +121,56 @@
   <data name="openFreenetMenuItem.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt, style=Bold</value>
   </data>
+  <data name="openFreenetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
+  </data>
   <data name="openFreenetMenuItem.Text" xml:space="preserve">
     <value>Open Freenet</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 6</value>
+  </data>
+  <data name="startFreenetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
   </data>
   <data name="startFreenetMenuItem.Text" xml:space="preserve">
     <value>Start Freenet</value>
   </data>
+  <data name="stopFreenetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
+  </data>
   <data name="stopFreenetMenuItem.Text" xml:space="preserve">
     <value>Stop Freenet</value>
+  </data>
+  <data name="viewLogsMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
   </data>
   <data name="viewLogsMenuItem.Text" xml:space="preserve">
     <value>View logs</value>
   </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 6</value>
+  </data>
+  <data name="preferencesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
+  </data>
   <data name="preferencesMenuItem.Text" xml:space="preserve">
     <value>Preferences</value>
   </data>
+  <data name="hideIconMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
+  </data>
   <data name="hideIconMenuItem.Text" xml:space="preserve">
     <value>Hide icon</value>
+  </data>
+  <data name="exitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 22</value>
   </data>
   <data name="exitMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
   <data name="contextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 192</value>
+    <value>152, 170</value>
   </data>
   <data name="trayIcon.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
