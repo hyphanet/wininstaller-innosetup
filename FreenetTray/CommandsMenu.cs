@@ -40,6 +40,13 @@ namespace FreenetTray
         {
             FormClosed += CommandMenu_FormClosed;
 
+            // TODO: Read registry to check if the old tray runs at startup and change settings accordingly.
+            /*
+             * TODO: Will the settings be saved always or only if non-default? If always saved this
+             * introduces a fingerprint of Freenet on the system even when it doesn't do anything on
+             * startup.
+             */
+
             /*
              * Read wrapper config: wrapper log location, PID file location, anchor location.
              * The PID file location is specified on the command line, so if none is read
@@ -194,6 +201,9 @@ namespace FreenetTray
              * TODO: Check that FProxy is listening first? The browser should wait before timing out
              * so there's some time for startup, but the error message the browser gives doesn't make
              * it clear what's going on.
+             *
+             * Maybe open the browser first and then if there's nothing on the port after a timeout say
+             * something about how Freenet isn't responding.
              */
             browsers.Open(new Uri(String.Format("http://localhost:{0:d}", FProxyPort)));
         }

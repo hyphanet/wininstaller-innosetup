@@ -4,11 +4,16 @@ This is a replacement for the AutoHotKey tray application. It aims to have more 
 
 Allows one instance open at a time. If another instance is given a command line command it will pass it to the existing instance. If not it will prompt the existing instance to show its icon. When left clicked it opens Freenet as in the top menu option.
 
-It uses .NET 3.5 because it is [distributed with 7](http://msdn.microsoft.com/en-us/library/bb822049%28v=vs.110%29.aspx), which is [still supported](http://windows.microsoft.com/en-us/windows/lifecycle) and has a significant market share unlike Vista. 3.0 doesn't include some useful things. Existing installs can continue to use the old application. For UI it uses Winforms because it is [supported by mono](http://www.mono-project.com/Compatibility) which makes building on Linux much more straightforward.
+It uses .NET 3.5 because it is [distributed with 7](http://msdn.microsoft.com/en-us/library/bb822049%28v=vs.110%29.aspx), which is [still supported](http://windows.microsoft.com/en-us/windows/lifecycle) and has a significant market share unlike Vista. 3.0 doesn't include some useful things. Existing installs can continue to use the old application. For UI it uses Winforms because it is [supported by mono](http://www.mono-project.com/Compatibility), unlike WPF, which makes building on Linux much more straightforward.
 
 TODO:
 	Can the ntservice parts of wrapper.conf be removed?
 	Installer should set language in freenet.ini to the one it was told to use.
+	Browser launching preferences.
+	Where are Properties.Settings saved?
+		http://msdn.microsoft.com/en-us/library/a65txexh(v=vs.100).aspx
+		http://msdn.microsoft.com/en-us/library/0zszyc6e(v=vs.100).aspx
+	Implement command line switches.
 
 TODO:
 	How to handle this upgrade?
@@ -16,11 +21,9 @@ TODO:
 	The Designer resources are not compiled into the executable? They're in a separate DLL. I'd like a single file.
 
 TODO:
-	Disable start and stop menu entries when Freenet is not running.
-	How to interface with the wrapper?
 	How to check port availability? Is there a need to?
-	How to read the registry to see where Freenet is installed? Is it sufficient to assume the tray is in the application directory?
-	How to open notepad with a file?
+	Should have the option of either starting just the icon or starting Freenet too on startup.
+	The icon is smaller than it needs to be - there are two columns of space on the right. The line art bunny SVG is on the FAQ page, but is there source material for the filled-in bunny?
 
 Menu items | command line options:
 
