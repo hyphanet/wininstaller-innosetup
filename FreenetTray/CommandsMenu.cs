@@ -227,7 +227,7 @@ namespace FreenetTray
 
         private void stopFreenetMenuItem_Click(object sender, EventArgs e)
         {
-            Debug.Assert(Wrapper_ != null, "No handle to wrapper process yet it's considered running.");
+            Debug.Assert(Wrapper_ != null, "No handle to wrapper process even though it's considered running.");
             // A refresh will trigger when the wrapper fires an exit event.
             Stop();
         }
