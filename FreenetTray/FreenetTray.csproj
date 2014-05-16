@@ -100,9 +100,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CommandsMenu.en.resx">
-      <DependentUpon>CommandsMenu.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CommandsMenu.resx">
       <DependentUpon>CommandsMenu.cs</DependentUpon>
     </EmbeddedResource>
