@@ -93,6 +93,11 @@
     <Compile Include="CommandsMenu.Designer.cs">
       <DependentUpon>CommandsMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="strings.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.fr.resx</DependentUpon>
+    </Compile>
     <Compile Include="strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,8 +105,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CommandsMenu.fr.resx">
+      <DependentUpon>CommandsMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CommandsMenu.resx">
       <DependentUpon>CommandsMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strings.fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.fr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
