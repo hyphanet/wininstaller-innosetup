@@ -80,10 +80,12 @@ namespace FreenetTray
             catch (FileNotFoundException)
             {
                 MissingFileExit(WrapperFilename);
+                return;
             }
             catch (DirectoryNotFoundException)
             {
                 MissingFileExit(WrapperFilename);
+                return;
             }
 
             // TODO: Error out if anchor / wrapper locations not found
@@ -101,6 +103,7 @@ namespace FreenetTray
                         {
                             // TODO: Error box
                             Application.Exit();
+                            return;
                         }
                         break;
                     }
@@ -109,6 +112,7 @@ namespace FreenetTray
             catch (FileNotFoundException)
             {
                 MissingFileExit(FreenetIniFilename);
+                return;
             }
 
             // Search for an existing wrapper process.
