@@ -41,6 +41,7 @@ namespace FreenetTray
             // TODO: This isn't called in the event of sudden termination. Maybe that's expected.
             FormClosed += (object sender, FormClosedEventArgs e) => trayIcon.Visible = false;
             Shown += (object sender, EventArgs e) => Hide();
+            Load += (object sender, EventArgs e) => ReadCommandLine();
 
             // TODO: Read registry to check if the old tray runs at startup and change settings accordingly.
             /*
@@ -122,6 +123,14 @@ namespace FreenetTray
                 return;
             }
 
+            InitializeComponent();
+
+            /*
+             * Prompt creation of a handle. The the wrapper exit event handler needs one to use BeginInvoke.
+             * See http://msdn.microsoft.com/en-us/library/system.windows.forms.control.invokerequired.aspx
+             */
+            var _ = contextMenu.Handle;
+
             // Search for an existing wrapper process.
             try
             {
@@ -160,8 +169,52 @@ namespace FreenetTray
 
             browsers = new BrowserUtil();
 
-            InitializeComponent();
+            Debug.WriteLine(Thread.CurrentThread.CurrentUICulture);
+
             RefreshRunning();
+        }
+
+        private void ReadCommandLine()
+        {
+            /*
+             * TODO: Difficulties with this implementation are ignoring the application name if it is
+             * present and supporting arguments with parameters.
+             */
+            foreach (var arg in Environment.GetCommandLineArgs())
+            {
+                /*
+                 * TODO: Is it preferable to have more clearly-named functions that the event handlers
+                 * thinly wrap, or call the event handlers with null arguments?
+                 */
+                if (arg == "-open")
+                {
+                    openFreenetMenuItem_Click(null, null);
+                }
+                else if (arg == "-start")
+                {
+                    Start();
+                }
+                else if (arg == "-stop")
+                {
+                    Stop();
+                }
+                else if (arg == "-logs")
+                {
+                    viewLogsMenuItem_Click(null, null);
+                }
+                else if (arg == "-preferences")
+                {
+                    preferencesMenuItem_Click(null, null);
+                }
+                else if (arg == "-hide")
+                {
+                    hideIconMenuItem_Click(null, null);
+                }
+                else if (arg == "-exit")
+                {
+                    exitMenuItem_Click(null, null);
+                }
+            }
         }
 
         private bool Defines(string line, string key)

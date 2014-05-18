@@ -27,34 +27,37 @@ TODO:
 
 Menu items | command line options:
 
-## Open Freenet | \open
+Command line options are executed from left to right, so `-othercommand -hide` is useful to perform an action and exit the tray application.
+
+## Open Freenet | -open
 
 Open a browser in privacy mode to Freenet, if possible. The default preference is [same as AHK app], but a specific browser or command can be set as well. If Freenet is not running it is started.
 
 TODO: Should this be "Open Freenet dashboard" instead?
 
-## Start Freenet | \start
+## Start Freenet | -start
 
 Start Freenet.
 
-## Stop Freenet | \stop
+If this is done as part of startup it fails with a wrapper pipe error. Is this due to when startup runs? Or did it just take too long for some reason? Can't reproduce.
+	Also on... shutdown? FATAL  | wrapper  | 2014/05/18 16:11:12 | ERROR: Could not write pid file freenet.pid: The process cannot access the file because it is being used by another process. (0x20)
+
+## Stop Freenet | -stop
 
 Stop Freenet.
 
-## View logs | \logs
+## View logs | -logs
 
-Open `wrapper.log` and `freenet-latest.log` in notepad. TODO: Command line escaping / injection avoidance when invoking other applications?
+Open `wrapper.log` in notepad.
 
-## Preferences | \preferences
+## Preferences | -preferences
 
 Set the browser to use, and whether to start the icon or start Freenet on startup.
 
-## Hide icon | \hide
+## Hide icon | -hide
 
-Hide the icon if Freenet is running. This menu option is not shown when Freenet is running.
+Hide the icon by closing the tray application. This option is not shown when Freenet is running.
 
-## Exit | \exit
+## Exit | -exit
 
 Stop Freenet if it is running and close the tray application.
-
-TODO: On tray icon shutdown, shut down Freenet too. er... that'll just happen, right? Because the icon launched it? Will asking the wrapper to do it allow a nicer shutdown?
