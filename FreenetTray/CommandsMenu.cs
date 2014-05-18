@@ -39,6 +39,7 @@ namespace FreenetTray
         public CommandsMenu()
         {
             FormClosed += CommandMenu_FormClosed;
+            Shown += (object sender, EventArgs e) => Hide();
 
             // TODO: Read registry to check if the old tray runs at startup and change settings accordingly.
             /*
