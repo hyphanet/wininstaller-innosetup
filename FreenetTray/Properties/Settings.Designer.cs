@@ -22,5 +22,53 @@ namespace FreenetTray.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartIcon {
+            get {
+                return ((bool)(this["StartIcon"]));
+            }
+            set {
+                this["StartIcon"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartFreenet {
+            get {
+                return ((bool)(this["StartFreenet"]));
+            }
+            set {
+                this["StartFreenet"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("auto")]
+        public string UseBrowser {
+            get {
+                return ((string)(this["UseBrowser"]));
+            }
+            set {
+                this["UseBrowser"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CustomBrowser {
+            get {
+                return ((string)(this["CustomBrowser"]));
+            }
+            set {
+                this["CustomBrowser"] = value;
+            }
+        }
     }
 }

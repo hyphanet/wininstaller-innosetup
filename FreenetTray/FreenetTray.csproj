@@ -94,6 +94,12 @@
     <Compile Include="CommandsMenu.Designer.cs">
       <DependentUpon>CommandsMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="PreferencesWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PreferencesWindow.Designer.cs">
+      <DependentUpon>PreferencesWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="strings.fr.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CommandsMenu.resx">
       <DependentUpon>CommandsMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreferencesWindow.resx">
+      <DependentUpon>PreferencesWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="strings.fr.resx">
       <Generator>ResXFileCodeGenerator</Generator>

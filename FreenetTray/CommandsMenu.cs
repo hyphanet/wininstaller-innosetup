@@ -333,7 +333,7 @@ namespace FreenetTray
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO: Open preferences dialog
+            new PreferencesWindow().Show();
         }
 
         private void hideIconMenuItem_Click(object sender, EventArgs e)
