@@ -50,6 +50,13 @@ namespace FreenetTray
              */
 
             /*
+             * Set the working directory to the executable location to allow looking up relative paths
+             * such as the wrapper. TODO: Would it be more appropriate to do an explicit relative lookup?
+             */
+            var ApplicationDir = Directory.GetParent(Application.ExecutablePath);
+            Environment.CurrentDirectory = ApplicationDir.FullName;
+
+            /*
              * Read wrapper config: wrapper log location, PID file location, anchor location.
              * The PID file location is specified on the command line, so if none is read
              * it will use a default. It's not in the default wrapper.conf and is defined on
