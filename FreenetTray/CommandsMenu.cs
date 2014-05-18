@@ -169,8 +169,6 @@ namespace FreenetTray
 
             browsers = new BrowserUtil();
 
-            Debug.WriteLine(Thread.CurrentThread.CurrentUICulture);
-
             RefreshRunning();
         }
 
