@@ -38,7 +38,8 @@ namespace FreenetTray
 
         public CommandsMenu()
         {
-            FormClosed += CommandMenu_FormClosed;
+            // TODO: This isn't called in the event of sudden termination. Maybe that's expected.
+            FormClosed += (object sender, FormClosedEventArgs e) => trayIcon.Visible = false;
             Shown += (object sender, EventArgs e) => Hide();
 
             // TODO: Read registry to check if the old tray runs at startup and change settings accordingly.
@@ -187,12 +188,6 @@ namespace FreenetTray
         private Boolean IsRunning()
         {
             return Wrapper_ != null && !Wrapper_.HasExited;
-        }
-
-        // TODO: This isn't called in the event of sudden termination. Maybe that's expected.
-        private void CommandMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            trayIcon.Visible = false;
         }
 
         private void openFreenetMenuItem_Click(object sender, EventArgs e)
