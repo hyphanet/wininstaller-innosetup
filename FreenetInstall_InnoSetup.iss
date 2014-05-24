@@ -36,6 +36,7 @@ AllowUNCPath=False
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl,.\translations\Messages_en.isl"
 Name: "french"; MessagesFile: "compiler:Languages\French.isl,.\translations\Messages_fr.isl"
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl,.\translations\Messages_es.isl"
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
