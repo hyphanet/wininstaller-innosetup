@@ -345,7 +345,7 @@ namespace FreenetTray
 
         private void preferencesMenuItem_Click(object sender, EventArgs e)
         {
-            new PreferencesWindow().Show();
+            new PreferencesWindow(browsers.GetAvailableBrowsers()).Show();
         }
 
         private void hideIconMenuItem_Click(object sender, EventArgs e)

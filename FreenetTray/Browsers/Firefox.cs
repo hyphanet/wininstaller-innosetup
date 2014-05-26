@@ -32,8 +32,10 @@ namespace FreenetTray.Browsers
 
         public bool Open(Uri target)
         {
-            if (isInstalled)
+            if (!IsAvailable())
             {
+                return false;
+            }
                 /*
                  * Firefox 3.6 and later support -private:
                  *      TODO: Is it worth supporting this far back? Even the ESR is v24.
@@ -45,27 +47,22 @@ namespace FreenetTray.Browsers
                  *
                  * See https://developer.mozilla.org/en-US/docs/Mozilla/Command_Line_Options?redirectlocale=en-US&redirectslug=Command_Line_Options#-private
                  */
-                string argument = null;
-                if (version >= new Version(3, 6))
-                {
-                    argument = "-private";
+                string argument = "-private";
                     /*
-                     * TODO: If also under v20 ask if the user wants their non-private window hidden until
+                     * TODO: If between 3.6 and v20 ask if the user wants their non-private window hidden until
                      * the session ends. IIRC that's what happens.
                      */
-                }
                 if (version >= new Version(20, 0))
                 {
                     argument = "-private-window";
                 }
-                if (argument != null)
-                {
                     Process.Start(path, argument + ' ' + target);
                     return true;
-                }
-            }
+        }
 
-            return false;
+        public bool IsAvailable()
+        {
+            return isInstalled && version >= new Version(3, 6);
         }
 
         // Return null if the version cannot be determined.

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using FreenetTray.Browsers;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace FreenetTray
 
         private readonly string RegistryStartupName = "Freenet";
 
-        public PreferencesWindow()
+        public PreferencesWindow(string[] AvailableBrowsers)
         {
             InitializeComponent();
 
@@ -25,12 +26,26 @@ namespace FreenetTray
                                                Properties.Settings.Default.StartIcon);
             StartupCheckboxList.SetItemChecked(StartFreenetIndex,
                                                Properties.Settings.Default.StartFreenet);
+            BrowserChoice.Items.Add(BrowserUtil.Auto);
+            foreach (var browser in AvailableBrowsers)
+            {
+                BrowserChoice.Items.Add(browser);
+            }
+            BrowserChoice.Text = Properties.Settings.Default.UseBrowser;
+            if (!BrowserChoice.Items.Contains(BrowserChoice.Text))
+            {
+                // TODO: User's preference not found. Worthy of a message box?
+                BrowserChoice.Text = BrowserUtil.Auto;
+            }
         }
 
         private void Apply_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.StartIcon = StartupCheckboxList.GetItemChecked(StartIconIndex);
             Properties.Settings.Default.StartFreenet = StartupCheckboxList.GetItemChecked(StartFreenetIndex);
+
+            Properties.Settings.Default.UseBrowser = (string)BrowserChoice.SelectedItem;
+
             Properties.Settings.Default.Save();
 
             using (var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))

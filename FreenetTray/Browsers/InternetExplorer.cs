@@ -26,14 +26,19 @@ namespace FreenetTray.Browsers
 
         public bool Open(Uri target)
         {
-            // See https://en.wikipedia.org/wiki/Internet_Explorer_8#InPrivate
-            if (IsInstalled && version >= new Version(8, 0))
+            if (!IsAvailable())
             {
+                return false;
+            }
                 // See http://msdn.microsoft.com/en-us/library/ie/hh826025%28v=vs.85%29.aspx
                 Process.Start("iexplore.exe", "-private " + target);
                 return true;
-            }
-            return false;
+        }
+
+        public bool IsAvailable()
+        {
+            // See https://en.wikipedia.org/wiki/Internet_Explorer_8#InPrivate
+            return IsInstalled && version >= new Version(8, 0);
         }
     }
 }

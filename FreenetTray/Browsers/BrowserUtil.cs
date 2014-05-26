@@ -14,21 +14,26 @@ namespace FreenetTray.Browsers
          */
         bool Open(Uri target);
 
-        // TODO: bool HasPrivateMode()
+        /*
+         * Return true if pages can be opened in privacy mode.
+         * Return false otherwise.
+         */
+        bool IsAvailable();
     }
 
-    // TODO: Pass in preferences object or file
     class BrowserUtil
     {
-        private readonly Browser[] browsers;
+        private readonly Dictionary<string, Browser> browsers;
+        // Autodetect setting string. TODO: Localize?
+        static public readonly string Auto = "Auto";
 
         public BrowserUtil()
         {
-            browsers = new Browser[] {
-                         new Chrome(),
-                         new Firefox(),
-                         new Opera(),
-                         new InternetExplorer(),
+            browsers = new Dictionary<string, Browser> {
+                         {"Chrome", new Chrome()},
+                         {"Firefox", new Firefox()},
+                         {"Opera", new Opera()},
+                         {"Internet Explorer", new InternetExplorer()},
                        };
         }
 
@@ -36,6 +41,20 @@ namespace FreenetTray.Browsers
         {
             // For first run setup purposes FProxy should know whether it's opened in private browsing mode.
             Uri PrivateTarget = new Uri(target, "?incognito=true");
+
+            if (Properties.Settings.Default.UseBrowser != Auto)
+            {
+                if (!browsers.ContainsKey(Properties.Settings.Default.UseBrowser))
+                {
+                    // TODO: Malformed settings error message.
+                    return;
+                }
+                if (browsers[Properties.Settings.Default.UseBrowser].Open(PrivateTarget))
+                {
+                    return;
+                }
+                // TODO: Unable to open error message - also catch failure to execute within Open()?
+            }
 
             /*
              * Look for the top browsers and start them in privacy mode if they support it. If no browsers
@@ -46,7 +65,7 @@ namespace FreenetTray.Browsers
              * 
              * See https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_table
              */
-            foreach (var browser in browsers)
+            foreach (var browser in browsers.Values)
             {
                 if (browser.Open(PrivateTarget))
                 {
@@ -56,6 +75,19 @@ namespace FreenetTray.Browsers
 
             // System URL call
             Process.Start(target.ToString());
+        }
+
+        public string[] GetAvailableBrowsers()
+        {
+            // TODO: Linq?
+            var available = new List<string>();
+            foreach (var element in browsers)
+            {
+                if (element.Value.IsAvailable()){
+                    available.Add(element.Key);
+                }
+            }
+            return available.ToArray();
         }
     }
 }

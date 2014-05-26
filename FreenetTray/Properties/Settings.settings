@@ -9,10 +9,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="UseBrowser" Type="System.String" Scope="User">
-      <Value Profile="(Default)">auto</Value>
-    </Setting>
-    <Setting Name="CustomBrowser" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Auto</Value>
     </Setting>
   </Settings>
 </SettingsFile>

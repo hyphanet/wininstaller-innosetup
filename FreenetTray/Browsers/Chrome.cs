@@ -40,13 +40,18 @@ namespace FreenetTray.Browsers
 
         public bool Open(Uri target)
         {
-            if (IsInstalled)
+            if (!IsAvailable())
             {
+                return false;
+            }
                 // See http://peter.sh/experiments/chromium-command-line-switches/
                 Process.Start(Path, "--incognito " + target);
                 return true;
-            }
-            return false;
+        }
+
+        public bool IsAvailable()
+        {
+            return IsInstalled;
         }
     }
 }

@@ -49,25 +49,13 @@ namespace FreenetTray.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("auto")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Auto")]
         public string UseBrowser {
             get {
                 return ((string)(this["UseBrowser"]));
             }
             set {
                 this["UseBrowser"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string CustomBrowser {
-            get {
-                return ((string)(this["CustomBrowser"]));
-            }
-            set {
-                this["CustomBrowser"] = value;
             }
         }
     }

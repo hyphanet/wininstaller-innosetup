@@ -16,7 +16,7 @@ namespace FreenetTray.Browsers
         public Opera()
         {
             // Key present with Opera 21.
-            var PossiblePath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Opera Software", "Last CommandLine v2", null);
+            var PossiblePath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Opera Software", "Last Stable Install Path", null) + "opera.exe";
             IsInstalled = File.Exists(PossiblePath);
             if (IsInstalled)
             {
@@ -26,13 +26,18 @@ namespace FreenetTray.Browsers
 
         public bool Open(Uri target)
         {
-            if (IsInstalled)
+            if (!IsAvailable())
             {
+                return false;
+            }
                 // See http://www.opera.com/docs/switches
                 Process.Start(Path, "-newprivatetab " + target);
                 return true;
-            }
-            return false;
+        }
+
+        public bool IsAvailable()
+        {
+            return IsInstalled;
         }
     }
 }
