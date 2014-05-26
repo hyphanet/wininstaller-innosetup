@@ -32,6 +32,7 @@ Compression=lzma2/ultra
 InternalCompressLevel=ultra
 RestartIfNeededByRun=False
 AllowUNCPath=False
+AllowNoIcons=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl,.\translations\Messages_en.isl"
