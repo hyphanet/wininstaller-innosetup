@@ -52,7 +52,9 @@ namespace FreenetTray
 
             /*
              * Set the working directory to the executable location to allow looking up relative paths
-             * such as the wrapper. TODO: Would it be more appropriate to do an explicit relative lookup?
+             * such as the wrapper. This is useful when launching the application at startup, when its
+             * parent directory is not its working directory.
+             * TODO: Would it be more appropriate to do an explicit relative lookup?
              */
             var ApplicationDir = Directory.GetParent(Application.ExecutablePath);
             Environment.CurrentDirectory = ApplicationDir.FullName;
