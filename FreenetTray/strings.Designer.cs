@@ -61,6 +61,24 @@ namespace FreenetTray {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The configuration file &apos;{0}&apos; does not contain a valid value for &apos;{1}&apos;..
+        /// </summary>
+        internal static string CannotReadConfigBody {
+            get {
+                return ResourceManager.GetString("CannotReadConfigBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Configuration.
+        /// </summary>
+        internal static string CannotReadConfigTitle {
+            get {
+                return ResourceManager.GetString("CannotReadConfigTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to open required file &apos;{0}&apos;. Please ensure this tray application is located in the Freenet installation folder..
         /// </summary>
         internal static string FileNotFoundBody {

@@ -112,11 +112,17 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CannotReadConfigBody" xml:space="preserve">
+    <value>The configuration file '{0}' does not contain a valid value for '{1}'.</value>
+  </data>
+  <data name="CannotReadConfigTitle" xml:space="preserve">
+    <value>Missing Configuration</value>
+  </data>
   <data name="FileNotFoundBody" xml:space="preserve">
     <value>Unable to open required file '{0}'. Please ensure this tray application is located in the Freenet installation folder.</value>
   </data>

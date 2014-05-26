@@ -96,7 +96,18 @@ namespace FreenetTray
                 return;
             }
 
-            // TODO: Error out if anchor / wrapper locations not found
+            // TODO: A mapping between config location and variable would reduce verbosity here too.
+            if (WrapperLogFilename == null)
+            {
+                MissingConfigExit(WrapperConfFilename, "wrapper.logfile");
+                return;
+            }
+
+            if (AnchorFilename == null)
+            {
+                MissingConfigExit(WrapperConfFilename, "wrapper.anchorfile");
+                return;
+            }
 
             // Read Freenet config: FProxy port
             // TODO: Does this need to wait until the node is running for the first run?
@@ -109,8 +120,7 @@ namespace FreenetTray
                         var isValid = int.TryParse(Value(line), out FProxyPort);
                         if (!isValid)
                         {
-                            // TODO: Error box
-                            Application.Exit();
+                            MissingConfigExit(FreenetIniFilename, "fproxy.port");
                             return;
                         }
                         break;
@@ -360,6 +370,14 @@ namespace FreenetTray
         {
             MessageBox.Show(String.Format(strings.FileNotFoundBody, filename),
                 strings.FileNotFoundTitle,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Application.Exit();
+        }
+
+        private void MissingConfigExit(string filename, string configName)
+        {
+            MessageBox.Show(String.Format(strings.CannotReadConfigBody, filename, configName),
+                strings.CannotReadConfigTitle,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             Application.Exit();
         }
