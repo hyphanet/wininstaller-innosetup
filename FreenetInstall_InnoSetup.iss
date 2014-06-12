@@ -33,8 +33,6 @@ InternalCompressLevel=ultra
 RestartIfNeededByRun=False
 AllowUNCPath=False
 AllowNoIcons=yes
-; Windows Vista
-MinVersion=6.0
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl,.\translations\Messages_en.isl"
