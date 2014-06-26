@@ -70,18 +70,19 @@ Menu, TRAY, Disable, % Trans("Start Freenet")
 Menu, TRAY, Disable, % Trans("Stop Freenet")
 
 ;
+; Start wrapper
+;
+StartWrapper()
+
+;
 ; Display a welcome balloontip if requested in the command line
 ;
 _Arg1 = %1%
 If (_Arg1 == "/welcome")
 {
 	TrayTip, % Trans("Freenet Tray"),% Trans("You can browse, start and stop Freenet along with other useful things from this tray icon.") "`n`n" Trans("Left-click: Start/Browse Freenet") "`n" Trans("Right-click: Advanced menu"), , 1	; 1 = Info icon
+	Gosub, BrowseFreenet
 }
-
-;
-; Start wrapper
-;
-StartWrapper()
 
 ;
 ; Setup regular status checks and do one now. Then return to idle.
