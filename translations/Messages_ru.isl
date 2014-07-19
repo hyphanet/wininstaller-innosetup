@@ -1,12 +1,17 @@
+[LangOptions]
+LanguageName=<0420><0443><0441><0441><043A><0438><0439>
+LanguageID=$0419
+LanguageCodePage=1251
+
 [CustomMessages]
-JavaMissingPageCaption=РўСЂРµР±РѕРІР°РЅРёСЏ Freenet
-JavaMissingPageDescription=Р—Р°РІРёСЃРёРјРѕСЃС‚Рё Java
-JavaMissingText=Freenet С‚СЂРµР±СѓРµС‚ Java Runtime Environment, РЅРѕ РєР°Р¶РµС‚СЃСЏ, РІ РІР°С€РµР№ СЃРёСЃС‚РµРјРµ РЅРµ СѓСЃС‚РЅРѕРІР»РµРЅР° РїРѕСЃР»РµРґРЅСЏСЏ РІРµСЂСЃРёСЏ. Р’С‹ РјРѕР¶РµС‚Рµ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Java СЃ РїРѕРјРѕС‰СЊСЋ РІС…РѕРґСЏС‰РµРіРѕ РІ РєРѕРјРїР»РµРєС‚ РѕРЅР»Р°Р№РЅ-РёРЅСЃС‚Р°Р»Р»СЏС‚РѕСЂР°, РєРѕС‚РѕСЂС‹Р№ СЃРєР°С‡РёРІР°РµС‚ Рё СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РЅРµРѕР±С…РѕРґРёРјС‹Рµ С„Р°Р№Р»С‹ СЃ РІРµР±-СЃР°Р№С‚Р° Java Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
-ButtonInstallJava=РЈСЃС‚Р°РЅРѕРІРёС‚СЊ Java
-JavaInstalled=Java СѓСЃС‚Р°РЅРѕРІР»РµРЅР° РІ РІР°С€Сѓ СЃРёСЃС‚РµРјСѓ
-ErrorLaunchJavaInstaller=РќРµ РІРѕР·РјРѕР¶РЅРѕ Р·Р°РїСѓСЃС‚РёС‚СЊ СѓСЃС‚Р°РЅРѕРІС‰РёРє Java.%n%nРћС€РёР±РєР° (%1): %2.
-AdditionalOptions=Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹:
-StartFreenetWithWindows=Р—Р°РїСѓСЃРєР°С‚СЊ Freenet РїСЂРё СЃС‚Р°СЂС‚Рµ Windows
+JavaMissingPageCaption=Требования Freenet
+JavaMissingPageDescription=Зависимости Java
+JavaMissingText=Freenet требует Java Runtime Environment, но кажется, в вашей системе не устновлена последняя версия. Вы можете установить Java с помощью входящего в комплект онлайн-инсталлятора, который скачивает и устанавливает необходимые файлы с веб-сайта Java автоматически.
+ButtonInstallJava=Установить Java
+JavaInstalled=Java установлена в вашу систему
+ErrorLaunchJavaInstaller=Не возможно запустить установщик Java.%n%nОшибка (%1): %2.
+AdditionalOptions=Дополнительные параметры:
+StartFreenetWithWindows=Запускать Freenet при старте Windows
 
 [Messages]
-WelcomeLabel2=РЈСЃС‚Р°РЅРѕРІРєР° [name/ver] РЅР° РІР°С€ РєРѕРјРїСЊСЋС‚РµСЂ.
+WelcomeLabel2=Установка [name/ver] на ваш компьютер.
