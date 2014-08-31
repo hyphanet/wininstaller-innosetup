@@ -40,6 +40,7 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl,.\translations\Mess
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl,.\translations\Messages_es.isl"
 Name: "dutch"; MessagesFile: "compiler:Languages\Dutch.isl,.\translations\Messages_nl.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl,.\translations\Messages_ru.isl"
+Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl,.\translations\Messages_hu.isl"
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
