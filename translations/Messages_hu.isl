@@ -6,7 +6,7 @@ ButtonInstallJava=Java telepítése
 JavaInstalled=A Java már telepítve van a gépedre.
 ErrorLaunchJavaInstaller=Nem indítható a Java telepítése.%n%nError (%1): %2.
 AdditionalOptions=További beállítások:
-StartFreenetWithWindows=Freenet indítása belépéskor.
+StartFreenetWithWindows=Freenet indítása a windows-zal.
 
 [Messages]
 WelcomeLabel2=Ez fog települni: [name/ver] a számítógépedre.
