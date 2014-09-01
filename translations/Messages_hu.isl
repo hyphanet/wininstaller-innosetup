@@ -1,12 +1,12 @@
 [CustomMessages]
-JavaMissingPageCaption=Freenet rendszerkÃ¶vetelmÃ©nyek
-JavaMissingPageDescription=Java kÃ¶vetelmÃ©ny
-JavaMissingText=Freenet-nek szÃ¼ksÃ©ge van a legÃºjabb Java Runtime Environment-re, de a rendszereden nincs, vagy pedig nem a legÃºjabb verziÃ³ van. Te telepÃ­theted a Java-t a mellÃ©kelt online telepÃ­tÅ‘vel, ami letÃ¶lti Ã©s telepÃ­ti a szÃ¼ksÃ©ges fÃ¡jlokat a Java honlapjÃ¡rÃ³l automatikusan.
-ButtonInstallJava=Java telepÃ­tÃ©se
-JavaInstalled=A Java mÃ¡r telepÃ­tve van a gÃ©pedre.
-ErrorLaunchJavaInstaller=Nem indÃ­thatÃ³ a Java telepÃ­tÃ©se.%n%nError (%1): %2.
-AdditionalOptions=TovÃ¡bbi beÃ¡llÃ­tÃ¡sok:
-StartFreenetWithWindows=Freenet indÃ­tÃ¡sa a windows-zal.
+JavaMissingPageCaption=Freenet rendszerkövetelmények
+JavaMissingPageDescription=Java követelmény
+JavaMissingText=Freenet-nek szüksége van a legújabb Java Runtime Environment-re, de a rendszereden nincs, vagy pedig nem a legújabb verzió van. Te telepítheted a Java-t a mellékelt online telepítovel, ami letölti és telepíti a szükséges fájlokat a Java honlapjáról automatikusan.
+ButtonInstallJava=Java telepítése
+JavaInstalled=A Java már telepítve van a gépedre.
+ErrorLaunchJavaInstaller=Nem indítható a Java telepítése.%n%nError (%1): %2.
+AdditionalOptions=További beállítások:
+StartFreenetWithWindows=Freenet indítása a windows-zal.
 
 [Messages]
-WelcomeLabel2=Ez fog telepÃ¼lni: [name/ver] a szÃ¡mÃ­tÃ³gÃ©pedre.
+WelcomeLabel2=Ez fog települni: [name/ver] a számítógépedre.
