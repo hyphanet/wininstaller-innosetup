@@ -62,6 +62,12 @@ namespace FreenetTray
                 return;
             }
 
+            node.OnStarted += NodeStarted;
+            node.OnStopped += NodeStopped;
+            // TODO: Different, more informative handlers for these
+            node.OnCrashed += NodeStopped;
+            node.OnStartFailed += NodeStartFailed;
+
             InitializeComponent();
 
             /*
@@ -71,6 +77,9 @@ namespace FreenetTray
             var _ = contextMenu.Handle;
 
             browsers = new BrowserUtil();
+
+            // Set menu up for whether there is an existing node.
+            RefreshMenu(node.IsRunning());
         }
 
         private void ReadCommandLine()
@@ -91,7 +100,7 @@ namespace FreenetTray
                 }
                 else if (arg == "-start")
                 {
-                    Start();
+                    startFreenetMenuItem_Click(null, null);
                 }
                 else if (arg == "-stop")
                 {
@@ -116,14 +125,18 @@ namespace FreenetTray
             }
         }
 
-        private void WrapperStopped(object sender, EventArgs e)
+        private void NodeStarted(object sender, EventArgs e)
         {
-            contextMenu.BeginInvoke(new Action(RefreshRunning));
+            RefreshMenu(true);
         }
 
-        private void RefreshRunning()
+        private void NodeStopped(object sender, EventArgs e)
         {
-            bool running = node.IsRunning();
+            RefreshMenu(false);
+        }
+
+        private void RefreshMenu(bool running)
+        {
             startFreenetMenuItem.Enabled = !running;
             stopFreenetMenuItem.Enabled = running;
             hideIconMenuItem.Visible = running;
@@ -135,6 +148,12 @@ namespace FreenetTray
             {
                 trayIcon.Icon = Properties.Resources.Offline;
             }
+        }
+
+        private void NodeStartFailed(FreenetTray.NodeController.StartFailureType type)
+        {
+            // TODO: More informative action.
+            RefreshMenu(false);
         }
 
         private void openFreenetMenuItem_Click(object sender, EventArgs e)
@@ -158,13 +177,17 @@ namespace FreenetTray
 
         private void Start()
         {
-            node.Start();
-            RefreshRunning();
+            BeginInvoke(new Action(node.Start));
         }
 
         private void stopFreenetMenuItem_Click(object sender, EventArgs e)
         {
-            node.Stop();
+            Stop();
+        }
+
+        private void Stop()
+        {
+            BeginInvoke(new Action(node.Stop));
         }
 
         private void viewLogsMenuItem_Click(object sender, EventArgs e)
@@ -185,7 +208,7 @@ namespace FreenetTray
 
         private void exitMenuItem_Click(object sender, EventArgs e)
         {
-            node.Stop();
+            Stop();
             Application.Exit();
         }
 

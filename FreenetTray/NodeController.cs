@@ -216,6 +216,8 @@ namespace FreenetTray
                         break;
                 }
             }
+
+            OnStarted(this, null);
         }
 
         public void Stop()
