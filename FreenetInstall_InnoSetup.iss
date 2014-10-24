@@ -116,7 +116,7 @@ var
 begin
   bIsJavaInstalled := False;
   if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.6') >= 0  then
+    if CompareStr(JavaVersion,'1.7') >= 0  then
       bIsJavaInstalled := True;
 
   Result := bIsJavaInstalled;
