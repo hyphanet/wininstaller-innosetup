@@ -45,7 +45,7 @@ Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl,.\translation
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "install_node\bcprov-jdk15on-149.jar"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\bcprov-jdk15on-151.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\Freenet.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
