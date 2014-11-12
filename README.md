@@ -8,8 +8,8 @@ See:
 --
 ## How to build	
 * Download InnoSetup from http://www.jrsoftware.org/download.php/is-unicode.exe (see http://www.jrsoftware.org/isdl.php)	
-* Download AutoHotkey104805.zip from http://ahkscript.org/download/1.0/		
-* Extract AutoHotkey104805.zip and copy the content of the folder "Compiler" into \tools\ahk\Compiler		
+* Download http://ahkscript.org/download/ahk2exe.zip
+* Extract ahk2exe.zip and copy its content into \AutoHotKey_files\tools\ahk\Compiler
 
 ### On Linux (with wine)	
 * Install InnoSetup : wine is-unicode.exe /SILENT	
