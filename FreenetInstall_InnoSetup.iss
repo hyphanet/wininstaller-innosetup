@@ -130,7 +130,7 @@ var
 begin
   ButtonInstallJava.Enabled := False;
   ExtractTemporaryFiles('{tmp}\jxpiinstall.exe');
-  if not ShellExec('runas',ExpandConstant('{tmp}\jxpiinstall.exe'),'','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
+  if not ShellExec('runas',ExpandConstant('{tmp}\jxpiinstall.exe'),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
     sErrorCode := inttostr(ErrorCode);
     MsgBox(FmtMessage(CustomMessage('ErrorLaunchJavaInstaller'),[sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
