@@ -5,6 +5,9 @@ See:
 * [Issue 5862](https://bugs.freenetproject.org/view.php?id=5862)
 * [Freenet wininstaller with InnoSetup (PoC)](https://github.com/freenet/wininstaller-staging/issues/12)
 
+Because this is Windows software it is okay for a file to not have an ending newline. If you edit
+such a file please keep it that way.
+
 --
 ## How to build
 * Download InnoSetup from http://www.jrsoftware.org/download.php/is-unicode.exe (see http://www.jrsoftware.org/isdl.php)
