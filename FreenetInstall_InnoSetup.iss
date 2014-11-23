@@ -41,6 +41,7 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl,.\translations\Me
 Name: "dutch"; MessagesFile: "compiler:Languages\Dutch.isl,.\translations\Messages_nl.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl,.\translations\Messages_ru.isl"
 Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl,.\translations\Messages_hu.isl"
+Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl,.\translations\Messages_fi.isl"
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
