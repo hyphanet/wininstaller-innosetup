@@ -9,4 +9,4 @@ This GUI is for quickly testing the library.
 
 ___
 ### Compilation 
-Both of this projects are written with [Lazarus (win32)](http://www.lazarus.freepascal.org/) and compiled on Windows.
+Both of these projects are written with [Lazarus (win32)](http://www.lazarus.freepascal.org/) and compiled on Windows.
