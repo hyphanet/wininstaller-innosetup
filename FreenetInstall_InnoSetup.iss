@@ -75,7 +75,7 @@ Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ig
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "startwithwindows"; Description: "{cm:StartFreenetWithWindows}"; GroupDescription: "{cm:AdditionalOptions}"; Flags: unchecked
+Name: "startwithwindows"; Description: "{cm:StartFreenetWithWindows}"; GroupDescription: "{cm:AdditionalOptions}"
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Icons]
