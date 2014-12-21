@@ -201,11 +201,11 @@ namespace FreenetTray
                 {
                     case ERROR_FILE_NOT_FOUND:
                         OnStartFailed(StartFailureType.OpeningWrapperFailed);
-                        break;
+                        return;
                     case ERROR_INSUFFICIENT_BUFFER:
                     case ERROR_ACCESS_DENIED:
                         OnStartFailed(StartFailureType.PathTooLong);
-                        break;
+                        return;
                     default:
                         // Getting here means Process.Start() gave an error code it is not documented to give.
                         /* TODO
@@ -213,7 +213,7 @@ namespace FreenetTray
                                         strings.UnknownWrapperLaunchErrorTitle,
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                          */
-                        break;
+                        return;
                 }
             }
 
