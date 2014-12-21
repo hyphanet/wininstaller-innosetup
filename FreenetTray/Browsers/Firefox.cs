@@ -36,33 +36,19 @@ namespace FreenetTray.Browsers
             {
                 return false;
             }
-                /*
-                 * Firefox 3.6 and later support -private:
-                 *      TODO: Is it worth supporting this far back? Even the ESR is v24.
-                 *      "Opens Firefox in permanent private browsing mode." (replacing any existing non-private)
-                 * Firefox 20 and later support -private-window:
-                 *      "Opens a new private browsing window in an existing instance of Firefox."
-                 *
-                 * -private-window is preferable if available.
-                 *
-                 * See https://developer.mozilla.org/en-US/docs/Mozilla/Command_Line_Options?redirectlocale=en-US&redirectslug=Command_Line_Options#-private
-                 */
-                string argument = "-private";
-                    /*
-                     * TODO: If between 3.6 and v20 ask if the user wants their non-private window hidden until
-                     * the session ends. IIRC that's what happens.
-                     */
-                if (version >= new Version(20, 0))
-                {
-                    argument = "-private-window";
-                }
-                    Process.Start(path, argument + ' ' + target);
-                    return true;
+            /*
+             * Firefox 20 and later support -private-window:
+             *      "Opens a new private browsing window in an existing instance of Firefox."
+             *
+             * See https://developer.mozilla.org/en-US/docs/Mozilla/Command_Line_Options?redirectlocale=en-US&redirectslug=Command_Line_Options#-private
+             */
+            Process.Start(path, "-private-window " + target);
+            return true;
         }
 
         public bool IsAvailable()
         {
-            return isInstalled && version >= new Version(3, 6);
+            return isInstalled && version >= new Version(20, 0);
         }
 
         // Return null if the version cannot be determined.
