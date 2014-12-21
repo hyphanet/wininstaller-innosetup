@@ -207,12 +207,17 @@ namespace FreenetTray
                         OnStartFailed(StartFailureType.PathTooLong);
                         return;
                     default:
-                        // Getting here means Process.Start() gave an error code it is not documented to give.
-                        /* TODO
+                        // Process.Start() gave an error code it is not documented to give.
+                        /*
+                         * TODO: Update something to allow displaying this - it was moved from
+                         * a Form, where MessageBox could be used directly. It has more details
+                         * than just a code.
+                         */
+#if 0
                         MessageBox.Show(String.Format(strings.UnknownWrapperLaunchErrorBody, ex.Message, ex.NativeErrorCode),
                                         strings.UnknownWrapperLaunchErrorTitle,
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                         */
+#endif
                         return;
                 }
             }
