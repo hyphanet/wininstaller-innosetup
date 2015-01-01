@@ -25,15 +25,10 @@ namespace FreenetTray.Browsers
 
         public Chrome()
         {
-            foreach (var location in Locations)
-            {
-                var PossiblePath = Environment.ExpandEnvironmentVariables(location) + @"\chrome.exe";
-                if (File.Exists(PossiblePath))
-                {
-                    Path = PossiblePath;
-                    break;
-                }
-            }
+            Path = Locations
+                .Select(location => Environment.ExpandEnvironmentVariables(location) + @"\chrome.exe")
+                .Where(File.Exists)
+                .FirstOrDefault();
 
             IsInstalled = Path != null;
         }
