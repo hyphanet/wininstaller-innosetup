@@ -24,7 +24,7 @@ namespace FreenetTray.Browsers
     {
         private readonly Dictionary<string, Browser> browsers;
         // Autodetect setting string. TODO: Localize?
-        static public readonly string Auto = "Auto";
+        public const string Auto = "Auto";
 
         public BrowserUtil()
         {

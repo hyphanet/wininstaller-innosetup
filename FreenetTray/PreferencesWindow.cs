@@ -10,7 +10,7 @@ namespace FreenetTray
         private const int StartIconIndex = 0;
         private const int StartFreenetIndex = 1;
 
-        private readonly string RegistryStartupName = "Freenet";
+        private const string RegistryStartupName = "Freenet";
 
         public PreferencesWindow(string[] AvailableBrowsers)
         {
