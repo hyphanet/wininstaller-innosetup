@@ -40,7 +40,7 @@ namespace FreenetTray.Browsers
         public void Open(Uri target)
         {
             // For first run setup purposes FProxy should know whether it's opened in private browsing mode.
-            Uri privateTarget = new Uri(target, "?incognito=true");
+            var privateTarget = new Uri(target, "?incognito=true");
 
             if (Properties.Settings.Default.UseBrowser != Auto)
             {
