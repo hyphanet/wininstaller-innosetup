@@ -223,11 +223,6 @@ namespace FreenetTray
 
         private void stopFreenetMenuItem_Click(object sender = null, EventArgs e = null)
         {
-            Stop();
-        }
-
-        private void Stop()
-        {
             BeginInvoke(new Action(_node.Stop));
         }
 
@@ -254,7 +249,7 @@ namespace FreenetTray
 
         private void exitMenuItem_Click(object sender = null, EventArgs e = null)
         {
-            Stop();
+            _node.Stop();
             Application.Exit();
         }
 
