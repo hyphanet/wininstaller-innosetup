@@ -258,7 +258,7 @@ namespace FreenetTray
             }
         }
 
-        private void MissingFileExit(string filename)
+        private static void MissingFileExit(string filename)
         {
             MessageBox.Show(String.Format(strings.FileNotFoundBody, filename),
                 strings.FileNotFoundTitle,
@@ -266,7 +266,7 @@ namespace FreenetTray
             Application.Exit();
         }
 
-        private void MissingConfigExit(string filename, string configName)
+        private static void MissingConfigExit(string filename, string configName)
         {
             MessageBox.Show(String.Format(strings.CannotReadConfigBody, filename, configName),
                 strings.CannotReadConfigTitle,
