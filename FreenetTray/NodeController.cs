@@ -197,6 +197,7 @@ namespace FreenetTray
 
             try
             {
+                // TODO: Under what circumstances will Process.Start() return null?
                 _wrapper = Process.Start(_wrapperInfo);
                 _wrapper.EnableRaisingEvents = true;
                 _wrapper.Exited += Wrapper_Exited;
