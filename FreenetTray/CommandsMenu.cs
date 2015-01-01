@@ -17,8 +17,8 @@ namespace FreenetTray
             InitializeComponent();
 
             // TODO: This isn't called in the event of sudden termination. Maybe that's expected.
-            FormClosed += (object sender, FormClosedEventArgs e) => trayIcon.Visible = false;
-            Shown += (object sender, EventArgs e) => Hide();
+            FormClosed += (sender, e) => trayIcon.Visible = false;
+            Shown += (sender, e) => Hide();
 
             // TODO: Read registry to check if the old tray runs at startup and change settings accordingly. (or offer to?)
             /*
@@ -83,31 +83,31 @@ namespace FreenetTray
             {
                 if (arg == "-open")
                 {
-                    openFreenetMenuItem_Click(null, null);
+                    openFreenetMenuItem_Click();
                 }
                 else if (arg == "-start")
                 {
-                    startFreenetMenuItem_Click(null, null);
+                    startFreenetMenuItem_Click();
                 }
                 else if (arg == "-stop")
                 {
-                    stopFreenetMenuItem_Click(null, null);
+                    stopFreenetMenuItem_Click();
                 }
                 else if (arg == "-logs")
                 {
-                    viewLogsMenuItem_Click(null, null);
+                    viewLogsMenuItem_Click();
                 }
                 else if (arg == "-preferences")
                 {
-                    preferencesMenuItem_Click(null, null);
+                    preferencesMenuItem_Click();
                 }
                 else if (arg == "-hide")
                 {
-                    hideIconMenuItem_Click(null, null);
+                    hideIconMenuItem_Click();
                 }
                 else if (arg == "-exit")
                 {
-                    exitMenuItem_Click(null, null);
+                    exitMenuItem_Click();
                 }
             }
         }
@@ -137,11 +137,11 @@ namespace FreenetTray
                 hideIconMenuItem.Visible = running;
                 if (running)
                 {
-                    trayIcon.Icon = Properties.Resources.Online;
+                    trayIcon.Icon = Resources.Online;
                 }
                 else
                 {
-                    trayIcon.Icon = Properties.Resources.Offline;
+                    trayIcon.Icon = Resources.Offline;
                 }
             }));
         }

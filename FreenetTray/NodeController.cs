@@ -162,7 +162,7 @@ namespace FreenetTray
 
         private string Value(string line)
         {
-            return line.Split(new char[] { '=' }, 2)[1];
+            return line.Split(new[] { '=' }, 2)[1];
         }
 
         private void Wrapper_Exited(object sender, EventArgs e)
