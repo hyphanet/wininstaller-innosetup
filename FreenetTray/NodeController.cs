@@ -96,10 +96,15 @@ namespace FreenetTray
             try
             {
                 var reader = new StreamReader(pidFilename);
-                var pid = int.Parse(reader.ReadLine());
-                _wrapper = Process.GetProcessById(pid);
-                _wrapper.EnableRaisingEvents = true;
-                _wrapper.Exited += Wrapper_Exited;
+                var line = reader.ReadLine();
+
+                if (line != null)
+                {
+                    var pid = int.Parse(line);
+                    _wrapper = Process.GetProcessById(pid);
+                    _wrapper.EnableRaisingEvents = true;
+                    _wrapper.Exited += Wrapper_Exited;
+                }
             }
             catch (ArgumentException)
             {
