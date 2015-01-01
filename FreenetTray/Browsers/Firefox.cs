@@ -12,10 +12,18 @@ namespace FreenetTray.Browsers
          * is out of date as of this writing - it uses "Mozilla Firefox" instead of "Firefox".
          * Earlier versions use HKEY_LOCAL_MACHINE but current ones use HKEY_CURRENT_USER.
          */
-        private static readonly string[] RegistryKeys = {
-                                            @"HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\Mozilla Firefox",
-                                            @"HKEY_CURRENT_USER\SOFTWARE\Mozilla\Mozilla Firefox",
-                                          };
+        private static readonly string[] VersionRegistryKeys =
+        {
+            @"HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\Mozilla Firefox",
+            @"HKEY_CURRENT_USER\SOFTWARE\Mozilla\Mozilla Firefox",
+        };
+
+        private static readonly string[] PathRegistryKeys =
+        {
+            @"HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\Mozilla Firefox\{VersionNumber}\Main",
+            @"HKEY_CURRENT_USER\SOFTWARE\Mozilla\Mozilla Firefox\{CurrentVersion}\Main",
+            @"HKEY_CURRENT_USER\SOFTWARE\Mozilla\Mozilla Firefox {VersionNumber}\bin",
+        };
 
         private readonly bool _isInstalled;
         private readonly Version _version;
@@ -23,9 +31,11 @@ namespace FreenetTray.Browsers
 
         public Firefox()
         {
-            _version = GetVersion();
-            _path = GetPath(_version);
-            _isInstalled = _version != null && _path != null;
+            var currentVersion = GetCurrentVersion();
+            _version = GetVersion(currentVersion);
+
+            _path = GetPath(currentVersion, _version);
+            _isInstalled = _path != null;
         }
 
         public bool Open(Uri target)
@@ -50,9 +60,8 @@ namespace FreenetTray.Browsers
         }
 
         // Return null if the version cannot be determined.
-        private static Version GetVersion()
+        private static Version GetVersion(string currentVersion)
         {
-            var currentVersion = GetCurrentVersion();
             // TODO: Version.TryParse(), added in .NET 4, could make this the only null return.
             if (currentVersion == null)
             {
@@ -79,21 +88,25 @@ namespace FreenetTray.Browsers
 
         private static string GetCurrentVersion()
         {
-            return RegistryKeys
+            return VersionRegistryKeys
                 .Select(key => Registry.GetValue(key, "CurrentVersion", null))
                 .Where(currentVersion => currentVersion != null)
                 .Cast<string>().FirstOrDefault();
         }
 
-        private static string GetPath(Version version)
+        private static string GetPath(string currentVersion, Version version)
         {
-            if (version == null)
+            if (currentVersion == null || version == null)
             {
                 return null;
             }
 
-            return RegistryKeys
-                .Select(key => Registry.GetValue(key + '\\' + version + @"\Main", "PathToExe", null))
+            return PathRegistryKeys
+                .Select(key => Registry.GetValue(
+                    string.Format(key
+                        .Replace("{CurrentVersion}", "{0}")
+                        .Replace("{VersionNumber}", "{1}"),
+                    currentVersion, version), "PathToExe", null))
                 .Where(path => path != null)
                 .Cast<string>().FirstOrDefault();
         }
