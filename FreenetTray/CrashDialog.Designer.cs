@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrashDialog));
             this.IconBox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.crashMessageLabel = new System.Windows.Forms.Label();
             this.ViewLogButton = new System.Windows.Forms.Button();
             this.SupportChatButton = new System.Windows.Forms.Button();
             this.MailingListButton = new System.Windows.Forms.Button();
@@ -51,10 +51,10 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // label2
+            // crashMessageLabel
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.crashMessageLabel, "crashMessageLabel");
+            this.crashMessageLabel.Name = "crashMessageLabel";
             // 
             // ViewLogButton
             // 
@@ -102,7 +102,7 @@
             this.Controls.Add(this.MailingListButton);
             this.Controls.Add(this.SupportChatButton);
             this.Controls.Add(this.ViewLogButton);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.crashMessageLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.IconBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -120,7 +120,7 @@
 
         private System.Windows.Forms.PictureBox IconBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label crashMessageLabel;
         private System.Windows.Forms.Button ViewLogButton;
         private System.Windows.Forms.Button SupportChatButton;
         private System.Windows.Forms.Button MailingListButton;

@@ -61,6 +61,15 @@ namespace FreenetTray {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The following details will help people provide support:.
+        /// </summary>
+        internal static string AdditionalCrashInfo {
+            get {
+                return ResourceManager.GetString("AdditionalCrashInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The configuration file &apos;{0}&apos; does not contain a valid value for &apos;{1}&apos;..
         /// </summary>
         internal static string CannotReadConfigBody {
@@ -99,27 +108,9 @@ namespace FreenetTray {
         /// <summary>
         ///   Looks up a localized string similar to The path is too long. Please install Freenet to a folder with a shorter path..
         /// </summary>
-        internal static string PathLengthExceededBody {
+        internal static string PathTooLong {
             get {
-                return ResourceManager.GetString("PathLengthExceededBody", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Path Too Long.
-        /// </summary>
-        internal static string PathLengthExceededTitle {
-            get {
-                return ResourceManager.GetString("PathLengthExceededTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unknown error when launching the wrapper: &apos;{0}&apos; ({1:x}) Please report this to the Freenet developers..
-        /// </summary>
-        internal static string UnknownWrapperLaunchErrorBody {
-            get {
-                return ResourceManager.GetString("UnknownWrapperLaunchErrorBody", resourceCulture);
+                return ResourceManager.GetString("PathTooLong", resourceCulture);
             }
         }
         
@@ -129,6 +120,15 @@ namespace FreenetTray {
         internal static string UnknownWrapperLaunchErrorTitle {
             get {
                 return ResourceManager.GetString("UnknownWrapperLaunchErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrapper executable was not found at &apos;{0}&apos;..
+        /// </summary>
+        internal static string WrapperFileNotFound {
+            get {
+                return ResourceManager.GetString("WrapperFileNotFound", resourceCulture);
             }
         }
     }

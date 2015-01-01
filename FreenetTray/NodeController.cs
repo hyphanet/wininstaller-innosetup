@@ -6,12 +6,13 @@ using System.Linq;
 
 namespace FreenetTray
 {
-    class NodeController
+    public class NodeController
     {
-        public enum StartFailureType
+        public enum CrashType
         {
-            OpeningWrapperFailed,
+            WrapperFileNotFound,
             PathTooLong,
+            WrapperCrashed,
         }
 
         public class MissingConfigValueException : Exception
@@ -33,18 +34,17 @@ namespace FreenetTray
         private const int ERROR_INSUFFICIENT_BUFFER = 0x7A;
         private const int ERROR_ACCESS_DENIED = 0x5;
 
-        public delegate void StartFailureHandler(StartFailureType type);
+        public delegate void CrashHandler(CrashType type);
 
-        public StartFailureHandler OnStartFailed;
+        public CrashHandler OnCrashed;
         public EventHandler OnStarted;
         public EventHandler OnStopped;
-        public EventHandler OnCrashed;
 
         // TODO: What else?
         private Process _wrapper;
         private readonly ProcessStartInfo _wrapperInfo = new ProcessStartInfo();
 
-        private const string WrapperFilename = @"wrapper\freenetwrapper.exe";
+        public const string WrapperFilename = @"wrapper\freenetwrapper.exe";
         private const string FreenetIniFilename = @"freenet.ini";
         private const string WrapperConfFilename = "wrapper.conf";
 
@@ -176,7 +176,7 @@ namespace FreenetTray
             }
             else
             {
-                OnCrashed(sender, e);
+                OnCrashed(CrashType.WrapperCrashed);
             }
         }
 
@@ -206,25 +206,15 @@ namespace FreenetTray
                 switch (ex.NativeErrorCode)
                 {
                     case ERROR_FILE_NOT_FOUND:
-                        OnStartFailed(StartFailureType.OpeningWrapperFailed);
+                        OnCrashed(CrashType.WrapperFileNotFound);
                         return;
                     case ERROR_INSUFFICIENT_BUFFER:
                     case ERROR_ACCESS_DENIED:
-                        OnStartFailed(StartFailureType.PathTooLong);
+                        OnCrashed(CrashType.PathTooLong);
                         return;
                     default:
                         // Process.Start() gave an error code it is not documented to give.
-                        /*
-                         * TODO: Update something to allow displaying this - it was moved from
-                         * a Form, where MessageBox could be used directly. It has more details
-                         * than just a code - different event handler would work. OnUnknownLaunchError?
-                         */
-/*
-                        MessageBox.Show(String.Format(strings.UnknownWrapperLaunchErrorBody, ex.Message, ex.NativeErrorCode),
-                                        strings.UnknownWrapperLaunchErrorTitle,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-*/
-                        return;
+                        throw;
                 }
             }
 

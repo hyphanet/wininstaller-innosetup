@@ -74,7 +74,6 @@ namespace FreenetTray
             _node.OnStarted += NodeStarted;
             _node.OnStopped += NodeStopped;
             _node.OnCrashed += NodeCrashed;
-            _node.OnStartFailed += NodeStartFailed;
 
             // Set menu up for whether there is an existing node.
             RefreshMenu(_node.IsRunning());
@@ -127,10 +126,10 @@ namespace FreenetTray
             RefreshMenu(false);
         }
 
-        private void NodeCrashed(object sender, EventArgs e)
+        private void NodeCrashed(NodeController.CrashType crashType)
         {
             RefreshMenu(false);
-            BeginInvoke(new Action(new CrashDialog(_browsers, Start, ViewLogs).Show));
+            BeginInvoke(new Action(new CrashDialog(crashType, _browsers, Start, ViewLogs).Show));
         }
 
         private void RefreshMenu(bool running)
@@ -142,12 +141,6 @@ namespace FreenetTray
                 hideIconMenuItem.Visible = running;
                 trayIcon.Icon = running ? Resources.Online : Resources.Offline;
             }));
-        }
-
-        private void NodeStartFailed(NodeController.StartFailureType type)
-        {
-            // TODO: More informative action.
-            RefreshMenu(false);
         }
 
         private void openFreenetMenuItem_Click(object sender = null, EventArgs e = null)

@@ -10,18 +10,37 @@ namespace FreenetTray
         private readonly BrowserUtil _browser;
         private readonly Action _nodeStarter;
         private readonly Action _logOpener;
+        private readonly NodeController.CrashType _crashType;
 
-        public CrashDialog(BrowserUtil browser, Action nodeStarter, Action logOpener)
+        public CrashDialog(NodeController.CrashType crashType, BrowserUtil browser, Action nodeStarter,
+            Action logOpener)
         {
             InitializeComponent();
             _browser = browser;
             _nodeStarter = nodeStarter;
             _logOpener = logOpener;
+            _crashType = crashType;
         }
 
         private void CrashDialog_Load(object sender, EventArgs e)
         {
             IconBox.Image = SystemIcons.Exclamation.ToBitmap();
+
+            var additional = "\n" + strings.AdditionalCrashInfo + " ";
+            switch (_crashType)
+            {
+                case NodeController.CrashType.WrapperFileNotFound:
+                    additional += string.Format(strings.WrapperFileNotFound, NodeController.WrapperFilename);
+                    break;
+                case NodeController.CrashType.PathTooLong:
+                    additional += strings.PathTooLong;
+                    break;
+                case NodeController.CrashType.WrapperCrashed:
+                    additional = "";
+                    break;
+            }
+
+            crashMessageLabel.Text += additional;
         }
 
         private void ViewLogButton_Click(object sender, EventArgs e)

@@ -112,11 +112,14 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdditionalCrashInfo" xml:space="preserve">
+    <value>The following details will help people provide support:</value>
+  </data>
   <data name="CannotReadConfigBody" xml:space="preserve">
     <value>The configuration file '{0}' does not contain a valid value for '{1}'.</value>
   </data>
@@ -129,16 +132,13 @@
   <data name="FileNotFoundTitle" xml:space="preserve">
     <value>File Missing</value>
   </data>
-  <data name="PathLengthExceededBody" xml:space="preserve">
+  <data name="PathTooLong" xml:space="preserve">
     <value>The path is too long. Please install Freenet to a folder with a shorter path.</value>
-  </data>
-  <data name="PathLengthExceededTitle" xml:space="preserve">
-    <value>Path Too Long</value>
-  </data>
-  <data name="UnknownWrapperLaunchErrorBody" xml:space="preserve">
-    <value>Unknown error when launching the wrapper: '{0}' ({1:x}) Please report this to the Freenet developers.</value>
   </data>
   <data name="UnknownWrapperLaunchErrorTitle" xml:space="preserve">
     <value>Unknown Error</value>
+  </data>
+  <data name="WrapperFileNotFound" xml:space="preserve">
+    <value>Wrapper executable was not found at '{0}'.</value>
   </data>
 </root>
