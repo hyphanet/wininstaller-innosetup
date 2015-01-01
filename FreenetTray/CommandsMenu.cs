@@ -21,7 +21,8 @@ namespace FreenetTray
          */
         private const int SlowOpenThreshold = 3000;
         // Milliseconds to show notification balloons.
-        private const int BalloonTipTimeout = 5000;
+        private const int SlowOpenTimeout = 5000;
+        private const int WelcomeTimeout = 10000;
 
         private readonly BrowserUtil _browsers;
         private readonly NodeController _node;
@@ -148,7 +149,7 @@ namespace FreenetTray
                         Settings.Default.ShowSlowOpenTip)
                     {
                         trayIcon.BalloonTipText = strings.FreenetStarting;
-                        trayIcon.ShowBalloonTip(BalloonTipTimeout);
+                        trayIcon.ShowBalloonTip(SlowOpenTimeout);
                         timer.Stop();
                     }
                 }
@@ -256,7 +257,7 @@ namespace FreenetTray
                         break;
                     case "-welcome":
                         trayIcon.BalloonTipText = strings.WelcomeTip;
-                        trayIcon.ShowBalloonTip(BalloonTipTimeout);
+                        trayIcon.ShowBalloonTip(WelcomeTimeout);
                         openFreenetMenuItem_Click();
                         break;
                 }
