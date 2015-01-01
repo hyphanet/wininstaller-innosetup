@@ -64,12 +64,9 @@ namespace FreenetTray.Browsers
              * 
              * See https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_table
              */
-            foreach (var browser in browsers.Values)
+            if (browsers.Values.Any(browser => browser.Open(PrivateTarget)))
             {
-                if (browser.Open(PrivateTarget))
-                {
-                    return;
-                }
+                return;
             }
 
             // System URL call

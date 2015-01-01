@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FreenetTray.Browsers
 {
@@ -79,16 +80,10 @@ namespace FreenetTray.Browsers
         private string GetCurrentVersion()
         {
             // TODO: Pass which one worked to the bin finder?
-            foreach (var key in FirefoxKeys)
-            {
-                var CurrentVersion = Registry.GetValue(key, "CurrentVersion", null);
-                if (CurrentVersion != null)
-                {
-                    return (string)CurrentVersion;
-                }
-            }
-
-            return null;
+            return FirefoxKeys
+                .Select(key => Registry.GetValue(key, "CurrentVersion", null))
+                .Where(CurrentVersion => CurrentVersion != null)
+                .Cast<string>().FirstOrDefault();
         }
 
         private string GetPath()
@@ -100,16 +95,10 @@ namespace FreenetTray.Browsers
                 return null;
             }
 
-            foreach (var key in FirefoxKeys)
-            {
-                var Path = Registry.GetValue(key + '\\' + version + @"\Main", "PathToExe", null);
-                if (Path != null)
-                {
-                    return (string)Path;
-                }
-            }
-
-            return null;
+            return FirefoxKeys
+                .Select(key => Registry.GetValue(key + '\\' + version + @"\Main", "PathToExe", null))
+                .Where(Path => Path != null)
+                .Cast<string>().FirstOrDefault();
         }
     }
 }
