@@ -254,6 +254,11 @@ namespace FreenetTray
                     case "-exit":
                         exitMenuItem_Click();
                         break;
+                    case "-welcome":
+                        trayIcon.BalloonTipText = strings.WelcomeTip;
+                        trayIcon.ShowBalloonTip(BalloonTipTimeout);
+                        openFreenetMenuItem_Click();
+                        break;
                 }
             }
         }

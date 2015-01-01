@@ -141,6 +141,9 @@
   <data name="UnknownWrapperLaunchErrorTitle" xml:space="preserve">
     <value>Unknown Error</value>
   </data>
+  <data name="WelcomeTip" xml:space="preserve">
+    <value>This tray icon controls Freenet. Left-click opens Freenet and right-click opens a menu.</value>
+  </data>
   <data name="WrapperFileNotFound" xml:space="preserve">
     <value>Wrapper executable was not found at '{0}'.</value>
   </data>

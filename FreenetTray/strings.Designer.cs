@@ -133,6 +133,15 @@ namespace FreenetTray {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This tray icon controls Freenet. Left-click opens Freenet and right-click opens a menu..
+        /// </summary>
+        internal static string WelcomeTip {
+            get {
+                return ResourceManager.GetString("WelcomeTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrapper executable was not found at &apos;{0}&apos;..
         /// </summary>
         internal static string WrapperFileNotFound {
