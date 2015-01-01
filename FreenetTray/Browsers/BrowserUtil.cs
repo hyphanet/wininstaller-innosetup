@@ -22,9 +22,10 @@ namespace FreenetTray.Browsers
 
     public class BrowserUtil
     {
-        private readonly Dictionary<string, IBrowser> _browsers;
         // Autodetect configuration name.
         public const string Auto = "Auto";
+
+        private readonly Dictionary<string, IBrowser> _browsers;
 
         public BrowserUtil()
         {
