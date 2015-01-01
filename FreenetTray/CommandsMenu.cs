@@ -20,10 +20,11 @@ namespace FreenetTray
 
         public CommandsMenu()
         {
+            InitializeComponent();
+
             // TODO: This isn't called in the event of sudden termination. Maybe that's expected.
             FormClosed += (object sender, FormClosedEventArgs e) => trayIcon.Visible = false;
             Shown += (object sender, EventArgs e) => Hide();
-            Load += (object sender, EventArgs e) => ReadCommandLine();
 
             // TODO: Read registry to check if the old tray runs at startup and change settings accordingly. (or offer to?)
             /*
@@ -62,23 +63,20 @@ namespace FreenetTray
                 return;
             }
 
+            browsers = new BrowserUtil();
+        }
+
+        private void CommandsMenu_Load(object sender, EventArgs e)
+        {
             node.OnStarted += NodeStarted;
             node.OnStopped += NodeStopped;
             node.OnCrashed += NodeCrashed;
             node.OnStartFailed += NodeStartFailed;
 
-            InitializeComponent();
-
-            /*
-             * Prompt creation of a handle. The the wrapper exit event handler needs one to use BeginInvoke.
-             * See http://msdn.microsoft.com/en-us/library/system.windows.forms.control.invokerequired.aspx
-             */
-            var _ = contextMenu.Handle;
-
-            browsers = new BrowserUtil();
-
             // Set menu up for whether there is an existing node.
             RefreshMenu(node.IsRunning());
+
+            ReadCommandLine();
         }
 
         private void ReadCommandLine()
@@ -138,17 +136,20 @@ namespace FreenetTray
 
         private void RefreshMenu(bool running)
         {
-            startFreenetMenuItem.Enabled = !running;
-            stopFreenetMenuItem.Enabled = running;
-            hideIconMenuItem.Visible = running;
-            if (running)
+            BeginInvoke(new Action(() =>
             {
-                trayIcon.Icon = Properties.Resources.Online;
-            }
-            else
-            {
-                trayIcon.Icon = Properties.Resources.Offline;
-            }
+                startFreenetMenuItem.Enabled = !running;
+                stopFreenetMenuItem.Enabled = running;
+                hideIconMenuItem.Visible = running;
+                if (running)
+                {
+                    trayIcon.Icon = Properties.Resources.Online;
+                }
+                else
+                {
+                    trayIcon.Icon = Properties.Resources.Offline;
+                }
+            }));
         }
 
         private void NodeStartFailed(NodeController.StartFailureType type)

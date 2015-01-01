@@ -125,6 +125,7 @@
             this.Name = "CommandsMenu";
             this.ShowInTaskbar = false;
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            this.Load += new System.EventHandler(this.CommandsMenu_Load);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
