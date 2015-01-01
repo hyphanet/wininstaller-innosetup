@@ -25,7 +25,7 @@ namespace FreenetTray.Browsers
         {
             _version = GetVersion();
             _path = GetPath();
-            _isInstalled = _version != null;
+            _isInstalled = _version != null && _path != null;
         }
 
         public bool Open(Uri target)
