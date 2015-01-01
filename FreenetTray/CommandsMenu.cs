@@ -132,6 +132,7 @@ namespace FreenetTray
                     try
                     {
                         sock.Connect(loopback, _node.FProxyPort);
+                        sock.Close();
                         fproxyListening = true;
                         break;
                     }
