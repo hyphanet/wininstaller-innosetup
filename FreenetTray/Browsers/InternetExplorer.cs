@@ -1,9 +1,6 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using Microsoft.Win32;
 
 namespace FreenetTray.Browsers
 {
