@@ -135,14 +135,7 @@ namespace FreenetTray
                 startFreenetMenuItem.Enabled = !running;
                 stopFreenetMenuItem.Enabled = running;
                 hideIconMenuItem.Visible = running;
-                if (running)
-                {
-                    trayIcon.Icon = Resources.Online;
-                }
-                else
-                {
-                    trayIcon.Icon = Resources.Offline;
-                }
+                trayIcon.Icon = running ? Resources.Online : Resources.Offline;
             }));
         }
 
