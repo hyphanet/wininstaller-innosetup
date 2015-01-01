@@ -12,6 +12,7 @@ namespace FreenetTray
         private const int StartFreenetIndex = 1;
 
         private const string RegistryStartupName = "Freenet";
+        private const string StartupKeyLocation = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
 
         public PreferencesWindow(IEnumerable<string> availableBrowsers)
         {
@@ -45,29 +46,20 @@ namespace FreenetTray
 
             Properties.Settings.Default.Save();
 
-            using (var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+            if (Properties.Settings.Default.StartIcon)
             {
-                // TODO: Assuming startup registry location exists. Is this viable?
-                key.DeleteValue(RegistryStartupName, false);
-                // Double quotes are required around the executable path to get multiple(?) command line arguments.
-                if (Properties.Settings.Default.StartIcon)
-                {
-                    if (Properties.Settings.Default.StartFreenet)
-                    {
-                        // Display icon and open Freenet
-                        key.SetValue(RegistryStartupName, '"' + Application.ExecutablePath + "\" -start");
-                    }
-                    else
-                    {
-                        // Just display icon
-                        key.SetValue(RegistryStartupName, Application.ExecutablePath);
-                    }
-                }
-                else if (Properties.Settings.Default.StartFreenet)
-                {
-                    // Start Freenet and hide icon (which closes the tray app)
-                    key.SetValue(RegistryStartupName, '"' + Application.ExecutablePath + "\" -start -hide");
-                }
+                // Start Freenet or just the icon.
+                SetStartupArguments(Properties.Settings.Default.StartFreenet ? "-start" : "");
+            }
+            else if (Properties.Settings.Default.StartFreenet)
+            {
+                // Just start Freenet.
+                SetStartupArguments("-start -hide");
+            }
+            else
+            {
+                // Do not start.
+                SetStartupArguments(null);
             }
 
             Close();
@@ -76,6 +68,25 @@ namespace FreenetTray
         private void Cancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        // Set the tray arguments on Windows startup, or remove if from startup if arguments is null.
+        private static void SetStartupArguments(string arguments)
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey(StartupKeyLocation, true))
+            {
+                // TODO: Assuming startup registry location exists. Is this viable?
+                key.DeleteValue(RegistryStartupName, false);
+
+                if (arguments != null)
+                {
+                    /*
+                     * Double quotes are required around the executable path to get multiple(?) command
+                     * line arguments.
+                     */
+                    key.SetValue(RegistryStartupName, '"' + Application.ExecutablePath + "\" " + arguments);
+                }
+            }
         }
     }
 }
