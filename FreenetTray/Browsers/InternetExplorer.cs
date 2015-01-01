@@ -4,10 +4,10 @@ using Microsoft.Win32;
 
 namespace FreenetTray.Browsers
 {
-    class InternetExplorer : Browser
+    class InternetExplorer : IBrowser
     {
-        private readonly Version version;
-        private readonly bool IsInstalled;
+        private readonly Version _version;
+        private readonly bool _isInstalled;
 
         public InternetExplorer()
         {
@@ -15,10 +15,10 @@ namespace FreenetTray.Browsers
             var value = Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer", "version", null);
             if (value != null)
             {
-                version = new Version((string)value);
+                _version = new Version((string)value);
             }
 
-            IsInstalled = version != null;
+            _isInstalled = _version != null;
         }
 
         public bool Open(Uri target)
@@ -35,7 +35,7 @@ namespace FreenetTray.Browsers
         public bool IsAvailable()
         {
             // See https://en.wikipedia.org/wiki/Internet_Explorer_8#InPrivate
-            return IsInstalled && version >= new Version(8, 0);
+            return _isInstalled && _version >= new Version(8, 0);
         }
     }
 }

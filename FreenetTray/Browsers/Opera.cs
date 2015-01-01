@@ -5,19 +5,19 @@ using Microsoft.Win32;
 
 namespace FreenetTray.Browsers
 {
-    class Opera : Browser
+    class Opera : IBrowser
     {
-        private readonly string Path;
-        private readonly bool IsInstalled;
+        private readonly string _path;
+        private readonly bool _isInstalled;
 
         public Opera()
         {
             // Key present with Opera 21.
-            var PossiblePath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Opera Software", "Last Stable Install Path", null) + "opera.exe";
-            IsInstalled = File.Exists(PossiblePath);
-            if (IsInstalled)
+            var possiblePath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Opera Software", "Last Stable Install Path", null) + "opera.exe";
+            _isInstalled = File.Exists(possiblePath);
+            if (_isInstalled)
             {
-                Path = PossiblePath;
+                _path = possiblePath;
             }
         }
 
@@ -28,13 +28,13 @@ namespace FreenetTray.Browsers
                 return false;
             }
                 // See http://www.opera.com/docs/switches
-                Process.Start(Path, "-newprivatetab " + target);
+                Process.Start(_path, "-newprivatetab " + target);
                 return true;
         }
 
         public bool IsAvailable()
         {
-            return IsInstalled;
+            return _isInstalled;
         }
     }
 }

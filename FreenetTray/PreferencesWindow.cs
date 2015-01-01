@@ -1,6 +1,7 @@
 ﻿using FreenetTray.Browsers;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace FreenetTray
@@ -12,7 +13,7 @@ namespace FreenetTray
 
         private const string RegistryStartupName = "Freenet";
 
-        public PreferencesWindow(string[] AvailableBrowsers)
+        public PreferencesWindow(IEnumerable<string> availableBrowsers)
         {
             InitializeComponent();
 
@@ -21,7 +22,7 @@ namespace FreenetTray
             StartupCheckboxList.SetItemChecked(StartFreenetIndex,
                                                Properties.Settings.Default.StartFreenet);
             BrowserChoice.Items.Add(BrowserUtil.Auto);
-            foreach (var browser in AvailableBrowsers)
+            foreach (var browser in availableBrowsers)
             {
                 BrowserChoice.Items.Add(browser);
             }

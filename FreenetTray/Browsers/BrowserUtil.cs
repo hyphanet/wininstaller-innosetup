@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FreenetTray.Browsers
 {
-    interface Browser
+    interface IBrowser
     {
         /*
          * Return true if the URI was opened in privacy mode.
@@ -22,13 +22,13 @@ namespace FreenetTray.Browsers
 
     public class BrowserUtil
     {
-        private readonly Dictionary<string, Browser> browsers;
+        private readonly Dictionary<string, IBrowser> _browsers;
         // Autodetect setting string. TODO: Localize?
         public const string Auto = "Auto";
 
         public BrowserUtil()
         {
-            browsers = new Dictionary<string, Browser> {
+            _browsers = new Dictionary<string, IBrowser> {
                          {"Chrome", new Chrome()},
                          {"Firefox", new Firefox()},
                          {"Opera", new Opera()},
@@ -39,16 +39,16 @@ namespace FreenetTray.Browsers
         public void Open(Uri target)
         {
             // For first run setup purposes FProxy should know whether it's opened in private browsing mode.
-            Uri PrivateTarget = new Uri(target, "?incognito=true");
+            Uri privateTarget = new Uri(target, "?incognito=true");
 
             if (Properties.Settings.Default.UseBrowser != Auto)
             {
-                if (!browsers.ContainsKey(Properties.Settings.Default.UseBrowser))
+                if (!_browsers.ContainsKey(Properties.Settings.Default.UseBrowser))
                 {
                     // TODO: Malformed settings error message.
                     return;
                 }
-                if (browsers[Properties.Settings.Default.UseBrowser].Open(PrivateTarget))
+                if (_browsers[Properties.Settings.Default.UseBrowser].Open(privateTarget))
                 {
                     return;
                 }
@@ -64,7 +64,7 @@ namespace FreenetTray.Browsers
              * 
              * See https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_table
              */
-            if (browsers.Values.Any(browser => browser.Open(PrivateTarget)))
+            if (_browsers.Values.Any(browser => browser.Open(privateTarget)))
             {
                 return;
             }
@@ -75,7 +75,7 @@ namespace FreenetTray.Browsers
 
         public string[] GetAvailableBrowsers()
         {
-            return (from element in browsers where element.Value.IsAvailable() select element.Key).ToArray();
+            return (from element in _browsers where element.Value.IsAvailable() select element.Key).ToArray();
         }
     }
 }

@@ -15,13 +15,13 @@ namespace FreenetTray
 
         public class MissingConfigValueException : Exception
         {
-            public readonly string filename;
-            public readonly string value;
+            public readonly string Filename;
+            public readonly string Value;
 
             public MissingConfigValueException(string filename, string value)
             {
-                this.filename = filename;
-                this.value = value;
+                Filename = filename;
+                Value = value;
             }
         }
 
@@ -40,14 +40,14 @@ namespace FreenetTray
         public EventHandler OnCrashed;
 
         // TODO: What else?
-        private Process Wrapper_;
-        private readonly ProcessStartInfo WrapperInfo = new ProcessStartInfo();
+        private Process _wrapper;
+        private readonly ProcessStartInfo _wrapperInfo = new ProcessStartInfo();
 
         private const string WrapperFilename = @"wrapper\freenetwrapper.exe";
         private const string FreenetIniFilename = @"freenet.ini";
         private const string WrapperConfFilename = "wrapper.conf";
 
-        private readonly string AnchorFilename;
+        private readonly string _anchorFilename;
         public readonly string WrapperLogFilename;
         public readonly int FProxyPort;
 
@@ -63,8 +63,8 @@ namespace FreenetTray
              */
             var pidFilename = "freenet.pid";
             // wrapper.conf is relative to the wrapper's location.
-            var WrapperDir = Directory.GetParent(WrapperFilename);
-            foreach (var line in File.ReadAllLines(WrapperDir.FullName + '\\' + WrapperConfFilename))
+            var wrapperDir = Directory.GetParent(WrapperFilename);
+            foreach (var line in File.ReadAllLines(wrapperDir.FullName + '\\' + WrapperConfFilename))
             {
                 // TODO: Map between constants and variables to reduce repetition?
                 if (Defines(line, "wrapper.logfile"))
@@ -77,7 +77,7 @@ namespace FreenetTray
                 }
                 else if (Defines(line, "wrapper.anchorfile"))
                 {
-                    AnchorFilename = Value(line);
+                    _anchorFilename = Value(line);
                 }
             }
 
@@ -87,7 +87,7 @@ namespace FreenetTray
                 throw new MissingConfigValueException(WrapperConfFilename, "wrapper.logfile");
             }
 
-            if (AnchorFilename == null)
+            if (_anchorFilename == null)
             {
                 throw new MissingConfigValueException(WrapperConfFilename, "wrapper.anchorfile");
             }
@@ -96,10 +96,10 @@ namespace FreenetTray
             try
             {
                 var reader = new StreamReader(pidFilename);
-                int pid = int.Parse(reader.ReadLine());
-                Wrapper_ = Process.GetProcessById(pid);
-                Wrapper_.EnableRaisingEvents = true;
-                Wrapper_.Exited += Wrapper_Exited;
+                var pid = int.Parse(reader.ReadLine());
+                _wrapper = Process.GetProcessById(pid);
+                _wrapper.EnableRaisingEvents = true;
+                _wrapper.Exited += Wrapper_Exited;
             }
             catch (ArgumentException)
             {
@@ -146,11 +146,11 @@ namespace FreenetTray
              * Hide the wrapper window when launching it. This prevents (or at least heavily complicates)
              * stopping it with Process.CloseMainWindow() or by sending ctrl + C.
              */
-            WrapperInfo.FileName = WrapperFilename;
+            _wrapperInfo.FileName = WrapperFilename;
             // TODO: Is it worthwhile to omit the pidfile here when it's in the config file?
-            WrapperInfo.Arguments = "-c " + WrapperConfFilename + " wrapper.pidfile=" + pidFilename;
-            WrapperInfo.UseShellExecute = false;
-            WrapperInfo.CreateNoWindow = true;
+            _wrapperInfo.Arguments = "-c " + WrapperConfFilename + " wrapper.pidfile=" + pidFilename;
+            _wrapperInfo.UseShellExecute = false;
+            _wrapperInfo.CreateNoWindow = true;
         }
 
         private bool Defines(string line, string key)
@@ -167,7 +167,7 @@ namespace FreenetTray
         private void Wrapper_Exited(object sender, EventArgs e)
         {
             // TODO: Is exit code enough to distinguish between stopping and crashing?
-            if (Wrapper_.ExitCode == 0)
+            if (_wrapper.ExitCode == 0)
             {
                 OnStopped(sender, e);
             }
@@ -192,9 +192,9 @@ namespace FreenetTray
 
             try
             {
-                Wrapper_ = Process.Start(WrapperInfo);
-                Wrapper_.EnableRaisingEvents = true;
-                Wrapper_.Exited += Wrapper_Exited;
+                _wrapper = Process.Start(_wrapperInfo);
+                _wrapper.EnableRaisingEvents = true;
+                _wrapper.Exited += Wrapper_Exited;
             }
             catch (Win32Exception ex)
             {
@@ -231,14 +231,14 @@ namespace FreenetTray
         {
             if (IsRunning())
             {
-                File.Delete(AnchorFilename);
+                File.Delete(_anchorFilename);
             }
         }
 
         // TODO: With everything being event-driven this doesn't seem necessary. Except for the initial run maybe?
         public Boolean IsRunning()
         {
-            return Wrapper_ != null && !Wrapper_.HasExited;
+            return _wrapper != null && !_wrapper.HasExited;
         }
     }
 }

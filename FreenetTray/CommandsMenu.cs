@@ -9,8 +9,8 @@ namespace FreenetTray
 {
     public partial class CommandsMenu : Form
     {
-        private readonly BrowserUtil browsers;
-        private readonly NodeController node;
+        private readonly BrowserUtil _browsers;
+        private readonly NodeController _node;
 
         public CommandsMenu()
         {
@@ -33,12 +33,12 @@ namespace FreenetTray
              * parent directory is not its working directory.
              * TODO: Would it be more appropriate to do an explicit relative lookup?
              */
-            var ApplicationDir = Directory.GetParent(Application.ExecutablePath);
-            Environment.CurrentDirectory = ApplicationDir.FullName;
+            var applicationDir = Directory.GetParent(Application.ExecutablePath);
+            Environment.CurrentDirectory = applicationDir.FullName;
 
             try
             {
-                node = new NodeController();
+                _node = new NodeController();
             }
             catch (FileNotFoundException e)
             {
@@ -53,22 +53,22 @@ namespace FreenetTray
             }
             catch (NodeController.MissingConfigValueException e)
             {
-                MissingConfigExit(e.filename, e.value);
+                MissingConfigExit(e.Filename, e.Value);
                 return;
             }
 
-            browsers = new BrowserUtil();
+            _browsers = new BrowserUtil();
         }
 
         private void CommandsMenu_Load(object sender, EventArgs e)
         {
-            node.OnStarted += NodeStarted;
-            node.OnStopped += NodeStopped;
-            node.OnCrashed += NodeCrashed;
-            node.OnStartFailed += NodeStartFailed;
+            _node.OnStarted += NodeStarted;
+            _node.OnStopped += NodeStopped;
+            _node.OnCrashed += NodeCrashed;
+            _node.OnStartFailed += NodeStartFailed;
 
             // Set menu up for whether there is an existing node.
-            RefreshMenu(node.IsRunning());
+            RefreshMenu(_node.IsRunning());
 
             ReadCommandLine();
         }
@@ -121,7 +121,7 @@ namespace FreenetTray
         private void NodeCrashed(object sender, EventArgs e)
         {
             RefreshMenu(false);
-            BeginInvoke(new Action(new CrashDialog(browsers, Start, viewLogs).Show));
+            BeginInvoke(new Action(new CrashDialog(_browsers, Start, ViewLogs).Show));
         }
 
         private void RefreshMenu(bool running)
@@ -152,7 +152,7 @@ namespace FreenetTray
              * Maybe open the browser first and then if there's nothing on the port after a timeout say
              * something about how Freenet isn't responding.
              */
-            browsers.Open(new Uri(String.Format("http://localhost:{0:d}", node.FProxyPort)));
+            _browsers.Open(new Uri(String.Format("http://localhost:{0:d}", _node.FProxyPort)));
         }
 
         private void startFreenetMenuItem_Click(object sender = null, EventArgs e = null)
@@ -162,7 +162,7 @@ namespace FreenetTray
 
         private void Start()
         {
-            BeginInvoke(new Action(node.Start));
+            BeginInvoke(new Action(_node.Start));
         }
 
         private void stopFreenetMenuItem_Click(object sender = null, EventArgs e = null)
@@ -172,22 +172,22 @@ namespace FreenetTray
 
         private void Stop()
         {
-            BeginInvoke(new Action(node.Stop));
+            BeginInvoke(new Action(_node.Stop));
         }
 
         private void viewLogsMenuItem_Click(object sender = null, EventArgs e = null)
         {
-            viewLogs();
+            ViewLogs();
         }
 
-        private void viewLogs()
+        private void ViewLogs()
         {
-            Process.Start("notepad.exe", node.WrapperLogFilename);
+            Process.Start("notepad.exe", _node.WrapperLogFilename);
         }
 
         private void preferencesMenuItem_Click(object sender = null, EventArgs e = null)
         {
-            new PreferencesWindow(browsers.GetAvailableBrowsers()).Show();
+            new PreferencesWindow(_browsers.GetAvailableBrowsers()).Show();
         }
 
         private void hideIconMenuItem_Click(object sender = null, EventArgs e = null)
