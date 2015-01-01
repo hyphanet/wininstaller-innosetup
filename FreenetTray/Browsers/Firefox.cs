@@ -61,8 +61,7 @@ namespace FreenetTray.Browsers
             try
             {
                 // CurrentVersion contains "version.number (locale)"
-                var version = CurrentVersion.Split(new[] { ' ' }, 2)[0];
-                return new Version(version);
+                return new Version(CurrentVersion.Split(new[] { ' ' }, 2)[0]);
             }
             catch (OverflowException)
             {
