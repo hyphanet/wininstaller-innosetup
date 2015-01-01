@@ -73,9 +73,9 @@ namespace FreenetTray.Browsers
             Process.Start(target.ToString());
         }
 
-        public string[] GetAvailableBrowsers()
+        public IEnumerable<string> GetAvailableBrowsers()
         {
-            return (from element in _browsers where element.Value.IsAvailable() select element.Key).ToArray();
+            return from element in _browsers where element.Value.IsAvailable() select element.Key;
         }
     }
 }
