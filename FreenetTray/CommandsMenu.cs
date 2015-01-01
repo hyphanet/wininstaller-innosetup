@@ -19,7 +19,7 @@ namespace FreenetTray
          *
          * See http://www.nngroup.com/articles/response-times-3-important-limits/
          */
-        private const int StartNotificationDelay = 3000;
+        private const int SlowOpenThreshold = 3000;
         // Milliseconds to show notification balloons.
         private const int BalloonTipTimeout = 5000;
 
@@ -145,7 +145,7 @@ namespace FreenetTray
 
                     // Show a startup notification if it's taking a while.
                     // TODO: Allow disabling tip.
-                    if (timer.IsRunning && timer.ElapsedMilliseconds > StartNotificationDelay)
+                    if (timer.IsRunning && timer.ElapsedMilliseconds > SlowOpenThreshold &&
                     {
                         trayIcon.BalloonTipText = strings.FreenetStarting;
                         trayIcon.ShowBalloonTip(BalloonTipTimeout);
