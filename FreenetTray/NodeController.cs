@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace FreenetTray
 {
@@ -134,17 +135,14 @@ namespace FreenetTray
 
             // Read Freenet config: FProxy port TODO: Use ini-parser instead
             // TODO: Does this need to wait until the node is running for the first run?
-            foreach (var line in File.ReadAllLines(FreenetIniFilename))
+            foreach (var line in File.ReadAllLines(FreenetIniFilename).Where(line => Defines(line, "fproxy.port")))
             {
-                if (Defines(line, "fproxy.port"))
+                var isValid = int.TryParse(Value(line), out FProxyPort);
+                if (!isValid)
                 {
-                    var isValid = int.TryParse(Value(line), out FProxyPort);
-                    if (!isValid)
-                    {
-                        throw new MissingConfigValueException(FreenetIniFilename, "fproxy.port");
-                    }
-                    break;
+                    throw new MissingConfigValueException(FreenetIniFilename, "fproxy.port");
                 }
+                break;
             }
 
             /*
