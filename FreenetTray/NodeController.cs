@@ -110,7 +110,14 @@ namespace FreenetTray
             {
                 Debug.WriteLine("No process has the PID in the PID file.");
                 // The wrapper can refuse to start if there is a stale PID file - "strict".
-                File.Delete(PidFilename);
+                try
+                {
+                    File.Delete(PidFilename);
+                }
+                catch (IOException)
+                {
+                    Debug.WriteLine("Stale PID file is still held.");
+                }
             }
             catch (FormatException)
             {
