@@ -86,14 +86,6 @@ namespace FreenetTray.Browsers
             return null;
         }
 
-        private static string GetCurrentVersion()
-        {
-            return VersionRegistryKeys
-                .Select(key => Registry.GetValue(key, "CurrentVersion", null))
-                .Where(currentVersion => currentVersion != null)
-                .Cast<string>().FirstOrDefault();
-        }
-
         private static string GetPath(string currentVersion, Version version)
         {
             if (currentVersion == null || version == null)
@@ -108,6 +100,14 @@ namespace FreenetTray.Browsers
                         .Replace("{VersionNumber}", "{1}"),
                     currentVersion, version), "PathToExe", null))
                 .Where(path => path != null)
+                .Cast<string>().FirstOrDefault();
+        }
+
+        private static string GetCurrentVersion()
+        {
+            return VersionRegistryKeys
+                .Select(key => Registry.GetValue(key, "CurrentVersion", null))
+                .Where(currentVersion => currentVersion != null)
                 .Cast<string>().FirstOrDefault();
         }
     }

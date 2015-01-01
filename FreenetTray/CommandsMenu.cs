@@ -95,41 +95,6 @@ namespace FreenetTray
             ReadCommandLine();
         }
 
-        private void ReadCommandLine()
-        {
-            /*
-             * TODO: Difficulties with this implementation are ignoring the application name if it is
-             * present and supporting arguments with parameters.
-             */
-            foreach (var arg in Environment.GetCommandLineArgs())
-            {
-                switch (arg)
-                {
-                    case "-open":
-                        openFreenetMenuItem_Click();
-                        break;
-                    case "-start":
-                        startFreenetMenuItem_Click();
-                        break;
-                    case "-stop":
-                        stopFreenetMenuItem_Click();
-                        break;
-                    case "-logs":
-                        viewLogsMenuItem_Click();
-                        break;
-                    case "-preferences":
-                        preferencesMenuItem_Click();
-                        break;
-                    case "-hide":
-                        hideIconMenuItem_Click();
-                        break;
-                    case "-exit":
-                        exitMenuItem_Click();
-                        break;
-                }
-            }
-        }
-
         private void NodeStarted(object sender, EventArgs e)
         {
             RefreshMenu(true);
@@ -144,17 +109,6 @@ namespace FreenetTray
         {
             RefreshMenu(false);
             BeginInvoke(new Action(new CrashDialog(crashType, _browsers, Start, ViewLogs).Show));
-        }
-
-        private void RefreshMenu(bool running)
-        {
-            BeginInvoke(new Action(() =>
-            {
-                startFreenetMenuItem.Enabled = !running;
-                stopFreenetMenuItem.Enabled = running;
-                hideIconMenuItem.Visible = running;
-                trayIcon.Icon = running ? Resources.Online : Resources.Offline;
-            }));
         }
 
         private void openFreenetMenuItem_Click(object sender = null, EventArgs e = null)
@@ -216,11 +170,6 @@ namespace FreenetTray
             Start();
         }
 
-        private void Start()
-        {
-            BeginInvoke(new Action(_node.Start));
-        }
-
         private void stopFreenetMenuItem_Click(object sender = null, EventArgs e = null)
         {
             BeginInvoke(new Action(_node.Stop));
@@ -229,11 +178,6 @@ namespace FreenetTray
         private void viewLogsMenuItem_Click(object sender = null, EventArgs e = null)
         {
             ViewLogs();
-        }
-
-        private void ViewLogs()
-        {
-            Process.Start("notepad.exe", _node.WrapperLogFilename);
         }
 
         private void preferencesMenuItem_Click(object sender = null, EventArgs e = null)
@@ -253,6 +197,70 @@ namespace FreenetTray
             Application.Exit();
         }
 
+        private void trayIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                openFreenetMenuItem_Click(sender, e);
+            }
+        }
+
+        private void Start()
+        {
+            BeginInvoke(new Action(_node.Start));
+        }
+
+        private void ViewLogs()
+        {
+            Process.Start("notepad.exe", _node.WrapperLogFilename);
+        }
+
+        private void RefreshMenu(bool running)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                startFreenetMenuItem.Enabled = !running;
+                stopFreenetMenuItem.Enabled = running;
+                hideIconMenuItem.Visible = running;
+                trayIcon.Icon = running ? Resources.Online : Resources.Offline;
+            }));
+        }
+
+        private void ReadCommandLine()
+        {
+            /*
+             * TODO: Difficulties with this implementation are ignoring the application name if it is
+             * present and supporting arguments with parameters.
+             */
+            foreach (var arg in Environment.GetCommandLineArgs())
+            {
+                switch (arg)
+                {
+                    case "-open":
+                        openFreenetMenuItem_Click();
+                        break;
+                    case "-start":
+                        startFreenetMenuItem_Click();
+                        break;
+                    case "-stop":
+                        stopFreenetMenuItem_Click();
+                        break;
+                    case "-logs":
+                        viewLogsMenuItem_Click();
+                        break;
+                    case "-preferences":
+                        preferencesMenuItem_Click();
+                        break;
+                    case "-hide":
+                        hideIconMenuItem_Click();
+                        break;
+                    case "-exit":
+                        exitMenuItem_Click();
+                        break;
+                }
+            }
+        }
+
         private void MissingFileExit(string filename)
         {
             MessageBox.Show(String.Format(strings.FileNotFoundBody, filename),
@@ -267,14 +275,6 @@ namespace FreenetTray
                 strings.CannotReadConfigTitle,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             Application.Exit();
-        }
-
-        private void trayIcon_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                openFreenetMenuItem_Click(sender, e);
-            }
         }
     }
 }

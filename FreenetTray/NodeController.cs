@@ -40,7 +40,6 @@ namespace FreenetTray
         public EventHandler OnStarted;
         public EventHandler OnStopped;
 
-        // TODO: What else?
         private Process _wrapper;
         private readonly ProcessStartInfo _wrapperInfo = new ProcessStartInfo();
 
@@ -156,30 +155,6 @@ namespace FreenetTray
             _wrapperInfo.CreateNoWindow = true;
         }
 
-        private bool Defines(string line, string key)
-        {
-            // TODO: Does this need to tolerate whitespace between the key and the =? Find an INI library somewhere maybe?
-            return line.StartsWith(key + "=");
-        }
-
-        private string Value(string line)
-        {
-            return line.Split(new[] { '=' }, 2)[1];
-        }
-
-        private void Wrapper_Exited(object sender, EventArgs e)
-        {
-            // TODO: Is exit code enough to distinguish between stopping and crashing?
-            if (_wrapper.ExitCode == 0)
-            {
-                OnStopped(sender, e);
-            }
-            else
-            {
-                OnCrashed(CrashType.WrapperCrashed);
-            }
-        }
-
         /*
          * TODO: What are the function documentation comments supposed to be formatted like?
          * Start the node if it is not already started.
@@ -229,10 +204,33 @@ namespace FreenetTray
             }
         }
 
-        // TODO: With everything being event-driven this doesn't seem necessary. Except for the initial run maybe?
         public Boolean IsRunning()
         {
             return _wrapper != null && !_wrapper.HasExited;
+        }
+
+        private void Wrapper_Exited(object sender, EventArgs e)
+        {
+            // TODO: Is exit code enough to distinguish between stopping and crashing?
+            if (_wrapper.ExitCode == 0)
+            {
+                OnStopped(sender, e);
+            }
+            else
+            {
+                OnCrashed(CrashType.WrapperCrashed);
+            }
+        }
+
+        private bool Defines(string line, string key)
+        {
+            // TODO: Does this need to tolerate whitespace between the key and the =? Find an INI library somewhere maybe?
+            return line.StartsWith(key + "=");
+        }
+
+        private string Value(string line)
+        {
+            return line.Split(new[] { '=' }, 2)[1];
         }
     }
 }
