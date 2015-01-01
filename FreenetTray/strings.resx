@@ -132,6 +132,9 @@
   <data name="FileNotFoundTitle" xml:space="preserve">
     <value>File Missing</value>
   </data>
+  <data name="FreenetStarting" xml:space="preserve">
+    <value>Freenet is starting up.</value>
+  </data>
   <data name="PathTooLong" xml:space="preserve">
     <value>The path is too long. Please install Freenet to a folder with a shorter path.</value>
   </data>

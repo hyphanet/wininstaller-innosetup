@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 using FreenetTray.Browsers;
 using FreenetTray.Properties;
@@ -9,6 +12,17 @@ namespace FreenetTray
 {
     public partial class CommandsMenu : Form
     {
+        // Milliseconds between connection attempts while waiting for startup.
+        private const int SocketPollInterval = 100;
+        /*
+         * Milliseconds to wait for startup before notifying the user that Freenet is starting.
+         *
+         * See http://www.nngroup.com/articles/response-times-3-important-limits/
+         */
+        private const int StartNotificationDelay = 3000;
+        // Milliseconds to show notification balloons.
+        private const int BalloonTipTimeout = 5000;
+
         private readonly BrowserUtil _browsers;
         private readonly NodeController _node;
 
@@ -154,7 +168,47 @@ namespace FreenetTray
              * Maybe open the browser first and then if there's nothing on the port after a timeout say
              * something about how Freenet isn't responding.
              */
-            _browsers.Open(new Uri(String.Format("http://localhost:{0:d}", _node.FProxyPort)));
+            BeginInvoke(new Action(() =>
+            {
+                // TODO: Programatic way to do this?
+                var loopback = new IPAddress(new byte[] {127, 0, 0, 1});
+                var fproxyListening = false;
+                var timer = new Stopwatch();
+
+                timer.Start();
+                while (_node.IsRunning())
+                {
+                    var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    try
+                    {
+                        sock.Connect(loopback, _node.FProxyPort);
+                        fproxyListening = true;
+                        break;
+                    }
+                    catch (SocketException ex)
+                    {
+                        Debug.WriteLine("Connecting got error: " +
+                            Enum.GetName(typeof(SocketError), ex.SocketErrorCode));
+                        Thread.Sleep(SocketPollInterval);
+                    }
+
+                    // Show a startup notification if it's taking a while.
+                    // TODO: Allow disabling tip.
+                    if (timer.IsRunning && timer.ElapsedMilliseconds > StartNotificationDelay)
+                    {
+                        trayIcon.BalloonTipText = strings.FreenetStarting;
+                        trayIcon.ShowBalloonTip(BalloonTipTimeout);
+                        timer.Stop();
+                    }
+                }
+                timer.Stop();
+
+                if (fproxyListening)
+                {
+                    Debug.WriteLine(string.Format("FProxy listening after {0}", timer.Elapsed));
+                    _browsers.Open(new Uri(String.Format("http://localhost:{0:d}", _node.FProxyPort)));
+                }
+            }));
         }
 
         private void startFreenetMenuItem_Click(object sender = null, EventArgs e = null)

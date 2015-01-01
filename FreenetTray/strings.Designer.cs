@@ -106,6 +106,15 @@ namespace FreenetTray {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Freenet is starting up..
+        /// </summary>
+        internal static string FreenetStarting {
+            get {
+                return ResourceManager.GetString("FreenetStarting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The path is too long. Please install Freenet to a folder with a shorter path..
         /// </summary>
         internal static string PathTooLong {
