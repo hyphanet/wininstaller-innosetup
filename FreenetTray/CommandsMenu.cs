@@ -256,6 +256,8 @@ namespace FreenetTray
                         exitMenuItem_Click();
                         break;
                     case "-welcome":
+                        trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipTitle = strings.FreenetStarting;
                         trayIcon.BalloonTipText = strings.WelcomeTip;
                         trayIcon.ShowBalloonTip(WelcomeTimeout);
                         openFreenetMenuItem_Click();
