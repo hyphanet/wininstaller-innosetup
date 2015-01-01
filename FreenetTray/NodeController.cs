@@ -48,7 +48,6 @@ namespace FreenetTray
         private const string WrapperConfFilename = "wrapper.conf";
 
         private readonly string AnchorFilename;
-        private readonly string PidFilename;
         public readonly string WrapperLogFilename;
         public readonly int FProxyPort;
 
@@ -62,7 +61,7 @@ namespace FreenetTray
              * it will use a default. It's not in the default wrapper.conf and is defined on
              * the command line in run.sh.
              */
-            PidFilename = "freenet.pid";
+            var pidFilename = "freenet.pid";
             // wrapper.conf is relative to the wrapper's location.
             var WrapperDir = Directory.GetParent(WrapperFilename);
             foreach (var line in File.ReadAllLines(WrapperDir.FullName + '\\' + WrapperConfFilename))
@@ -74,7 +73,7 @@ namespace FreenetTray
                 }
                 else if (Defines(line, "wrapper.pidfile"))
                 {
-                    PidFilename = Value(line);
+                    pidFilename = Value(line);
                 }
                 else if (Defines(line, "wrapper.anchorfile"))
                 {
@@ -96,7 +95,7 @@ namespace FreenetTray
             // Search for an existing wrapper process.
             try
             {
-                var reader = new StreamReader(PidFilename);
+                var reader = new StreamReader(pidFilename);
                 int pid = int.Parse(reader.ReadLine());
                 Wrapper_ = Process.GetProcessById(pid);
                 Wrapper_.EnableRaisingEvents = true;
@@ -108,7 +107,7 @@ namespace FreenetTray
                 // The wrapper can refuse to start if there is a stale PID file - "strict".
                 try
                 {
-                    File.Delete(PidFilename);
+                    File.Delete(pidFilename);
                 }
                 catch (IOException)
                 {
@@ -149,7 +148,7 @@ namespace FreenetTray
              */
             WrapperInfo.FileName = WrapperFilename;
             // TODO: Is it worthwhile to omit the pidfile here when it's in the config file?
-            WrapperInfo.Arguments = "-c " + WrapperConfFilename + " wrapper.pidfile=" + PidFilename;
+            WrapperInfo.Arguments = "-c " + WrapperConfFilename + " wrapper.pidfile=" + pidFilename;
             WrapperInfo.UseShellExecute = false;
             WrapperInfo.CreateNoWindow = true;
         }
