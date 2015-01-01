@@ -117,18 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="StartupCheckboxList.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="StartupCheckboxList.Items" xml:space="preserve">
     <value>Show tray icon when Windows starts</value>
   </data>
   <data name="StartupCheckboxList.Items1" xml:space="preserve">
     <value>Start Freenet when Windows starts</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StartupCheckboxList.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 29</value>
   </data>
   <data name="StartupCheckboxList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 30</value>
+    <value>260, 36</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="StartupCheckboxList.TabIndex" type="System.Int32, mscorlib">
@@ -149,11 +152,14 @@
   <data name="StartupLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="StartupLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="StartupLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 13</value>
   </data>
   <data name="StartupLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
+    <value>45, 15</value>
   </data>
   <data name="StartupLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -173,8 +179,11 @@
   <data name="&gt;&gt;StartupLabel.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="ApplyButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="ApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 109</value>
+    <value>197, 117</value>
   </data>
   <data name="ApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -197,8 +206,11 @@
   <data name="&gt;&gt;ApplyButton.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="ClosePerefencesButton.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="ClosePerefencesButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 109</value>
+    <value>12, 117</value>
   </data>
   <data name="ClosePerefencesButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -221,11 +233,14 @@
   <data name="&gt;&gt;ClosePerefencesButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="BrowserChoice.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="BrowserChoice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 82</value>
+    <value>12, 88</value>
   </data>
   <data name="BrowserChoice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 21</value>
+    <value>121, 23</value>
   </data>
   <data name="BrowserChoice.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -245,11 +260,14 @@
   <data name="BrowserLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="BrowserLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="BrowserLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 66</value>
+    <value>13, 72</value>
   </data>
   <data name="BrowserLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 13</value>
+    <value>49, 15</value>
   </data>
   <data name="BrowserLabel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -276,7 +294,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>284, 140</value>
+    <value>284, 148</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -866,10 +884,6 @@
         AB+AAAB/8AAA//4AAP/+AAD/+AAAf/gAAH/8APz//gB////gP///+B////wP///+D////4//////////
         //////////////////8=
 </value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Preferences</value>

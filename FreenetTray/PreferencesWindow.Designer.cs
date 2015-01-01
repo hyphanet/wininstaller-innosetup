@@ -42,11 +42,11 @@
             this.StartupCheckboxList.BackColor = System.Drawing.SystemColors.Window;
             this.StartupCheckboxList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.StartupCheckboxList.CheckOnClick = true;
+            resources.ApplyResources(this.StartupCheckboxList, "StartupCheckboxList");
             this.StartupCheckboxList.FormattingEnabled = true;
             this.StartupCheckboxList.Items.AddRange(new object[] {
             resources.GetString("StartupCheckboxList.Items"),
             resources.GetString("StartupCheckboxList.Items1")});
-            resources.ApplyResources(this.StartupCheckboxList, "StartupCheckboxList");
             this.StartupCheckboxList.Name = "StartupCheckboxList";
             // 
             // StartupLabel
@@ -71,8 +71,8 @@
             // 
             // BrowserChoice
             // 
-            this.BrowserChoice.FormattingEnabled = true;
             resources.ApplyResources(this.BrowserChoice, "BrowserChoice");
+            this.BrowserChoice.FormattingEnabled = true;
             this.BrowserChoice.Name = "BrowserChoice";
             // 
             // BrowserLabel

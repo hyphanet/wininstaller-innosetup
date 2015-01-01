@@ -211,13 +211,13 @@ namespace FreenetTray
                         /*
                          * TODO: Update something to allow displaying this - it was moved from
                          * a Form, where MessageBox could be used directly. It has more details
-                         * than just a code.
+                         * than just a code - different event handler would work. OnUnknownLaunchError?
                          */
-#if 0
+/*
                         MessageBox.Show(String.Format(strings.UnknownWrapperLaunchErrorBody, ex.Message, ex.NativeErrorCode),
                                         strings.UnknownWrapperLaunchErrorTitle,
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-#endif
+*/
                         return;
                 }
             }

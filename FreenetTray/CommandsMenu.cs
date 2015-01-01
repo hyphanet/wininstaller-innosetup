@@ -64,8 +64,7 @@ namespace FreenetTray
 
             node.OnStarted += NodeStarted;
             node.OnStopped += NodeStopped;
-            // TODO: Different, more informative handlers for these
-            node.OnCrashed += NodeStopped;
+            node.OnCrashed += NodeCrashed;
             node.OnStartFailed += NodeStartFailed;
 
             InitializeComponent();
@@ -90,10 +89,6 @@ namespace FreenetTray
              */
             foreach (var arg in Environment.GetCommandLineArgs())
             {
-                /*
-                 * TODO: Is it preferable to have more clearly-named functions that the event handlers
-                 * thinly wrap, or call the event handlers with null arguments?
-                 */
                 if (arg == "-open")
                 {
                     openFreenetMenuItem_Click(null, null);
@@ -135,6 +130,34 @@ namespace FreenetTray
             RefreshMenu(false);
         }
 
+        private void NodeCrashed(object sender, EventArgs e)
+        {
+            RefreshMenu(false);
+
+            var dialog = new CrashDialog();
+            dialog.ShowDialog();
+
+            switch (dialog.Selection)
+            {
+                case CrashDialog.CrashOption.ViewLog:
+                    viewLogsMenuItem_Click();
+                    break;
+                case CrashDialog.CrashOption.OpenChat:
+                    browsers.Open(new Uri("https://freenetproject.org/irc.html"));
+                    break;
+                case CrashDialog.CrashOption.OpenMailingList:
+                    browsers.Open(new Uri("https://emu.freenetproject.org/cgi-bin/mailman/listinfo/support/"));
+                    break;
+                case CrashDialog.CrashOption.Restart:
+                    startFreenetMenuItem_Click();
+                    break;
+                case CrashDialog.CrashOption.Close:
+                    break;
+            }
+
+            dialog.Dispose();
+        }
+
         private void RefreshMenu(bool running)
         {
             startFreenetMenuItem.Enabled = !running;
@@ -150,13 +173,13 @@ namespace FreenetTray
             }
         }
 
-        private void NodeStartFailed(FreenetTray.NodeController.StartFailureType type)
+        private void NodeStartFailed(NodeController.StartFailureType type)
         {
             // TODO: More informative action.
             RefreshMenu(false);
         }
 
-        private void openFreenetMenuItem_Click(object sender, EventArgs e)
+        private void openFreenetMenuItem_Click(object sender = null, EventArgs e = null)
         {
             Start();
             /*
@@ -170,7 +193,7 @@ namespace FreenetTray
             browsers.Open(new Uri(String.Format("http://localhost:{0:d}", node.FProxyPort)));
         }
 
-        private void startFreenetMenuItem_Click(object sender, EventArgs e)
+        private void startFreenetMenuItem_Click(object sender = null, EventArgs e = null)
         {
             Start();
         }
@@ -180,7 +203,7 @@ namespace FreenetTray
             BeginInvoke(new Action(node.Start));
         }
 
-        private void stopFreenetMenuItem_Click(object sender, EventArgs e)
+        private void stopFreenetMenuItem_Click(object sender = null, EventArgs e = null)
         {
             Stop();
         }
@@ -190,23 +213,23 @@ namespace FreenetTray
             BeginInvoke(new Action(node.Stop));
         }
 
-        private void viewLogsMenuItem_Click(object sender, EventArgs e)
+        private void viewLogsMenuItem_Click(object sender = null, EventArgs e = null)
         {
             Process.Start("notepad.exe", node.WrapperLogFilename);
         }
 
-        private void preferencesMenuItem_Click(object sender, EventArgs e)
+        private void preferencesMenuItem_Click(object sender = null, EventArgs e = null)
         {
             new PreferencesWindow(browsers.GetAvailableBrowsers()).Show();
         }
 
-        private void hideIconMenuItem_Click(object sender, EventArgs e)
+        private void hideIconMenuItem_Click(object sender = null, EventArgs e = null)
         {
             // The node will continue running.
             Application.Exit();
         }
 
-        private void exitMenuItem_Click(object sender, EventArgs e)
+        private void exitMenuItem_Click(object sender = null, EventArgs e = null)
         {
             Stop();
             Application.Exit();

@@ -46,13 +46,12 @@
             // 
             // trayIcon
             // 
-            resources.ApplyResources(this.trayIcon, "trayIcon");
             this.trayIcon.ContextMenuStrip = this.contextMenu;
+            resources.ApplyResources(this.trayIcon, "trayIcon");
             this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
             // 
             // contextMenu
             // 
-            resources.ApplyResources(this.contextMenu, "contextMenu");
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFreenetMenuItem,
             this.toolStripSeparator2,
@@ -64,6 +63,7 @@
             this.hideIconMenuItem,
             this.exitMenuItem});
             this.contextMenu.Name = "contextMenu";
+            resources.ApplyResources(this.contextMenu, "contextMenu");
             // 
             // openFreenetMenuItem
             // 
@@ -73,48 +73,48 @@
             // 
             // toolStripSeparator2
             // 
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // startFreenetMenuItem
             // 
-            resources.ApplyResources(this.startFreenetMenuItem, "startFreenetMenuItem");
             this.startFreenetMenuItem.Name = "startFreenetMenuItem";
+            resources.ApplyResources(this.startFreenetMenuItem, "startFreenetMenuItem");
             this.startFreenetMenuItem.Click += new System.EventHandler(this.startFreenetMenuItem_Click);
             // 
             // stopFreenetMenuItem
             // 
-            resources.ApplyResources(this.stopFreenetMenuItem, "stopFreenetMenuItem");
             this.stopFreenetMenuItem.Name = "stopFreenetMenuItem";
+            resources.ApplyResources(this.stopFreenetMenuItem, "stopFreenetMenuItem");
             this.stopFreenetMenuItem.Click += new System.EventHandler(this.stopFreenetMenuItem_Click);
             // 
             // viewLogsMenuItem
             // 
-            resources.ApplyResources(this.viewLogsMenuItem, "viewLogsMenuItem");
             this.viewLogsMenuItem.Name = "viewLogsMenuItem";
+            resources.ApplyResources(this.viewLogsMenuItem, "viewLogsMenuItem");
             this.viewLogsMenuItem.Click += new System.EventHandler(this.viewLogsMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // preferencesMenuItem
             // 
-            resources.ApplyResources(this.preferencesMenuItem, "preferencesMenuItem");
             this.preferencesMenuItem.Name = "preferencesMenuItem";
+            resources.ApplyResources(this.preferencesMenuItem, "preferencesMenuItem");
             this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
             // 
             // hideIconMenuItem
             // 
-            resources.ApplyResources(this.hideIconMenuItem, "hideIconMenuItem");
             this.hideIconMenuItem.Name = "hideIconMenuItem";
+            resources.ApplyResources(this.hideIconMenuItem, "hideIconMenuItem");
             this.hideIconMenuItem.Click += new System.EventHandler(this.hideIconMenuItem_Click);
             // 
             // exitMenuItem
             // 
-            resources.ApplyResources(this.exitMenuItem, "exitMenuItem");
             this.exitMenuItem.Name = "exitMenuItem";
+            resources.ApplyResources(this.exitMenuItem, "exitMenuItem");
             this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
             // CommandsMenu
