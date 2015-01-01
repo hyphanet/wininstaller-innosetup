@@ -121,6 +121,7 @@ namespace FreenetTray
                  * TODO: Programatic way to get loopback address? This would not support IPv6.
                  * Use FProxy bind interface?
                  */
+                var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 var loopback = new IPAddress(new byte[] {127, 0, 0, 1});
                 var fproxyListening = false;
                 var timer = new Stopwatch();
@@ -128,7 +129,6 @@ namespace FreenetTray
                 timer.Start();
                 while (_node.IsRunning())
                 {
-                    var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     try
                     {
                         sock.Connect(loopback, _node.FProxyPort);
