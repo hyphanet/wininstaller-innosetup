@@ -79,7 +79,6 @@ namespace FreenetTray.Browsers
 
         private string GetCurrentVersion()
         {
-            // TODO: Pass which one worked to the bin finder?
             return FirefoxKeys
                 .Select(key => Registry.GetValue(key, "CurrentVersion", null))
                 .Where(CurrentVersion => CurrentVersion != null)
@@ -88,8 +87,6 @@ namespace FreenetTray.Browsers
 
         private string GetPath()
         {
-            string version = GetCurrentVersion();
-
             if (version == null)
             {
                 return null;
