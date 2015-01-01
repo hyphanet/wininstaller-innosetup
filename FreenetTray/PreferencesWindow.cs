@@ -21,6 +21,8 @@ namespace FreenetTray
                                                Properties.Settings.Default.StartIcon);
             StartupCheckboxList.SetItemChecked(StartFreenetIndex,
                                                Properties.Settings.Default.StartFreenet);
+
+            // TODO: Localize?
             BrowserChoice.Items.Add(BrowserUtil.Auto);
             foreach (var browser in availableBrowsers)
             {

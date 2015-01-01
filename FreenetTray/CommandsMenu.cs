@@ -114,17 +114,13 @@ namespace FreenetTray
         private void openFreenetMenuItem_Click(object sender = null, EventArgs e = null)
         {
             Start();
-            /*
-             * TODO: Check that FProxy is listening first? The browser should wait before timing out
-             * so there's some time for startup, but the error message the browser gives doesn't make
-             * it clear what's going on.
-             *
-             * Maybe open the browser first and then if there's nothing on the port after a timeout say
-             * something about how Freenet isn't responding.
-             */
+
             BeginInvoke(new Action(() =>
             {
-                // TODO: Programatic way to do this?
+                /*
+                 * TODO: Programatic way to get loopback address? This would not support IPv6.
+                 * Use FProxy bind interface?
+                 */
                 var loopback = new IPAddress(new byte[] {127, 0, 0, 1});
                 var fproxyListening = false;
                 var timer = new Stopwatch();

@@ -23,11 +23,12 @@ namespace FreenetTray.Browsers
     public class BrowserUtil
     {
         private readonly Dictionary<string, IBrowser> _browsers;
-        // Autodetect setting string. TODO: Localize?
+        // Autodetect configuration name.
         public const string Auto = "Auto";
 
         public BrowserUtil()
         {
+            // Browsers keyed by configuration name.
             _browsers = new Dictionary<string, IBrowser> {
                          {"Chrome", new Chrome()},
                          {"Firefox", new Firefox()},
