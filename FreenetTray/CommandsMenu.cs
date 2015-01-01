@@ -144,8 +144,8 @@ namespace FreenetTray
                     }
 
                     // Show a startup notification if it's taking a while.
-                    // TODO: Allow disabling tip.
                     if (timer.IsRunning && timer.ElapsedMilliseconds > SlowOpenThreshold &&
+                        Settings.Default.ShowSlowOpenTip)
                     {
                         trayIcon.BalloonTipText = strings.FreenetStarting;
                         trayIcon.ShowBalloonTip(BalloonTipTimeout);

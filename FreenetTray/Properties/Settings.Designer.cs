@@ -58,5 +58,17 @@ namespace FreenetTray.Properties {
                 this["UseBrowser"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowSlowOpenTip {
+            get {
+                return ((bool)(this["ShowSlowOpenTip"]));
+            }
+            set {
+                this["ShowSlowOpenTip"] = value;
+            }
+        }
     }
 }

@@ -35,6 +35,8 @@ namespace FreenetTray
                 // TODO: User's preference not found. Worthy of a message box?
                 BrowserChoice.Text = BrowserUtil.Auto;
             }
+
+            SlowStartOption.Checked = Properties.Settings.Default.ShowSlowOpenTip;
         }
 
         private void Apply_Click(object sender, EventArgs e)
@@ -43,6 +45,8 @@ namespace FreenetTray
             Properties.Settings.Default.StartFreenet = StartupCheckboxList.GetItemChecked(StartFreenetIndex);
 
             Properties.Settings.Default.UseBrowser = (string)BrowserChoice.SelectedItem;
+
+            Properties.Settings.Default.ShowSlowOpenTip = SlowStartOption.Checked;
 
             Properties.Settings.Default.Save();
 

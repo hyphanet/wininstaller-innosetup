@@ -35,6 +35,8 @@
             this.ClosePerefencesButton = new System.Windows.Forms.Button();
             this.BrowserChoice = new System.Windows.Forms.ComboBox();
             this.BrowserLabel = new System.Windows.Forms.Label();
+            this.BehaviorLabel = new System.Windows.Forms.Label();
+            this.SlowStartOption = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // StartupCheckboxList
@@ -80,12 +82,25 @@
             resources.ApplyResources(this.BrowserLabel, "BrowserLabel");
             this.BrowserLabel.Name = "BrowserLabel";
             // 
+            // BehaviorLabel
+            // 
+            resources.ApplyResources(this.BehaviorLabel, "BehaviorLabel");
+            this.BehaviorLabel.Name = "BehaviorLabel";
+            // 
+            // SlowStartOption
+            // 
+            resources.ApplyResources(this.SlowStartOption, "SlowStartOption");
+            this.SlowStartOption.Name = "SlowStartOption";
+            this.SlowStartOption.UseVisualStyleBackColor = true;
+            // 
             // PreferencesWindow
             // 
             this.AcceptButton = this.ApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ClosePerefencesButton;
+            this.Controls.Add(this.SlowStartOption);
+            this.Controls.Add(this.BehaviorLabel);
             this.Controls.Add(this.BrowserLabel);
             this.Controls.Add(this.BrowserChoice);
             this.Controls.Add(this.ClosePerefencesButton);
@@ -109,5 +124,7 @@
         private System.Windows.Forms.Button ClosePerefencesButton;
         private System.Windows.Forms.ComboBox BrowserChoice;
         private System.Windows.Forms.Label BrowserLabel;
+        private System.Windows.Forms.Label BehaviorLabel;
+        private System.Windows.Forms.CheckBox SlowStartOption;
     }
 }
