@@ -62,6 +62,15 @@ namespace FreenetTray
 
         private void CommandsMenu_Load(object sender, EventArgs e)
         {
+            /*
+             * If the node could not be initialized the form will still load before displaying the error
+             * and exiting the application.
+             */
+            if (_node == null)
+            {
+                return;
+            }
+
             _node.OnStarted += NodeStarted;
             _node.OnStopped += NodeStopped;
             _node.OnCrashed += NodeCrashed;
