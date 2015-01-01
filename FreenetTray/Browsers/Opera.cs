@@ -12,6 +12,10 @@ namespace FreenetTray.Browsers
 
         public Opera()
         {
+            /*
+             * TODO: Opera 26 adds launcher.exe and does not support -newprivatetab. Documentation
+             * on what it supports in its place, if anything, has not been forthcoming.
+             */
             // Key present with Opera 21.
             var possiblePath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Opera Software", "Last Stable Install Path", null) + "opera.exe";
             _isInstalled = File.Exists(possiblePath);
