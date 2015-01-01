@@ -21,7 +21,7 @@ namespace FreenetTray.Browsers
         bool IsAvailable();
     }
 
-    class BrowserUtil
+    public class BrowserUtil
     {
         private readonly Dictionary<string, Browser> browsers;
         // Autodetect setting string. TODO: Localize?

@@ -133,29 +133,7 @@ namespace FreenetTray
         private void NodeCrashed(object sender, EventArgs e)
         {
             RefreshMenu(false);
-
-            var dialog = new CrashDialog();
-            dialog.ShowDialog();
-
-            switch (dialog.Selection)
-            {
-                case CrashDialog.CrashOption.ViewLog:
-                    viewLogsMenuItem_Click();
-                    break;
-                case CrashDialog.CrashOption.OpenChat:
-                    browsers.Open(new Uri("https://freenetproject.org/irc.html"));
-                    break;
-                case CrashDialog.CrashOption.OpenMailingList:
-                    browsers.Open(new Uri("https://emu.freenetproject.org/cgi-bin/mailman/listinfo/support/"));
-                    break;
-                case CrashDialog.CrashOption.Restart:
-                    startFreenetMenuItem_Click();
-                    break;
-                case CrashDialog.CrashOption.Close:
-                    break;
-            }
-
-            dialog.Dispose();
+            BeginInvoke(new Action(new CrashDialog(browsers, Start, viewLogs).Show));
         }
 
         private void RefreshMenu(bool running)
@@ -214,6 +192,11 @@ namespace FreenetTray
         }
 
         private void viewLogsMenuItem_Click(object sender = null, EventArgs e = null)
+        {
+            viewLogs();
+        }
+
+        private void viewLogs()
         {
             Process.Start("notepad.exe", node.WrapperLogFilename);
         }
