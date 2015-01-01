@@ -81,33 +81,29 @@ namespace FreenetTray
              */
             foreach (var arg in Environment.GetCommandLineArgs())
             {
-                if (arg == "-open")
+                switch (arg)
                 {
-                    openFreenetMenuItem_Click();
-                }
-                else if (arg == "-start")
-                {
-                    startFreenetMenuItem_Click();
-                }
-                else if (arg == "-stop")
-                {
-                    stopFreenetMenuItem_Click();
-                }
-                else if (arg == "-logs")
-                {
-                    viewLogsMenuItem_Click();
-                }
-                else if (arg == "-preferences")
-                {
-                    preferencesMenuItem_Click();
-                }
-                else if (arg == "-hide")
-                {
-                    hideIconMenuItem_Click();
-                }
-                else if (arg == "-exit")
-                {
-                    exitMenuItem_Click();
+                    case "-open":
+                        openFreenetMenuItem_Click();
+                        break;
+                    case "-start":
+                        startFreenetMenuItem_Click();
+                        break;
+                    case "-stop":
+                        stopFreenetMenuItem_Click();
+                        break;
+                    case "-logs":
+                        viewLogsMenuItem_Click();
+                        break;
+                    case "-preferences":
+                        preferencesMenuItem_Click();
+                        break;
+                    case "-hide":
+                        hideIconMenuItem_Click();
+                        break;
+                    case "-exit":
+                        exitMenuItem_Click();
+                        break;
                 }
             }
         }
