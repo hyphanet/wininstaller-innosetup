@@ -79,15 +79,7 @@ namespace FreenetTray.Browsers
 
         public string[] GetAvailableBrowsers()
         {
-            // TODO: Linq?
-            var available = new List<string>();
-            foreach (var element in browsers)
-            {
-                if (element.Value.IsAvailable()){
-                    available.Add(element.Key);
-                }
-            }
-            return available.ToArray();
+            return (from element in browsers where element.Value.IsAvailable() select element.Key).ToArray();
         }
     }
 }
