@@ -12,7 +12,7 @@ namespace FreenetTray.Browsers
          * Usual Google Chrome installation locations:
          * See https://code.google.com/p/selenium/source/browse/java/client/src/org/openqa/selenium/browserlaunchers/locators/GoogleChromeLocator.java#63
          */
-        private readonly string[] _locations = {
+        private static readonly string[] Locations = {
                                                  @"%LOCALAPPDATA%\Google\Chrome\Application",
                                                  @"%PROGRAMFILES%\Google\Chrome\Application",
                                                  @"%PROGRAMFILES(X86)%\Google\Chrome\Application",
@@ -23,7 +23,7 @@ namespace FreenetTray.Browsers
 
         public Chrome()
         {
-            _path = _locations
+            _path = Locations
                 .Select(location => Environment.ExpandEnvironmentVariables(location) + @"\chrome.exe")
                 .Where(File.Exists)
                 .FirstOrDefault();

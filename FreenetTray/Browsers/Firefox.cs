@@ -12,7 +12,7 @@ namespace FreenetTray.Browsers
          * is out of date as of this writing - it uses "Mozilla Firefox" instead of "Firefox".
          * Earlier versions use HKEY_LOCAL_MACHINE but current ones use HKEY_CURRENT_USER.
          */
-        readonly string[] _registryKeys = {
+        private static readonly string[] RegistryKeys = {
                                             @"HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\Mozilla Firefox",
                                             @"HKEY_CURRENT_USER\SOFTWARE\Mozilla\Mozilla Firefox",
                                           };
@@ -24,7 +24,7 @@ namespace FreenetTray.Browsers
         public Firefox()
         {
             _version = GetVersion();
-            _path = GetPath();
+            _path = GetPath(_version);
             _isInstalled = _version != null && _path != null;
         }
 
@@ -50,7 +50,7 @@ namespace FreenetTray.Browsers
         }
 
         // Return null if the version cannot be determined.
-        private Version GetVersion()
+        private static Version GetVersion()
         {
             var currentVersion = GetCurrentVersion();
             // TODO: Version.TryParse(), added in .NET 4, could make this the only null return.
@@ -77,23 +77,23 @@ namespace FreenetTray.Browsers
             return null;
         }
 
-        private string GetCurrentVersion()
+        private static string GetCurrentVersion()
         {
-            return _registryKeys
+            return RegistryKeys
                 .Select(key => Registry.GetValue(key, "CurrentVersion", null))
                 .Where(currentVersion => currentVersion != null)
                 .Cast<string>().FirstOrDefault();
         }
 
-        private string GetPath()
+        private static string GetPath(Version version)
         {
-            if (_version == null)
+            if (version == null)
             {
                 return null;
             }
 
-            return _registryKeys
-                .Select(key => Registry.GetValue(key + '\\' + _version + @"\Main", "PathToExe", null))
+            return RegistryKeys
+                .Select(key => Registry.GetValue(key + '\\' + version + @"\Main", "PathToExe", null))
                 .Where(path => path != null)
                 .Cast<string>().FirstOrDefault();
         }
