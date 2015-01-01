@@ -106,7 +106,7 @@ namespace FreenetTray {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Freenet is starting up..
+        ///   Looks up a localized string similar to Freenet is starting..
         /// </summary>
         internal static string FreenetStarting {
             get {
