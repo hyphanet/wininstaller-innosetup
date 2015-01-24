@@ -77,6 +77,7 @@ namespace FreenetTray
              */
             if (_node == null)
             {
+                Application.Exit();
                 return;
             }
 
