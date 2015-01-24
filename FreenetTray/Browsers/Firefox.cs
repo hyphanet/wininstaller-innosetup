@@ -59,6 +59,11 @@ namespace FreenetTray.Browsers
             return _isInstalled && _version >= new Version(20, 0);
         }
 
+        public string GetName()
+        {
+            return "Firefox";
+        }
+
         // Return null if the version cannot be determined.
         private static Version GetVersion(string currentVersion)
         {

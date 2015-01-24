@@ -18,39 +18,37 @@ namespace FreenetTray.Browsers
          * Return false otherwise.
          */
         bool IsAvailable();
+
+        string GetName();
     }
 
-    public class BrowserUtil
+    public static class BrowserUtil
     {
         // Autodetect configuration name.
         public const string Auto = "Auto";
 
-        private readonly Dictionary<string, IBrowser> _browsers;
+        private static readonly IBrowser[] Browsers = {
+            new Chrome(),
+            new Firefox(),
+            new InternetExplorer(),
+            new Opera(),
+        };
 
-        public BrowserUtil()
-        {
-            // Browsers keyed by configuration name.
-            _browsers = new Dictionary<string, IBrowser> {
-                         {"Chrome", new Chrome()},
-                         {"Firefox", new Firefox()},
-                         {"Opera", new Opera()},
-                         {"Internet Explorer", new InternetExplorer()},
-                       };
-        }
-
-        public void Open(Uri target)
+        public static void Open(Uri target)
         {
             // For first run setup purposes FProxy should know whether it's opened in private browsing mode.
             var privateTarget = new Uri(target, "?incognito=true");
 
             if (Properties.Settings.Default.UseBrowser != Auto)
             {
-                if (!_browsers.ContainsKey(Properties.Settings.Default.UseBrowser))
-                {
-                    // TODO: Malformed settings error message.
-                    return;
-                }
-                if (_browsers[Properties.Settings.Default.UseBrowser].Open(privateTarget))
+                var selectedBrowser = (from browser in Browsers
+                    where browser.GetName() == Properties.Settings.Default.UseBrowser &&
+                          browser.IsAvailable()
+                    select browser).FirstOrDefault();
+
+                // TODO: Malformed settings error message?
+
+                if (selectedBrowser != null && selectedBrowser.Open(privateTarget))
                 {
                     return;
                 }
@@ -66,18 +64,21 @@ namespace FreenetTray.Browsers
              * 
              * See https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_table
              */
-            if (_browsers.Values.Any(browser => browser.Open(privateTarget)))
+            foreach (var browser in Browsers.Where(b => b.IsAvailable()))
             {
-                return;
+                if (browser.Open(privateTarget))
+                {
+                    return;
+                }
             }
 
             // System URL call
             Process.Start(target.ToString());
         }
 
-        public IEnumerable<string> GetAvailableBrowsers()
+        public static IEnumerable<string> GetAvailableBrowsers()
         {
-            return from element in _browsers where element.Value.IsAvailable() select element.Key;
+            return from element in Browsers where element.IsAvailable() select element.GetName();
         }
     }
 }

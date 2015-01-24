@@ -37,5 +37,10 @@ namespace FreenetTray.Browsers
             // See https://en.wikipedia.org/wiki/Internet_Explorer_8#InPrivate
             return _isInstalled && _version >= new Version(8, 0);
         }
+
+        public string GetName()
+        {
+            return "Internet Explorer";
+        }
     }
 }

@@ -7,16 +7,13 @@ namespace FreenetTray
 {
     public partial class CrashDialog : Form
     {
-        private readonly BrowserUtil _browser;
         private readonly Action _nodeStarter;
         private readonly Action _logOpener;
         private readonly NodeController.CrashType _crashType;
 
-        public CrashDialog(NodeController.CrashType crashType, BrowserUtil browser, Action nodeStarter,
-            Action logOpener)
+        public CrashDialog(NodeController.CrashType crashType, Action nodeStarter, Action logOpener)
         {
             InitializeComponent();
-            _browser = browser;
             _nodeStarter = nodeStarter;
             _logOpener = logOpener;
             _crashType = crashType;
@@ -50,12 +47,12 @@ namespace FreenetTray
 
         private void SupportChatButton_Click(object sender, EventArgs e)
         {
-            _browser.Open(new Uri("https://freenetproject.org/irc.html"));
+            BrowserUtil.Open(new Uri("https://freenetproject.org/irc.html"));
         }
 
         private void MailingListButton_Click(object sender, EventArgs e)
         {
-            _browser.Open(new Uri("https://emu.freenetproject.org/cgi-bin/mailman/listinfo/support/"));
+            BrowserUtil.Open(new Uri("https://emu.freenetproject.org/cgi-bin/mailman/listinfo/support/"));
         }
 
         private void RestartButton_Click(object sender, EventArgs e)

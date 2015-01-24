@@ -40,5 +40,10 @@ namespace FreenetTray.Browsers
         {
             return _isInstalled;
         }
+
+        public string GetName()
+        {
+            return "Opera";
+        }
     }
 }

@@ -24,7 +24,6 @@ namespace FreenetTray
         private const int SlowOpenTimeout = 5000;
         private const int WelcomeTimeout = 10000;
 
-        private readonly BrowserUtil _browsers;
         private readonly NodeController _node;
 
         public CommandsMenu()
@@ -58,21 +57,16 @@ namespace FreenetTray
             catch (FileNotFoundException e)
             {
                 MissingFileExit(e.FileName);
-                return;
             }
             catch (DirectoryNotFoundException e)
             {
                 // TODO: More appropriate message - how to display?
                 MissingFileExit(e.Message);
-                return;
             }
             catch (NodeController.MissingConfigValueException e)
             {
                 MissingConfigExit(e.Filename, e.Value);
-                return;
             }
-
-            _browsers = new BrowserUtil();
         }
 
         private void CommandsMenu_Load(object sender, EventArgs e)
@@ -109,7 +103,7 @@ namespace FreenetTray
         private void NodeCrashed(NodeController.CrashType crashType)
         {
             RefreshMenu(false);
-            BeginInvoke(new Action(new CrashDialog(crashType, _browsers, Start, ViewLogs).Show));
+            BeginInvoke(new Action(new CrashDialog(crashType, Start, ViewLogs).Show));
         }
 
         private void openFreenetMenuItem_Click(object sender = null, EventArgs e = null)
@@ -158,7 +152,7 @@ namespace FreenetTray
                 if (fproxyListening)
                 {
                     Debug.WriteLine(string.Format("FProxy listening after {0}", timer.Elapsed));
-                    _browsers.Open(new Uri(String.Format("http://localhost:{0:d}", _node.FProxyPort)));
+                    BrowserUtil.Open(new Uri(String.Format("http://localhost:{0:d}", _node.FProxyPort)));
                 }
             }));
         }
@@ -180,7 +174,7 @@ namespace FreenetTray
 
         private void preferencesMenuItem_Click(object sender = null, EventArgs e = null)
         {
-            new PreferencesWindow(_browsers.GetAvailableBrowsers()).Show();
+            new PreferencesWindow(BrowserUtil.GetAvailableBrowsers()).Show();
         }
 
         private void hideIconMenuItem_Click(object sender = null, EventArgs e = null)
