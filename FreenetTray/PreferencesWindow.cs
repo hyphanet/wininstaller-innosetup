@@ -3,6 +3,8 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using NLog;
+using NLog.Config;
 
 namespace FreenetTray
 {
@@ -50,10 +52,14 @@ namespace FreenetTray
 
             Properties.Settings.Default.ShowSlowOpenTip = SlowStartOption.Checked;
 
-            // TODO: Apply this without a restart. Seems difficult with NLog.
             Properties.Settings.Default.LogLevel = LogLevelChoice.Text;
 
             Properties.Settings.Default.Save();
+
+            foreach (var rule in LogManager.Configuration.LoggingRules)
+            {
+                ChangeRuleMinLevel(rule, LogLevel.FromString(LogLevelChoice.Text));
+            }
 
             if (Properties.Settings.Default.StartIcon)
             {
@@ -96,6 +102,24 @@ namespace FreenetTray
                     key.SetValue(RegistryStartupName, '"' + Application.ExecutablePath + "\" " + arguments);
                 }
             }
+        }
+
+        private static void ChangeRuleMinLevel(LoggingRule rule, LogLevel minLevel)
+        {
+            /*
+             * Based on how the LoggingLevel initializes its logging levels when given a minLevel,
+             * but because LogLevel.MinLevel and LogLevel.MaxLevel are not publically accessible,
+             * their current values are hardcoded. TODO: This is fragile!
+             */
+            for (var i = LogLevel.Trace.Ordinal; i < minLevel.Ordinal; i++)
+            {
+                rule.DisableLoggingForLevel(LogLevel.FromOrdinal(i));
+            }
+            for (var i = minLevel.Ordinal; i <= LogLevel.Fatal.Ordinal; i++)
+            {
+                rule.EnableLoggingForLevel(LogLevel.FromOrdinal(i));
+            }
+            LogManager.ReconfigExistingLoggers();
         }
     }
 }
