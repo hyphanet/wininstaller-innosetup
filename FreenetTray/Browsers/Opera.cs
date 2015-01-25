@@ -31,9 +31,10 @@ namespace FreenetTray.Browsers
             {
                 return false;
             }
-                // See http://www.opera.com/docs/switches
-                Process.Start(_path, "-newprivatetab " + target);
-                return true;
+
+            // See http://www.opera.com/docs/switches
+            Process.Start(_path, "-newprivatetab " + target);
+            return true;
         }
 
         public bool IsAvailable()

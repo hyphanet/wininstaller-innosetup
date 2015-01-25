@@ -37,9 +37,10 @@ namespace FreenetTray.Browsers
             {
                 return false;
             }
-                // See http://peter.sh/experiments/chromium-command-line-switches/
-                Process.Start(_path, "--incognito " + target);
-                return true;
+
+            // See http://peter.sh/experiments/chromium-command-line-switches/
+            Process.Start(_path, "--incognito " + target);
+            return true;
         }
 
         public bool IsAvailable()

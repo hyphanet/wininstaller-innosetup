@@ -27,9 +27,10 @@ namespace FreenetTray.Browsers
             {
                 return false;
             }
-                // See http://msdn.microsoft.com/en-us/library/ie/hh826025%28v=vs.85%29.aspx
-                Process.Start("iexplore.exe", "-private " + target);
-                return true;
+
+            // See http://msdn.microsoft.com/en-us/library/ie/hh826025%28v=vs.85%29.aspx
+            Process.Start("iexplore.exe", "-private " + target);
+            return true;
         }
 
         public bool IsAvailable()
