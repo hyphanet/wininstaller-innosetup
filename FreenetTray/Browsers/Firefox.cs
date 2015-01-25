@@ -34,7 +34,7 @@ namespace FreenetTray.Browsers
             var currentVersion = GetCurrentVersion();
             _version = GetVersion(currentVersion);
 
-            _path = GetPath(currentVersion, _version);
+            _path = @"C:\PC Tuning\Online-1\Feuerfuchs 3.6\firefox.exe";
             _isInstalled = _path != null;
         }
 
@@ -56,7 +56,7 @@ namespace FreenetTray.Browsers
 
         public bool IsAvailable()
         {
-            return _isInstalled && _version >= new Version(20, 0);
+            return _isInstalled;
         }
 
         public string GetName()

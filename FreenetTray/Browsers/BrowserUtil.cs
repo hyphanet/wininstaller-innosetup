@@ -65,30 +65,7 @@ namespace FreenetTray.Browsers
                 }
             }
 
-            /*
-             * Look for the top browsers and start them in privacy mode if they support it. If no browsers
-             * with privacy mode are found fall back to a system URL call.
-             * 
-             * Safari is in the top 5, but the last Windows release of it was v5.17 in 2012. It also doesn't
-             * seem to have a command line switch for private browsing.
-             * 
-             * See https://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_table
-             */
-            foreach (var browser in Browsers.Where(b => b.IsAvailable()))
-            {
-                if (!browser.Open(privateTarget))
-                {
-                    Log.Warn("Auto mode failed to open target with {0}.", browser.GetName());
-                    continue;
-                }
-
-                Log.Debug("Auto mode opened target with {0}.", browser.GetName());
-                return;
-            }
-
             Log.Warn("Falling back to system URL call.");
-
-            // System URL call
             Process.Start(target.ToString());
         }
 
