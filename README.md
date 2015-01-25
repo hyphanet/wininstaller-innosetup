@@ -1,12 +1,9 @@
-﻿Alternative installer for Freenet using [Inno Setup](http://www.jrsoftware.org/isinfo.php) further to [Issue 5456#c9883](https://bugs.freenetproject.org/view.php?id=5456#c9883).
-
-See:
-
-* [Issue 5862](https://bugs.freenetproject.org/view.php?id=5862)
-* [Freenet wininstaller with InnoSetup (PoC)](https://github.com/freenet/wininstaller-staging/issues/12)
-
-Because this is Windows software it is okay for a file to not have an ending newline. If you edit
+﻿Because this is Windows software it is okay for a file to not have an ending newline. If you edit
 such a file please keep it that way.
+
+So that they can be uploaded to Transifex there are two encodings of the
+localization files. UTF8 as required by Transifex, and usually-ANSI, as required
+by InnoSetup.
 
 --
 ## How to build
