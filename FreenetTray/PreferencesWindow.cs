@@ -37,6 +37,8 @@ namespace FreenetTray
             }
 
             SlowStartOption.Checked = Properties.Settings.Default.ShowSlowOpenTip;
+
+            LogLevelChoice.Text = Properties.Settings.Default.LogLevel;
         }
 
         private void Apply_Click(object sender, EventArgs e)
@@ -47,6 +49,9 @@ namespace FreenetTray
             Properties.Settings.Default.UseBrowser = (string)BrowserChoice.SelectedItem;
 
             Properties.Settings.Default.ShowSlowOpenTip = SlowStartOption.Checked;
+
+            // TODO: Apply this without a restart. Seems difficult with NLog.
+            Properties.Settings.Default.LogLevel = LogLevelChoice.Text;
 
             Properties.Settings.Default.Save();
 

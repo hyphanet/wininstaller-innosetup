@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NLog;
 
 namespace FreenetTray.Browsers
 {
@@ -34,6 +35,8 @@ namespace FreenetTray.Browsers
             new Opera(),
         };
 
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public static void Open(Uri target)
         {
             // For first run setup purposes FProxy should know whether it's opened in private browsing mode.
@@ -46,13 +49,20 @@ namespace FreenetTray.Browsers
                           browser.IsAvailable()
                     select browser).FirstOrDefault();
 
-                // TODO: Malformed settings error message?
-
-                if (selectedBrowser != null && selectedBrowser.Open(privateTarget))
+                if (selectedBrowser == null)
                 {
+                    Log.Warn("Requested browser \"{0}\" is not available.",
+                             Properties.Settings.Default.UseBrowser);
+                }
+                else if (selectedBrowser.Open(privateTarget))
+                {
+                    Log.Debug("Opened target with {0}.", selectedBrowser.GetName());
                     return;
                 }
-                // TODO: Unable to open error message - also catch failure to execute within Open()?
+                else
+                {
+                    Log.Warn("Failed to open target with {0}.", selectedBrowser.GetName());
+                }
             }
 
             /*
@@ -66,11 +76,17 @@ namespace FreenetTray.Browsers
              */
             foreach (var browser in Browsers.Where(b => b.IsAvailable()))
             {
-                if (browser.Open(privateTarget))
+                if (!browser.Open(privateTarget))
                 {
-                    return;
+                    Log.Warn("Auto mode failed to open target with {0}.", browser.GetName());
+                    continue;
                 }
+
+                Log.Debug("Auto mode opened target with {0}.", browser.GetName());
+                return;
             }
+
+            Log.Warn("Falling back to system URL call.");
 
             // System URL call
             Process.Start(target.ToString());

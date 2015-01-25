@@ -7,6 +7,9 @@ using System.Threading;
 using System.Windows.Forms;
 using FreenetTray.Browsers;
 using FreenetTray.Properties;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 namespace FreenetTray
 {
@@ -24,11 +27,22 @@ namespace FreenetTray
         private const int SlowOpenTimeout = 5000;
         private const int WelcomeTimeout = 10000;
 
+        public const string logTargetName = "logFile";
+
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         private readonly NodeController _node;
 
         public CommandsMenu()
         {
             InitializeComponent();
+
+            var config = new LoggingConfiguration();
+            var target = new FileTarget {FileName = "${basedir}/FreenetTray.log"};
+            config.AddTarget(logTargetName, target);
+            var rule = new LoggingRule("*", LogLevel.FromString(Settings.Default.LogLevel), target);
+            config.LoggingRules.Add(rule);
+            LogManager.Configuration = config;
 
             // TODO: This isn't called in the event of sudden termination. Maybe that's expected.
             FormClosed += (sender, e) => trayIcon.Visible = false;
@@ -134,8 +148,8 @@ namespace FreenetTray
                     }
                     catch (SocketException ex)
                     {
-                        Debug.WriteLine("Connecting got error: " +
-                            Enum.GetName(typeof(SocketError), ex.SocketErrorCode));
+                        Log.Debug("Connecting got error: {0}",
+                                  Enum.GetName(typeof(SocketError), ex.SocketErrorCode));
                         Thread.Sleep(SocketPollInterval);
                     }
 
@@ -152,7 +166,7 @@ namespace FreenetTray
 
                 if (fproxyListening)
                 {
-                    Debug.WriteLine(string.Format("FProxy listening after {0}", timer.Elapsed));
+                    Log.Debug("FProxy listening after {0}", timer.Elapsed);
                     BrowserUtil.Open(new Uri(String.Format("http://localhost:{0:d}", _node.FProxyPort)));
                 }
             }));

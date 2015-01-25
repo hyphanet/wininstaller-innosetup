@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using NLog;
 
 namespace FreenetTray
 {
@@ -33,6 +34,8 @@ namespace FreenetTray
         private const int ERROR_FILE_NOT_FOUND = 0x2;
         private const int ERROR_INSUFFICIENT_BUFFER = 0x7A;
         private const int ERROR_ACCESS_DENIED = 0x5;
+
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public delegate void CrashHandler(CrashType type);
 
@@ -110,7 +113,7 @@ namespace FreenetTray
             }
             catch (ArgumentException)
             {
-                Debug.WriteLine("No process has the PID in the PID file.");
+                Log.Debug("No process has the PID in the PID file.");
                 // The wrapper can refuse to start if there is a stale PID file - "strict".
                 try
                 {
@@ -118,20 +121,20 @@ namespace FreenetTray
                 }
                 catch (IOException)
                 {
-                    Debug.WriteLine("Stale PID file is still held.");
+                    Log.Debug("Stale PID file is still held.");
                 }
             }
             catch (FormatException)
             {
-                Debug.WriteLine("PID file does not contain an integer.");
+                Log.Debug("PID file does not contain an integer.");
             }
             catch (OverflowException)
             {
-                Debug.WriteLine("PID file does not contain an integer.");
+                Log.Debug("PID file does not contain an integer.");
             }
             catch (FileNotFoundException)
             {
-                Debug.WriteLine("PID file not found.");
+                Log.Debug("PID file not found.");
             }
 
             // Read Freenet config: FProxy port TODO: Use ini-parser instead
@@ -141,6 +144,7 @@ namespace FreenetTray
                 var isValid = int.TryParse(Value(line), out FProxyPort);
                 if (!isValid)
                 {
+                    Log.Error("freenet.ini does not define fproxy.port.");
                     throw new MissingConfigValueException(FreenetIniFilename, "fproxy.port");
                 }
                 break;
@@ -183,14 +187,17 @@ namespace FreenetTray
                 switch (ex.NativeErrorCode)
                 {
                     case ERROR_FILE_NOT_FOUND:
+                        Log.Error("Cannot start Freenet: wrapper executable not found.");
                         OnCrashed(CrashType.WrapperFileNotFound);
                         return;
                     case ERROR_INSUFFICIENT_BUFFER:
                     case ERROR_ACCESS_DENIED:
+                        Log.Error("Cannot start Freenet: the file path is too long.");
                         OnCrashed(CrashType.PathTooLong);
                         return;
                     default:
-                        // Process.Start() gave an error code it is not documented to give.
+                        Log.ErrorException("Cannot start Freenet: Process.Start() gave an error " +
+                                           "code it is not documented as giving.", ex);
                         throw;
                 }
             }
@@ -202,6 +209,7 @@ namespace FreenetTray
         {
             if (IsRunning())
             {
+                // TODO: Tolerate missing file.
                 File.Delete(_anchorFilename);
             }
         }
@@ -216,10 +224,12 @@ namespace FreenetTray
             // TODO: Is exit code enough to distinguish between stopping and crashing?
             if (_wrapper.ExitCode == 0)
             {
+                Log.Debug("Wrapper exited.");
                 OnStopped(sender, e);
             }
             else
             {
+                Log.Error("Wrapper crashed. Exit code: {0}", _wrapper.ExitCode);
                 OnCrashed(CrashType.WrapperCrashed);
             }
         }

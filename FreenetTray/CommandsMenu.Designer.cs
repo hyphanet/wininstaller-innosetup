@@ -1,11 +1,15 @@
-﻿namespace FreenetTray
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace FreenetTray
 {
     partial class CommandsMenu
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -28,19 +32,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommandsMenu));
-            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openFreenetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.startFreenetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stopFreenetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewLogsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.preferencesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.components = new Container();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(CommandsMenu));
+            this.trayIcon = new NotifyIcon(this.components);
+            this.contextMenu = new ContextMenuStrip(this.components);
+            this.openFreenetMenuItem = new ToolStripMenuItem();
+            this.toolStripSeparator2 = new ToolStripSeparator();
+            this.startFreenetMenuItem = new ToolStripMenuItem();
+            this.stopFreenetMenuItem = new ToolStripMenuItem();
+            this.viewLogsMenuItem = new ToolStripMenuItem();
+            this.toolStripSeparator1 = new ToolStripSeparator();
+            this.preferencesMenuItem = new ToolStripMenuItem();
+            this.hideIconMenuItem = new ToolStripMenuItem();
+            this.exitMenuItem = new ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,11 +52,11 @@
             // 
             this.trayIcon.ContextMenuStrip = this.contextMenu;
             resources.ApplyResources(this.trayIcon, "trayIcon");
-            this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
+            this.trayIcon.MouseClick += new MouseEventHandler(this.trayIcon_MouseClick);
             // 
             // contextMenu
             // 
-            this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenu.Items.AddRange(new ToolStripItem[] {
             this.openFreenetMenuItem,
             this.toolStripSeparator2,
             this.startFreenetMenuItem,
@@ -69,7 +73,7 @@
             // 
             resources.ApplyResources(this.openFreenetMenuItem, "openFreenetMenuItem");
             this.openFreenetMenuItem.Name = "openFreenetMenuItem";
-            this.openFreenetMenuItem.Click += new System.EventHandler(this.openFreenetMenuItem_Click);
+            this.openFreenetMenuItem.Click += new EventHandler(this.openFreenetMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -80,19 +84,19 @@
             // 
             this.startFreenetMenuItem.Name = "startFreenetMenuItem";
             resources.ApplyResources(this.startFreenetMenuItem, "startFreenetMenuItem");
-            this.startFreenetMenuItem.Click += new System.EventHandler(this.startFreenetMenuItem_Click);
+            this.startFreenetMenuItem.Click += new EventHandler(this.startFreenetMenuItem_Click);
             // 
             // stopFreenetMenuItem
             // 
             this.stopFreenetMenuItem.Name = "stopFreenetMenuItem";
             resources.ApplyResources(this.stopFreenetMenuItem, "stopFreenetMenuItem");
-            this.stopFreenetMenuItem.Click += new System.EventHandler(this.stopFreenetMenuItem_Click);
+            this.stopFreenetMenuItem.Click += new EventHandler(this.stopFreenetMenuItem_Click);
             // 
             // viewLogsMenuItem
             // 
             this.viewLogsMenuItem.Name = "viewLogsMenuItem";
             resources.ApplyResources(this.viewLogsMenuItem, "viewLogsMenuItem");
-            this.viewLogsMenuItem.Click += new System.EventHandler(this.viewLogsMenuItem_Click);
+            this.viewLogsMenuItem.Click += new EventHandler(this.viewLogsMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -103,29 +107,29 @@
             // 
             this.preferencesMenuItem.Name = "preferencesMenuItem";
             resources.ApplyResources(this.preferencesMenuItem, "preferencesMenuItem");
-            this.preferencesMenuItem.Click += new System.EventHandler(this.preferencesMenuItem_Click);
+            this.preferencesMenuItem.Click += new EventHandler(this.preferencesMenuItem_Click);
             // 
             // hideIconMenuItem
             // 
             this.hideIconMenuItem.Name = "hideIconMenuItem";
             resources.ApplyResources(this.hideIconMenuItem, "hideIconMenuItem");
-            this.hideIconMenuItem.Click += new System.EventHandler(this.hideIconMenuItem_Click);
+            this.hideIconMenuItem.Click += new EventHandler(this.hideIconMenuItem_Click);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
             resources.ApplyResources(this.exitMenuItem, "exitMenuItem");
-            this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+            this.exitMenuItem.Click += new EventHandler(this.exitMenuItem_Click);
             // 
             // CommandsMenu
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             this.Name = "CommandsMenu";
             this.ShowInTaskbar = false;
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
-            this.Load += new System.EventHandler(this.CommandsMenu_Load);
+            this.WindowState = FormWindowState.Minimized;
+            this.Load += new EventHandler(this.CommandsMenu_Load);
             this.contextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -133,17 +137,17 @@
 
         #endregion
 
-        private System.Windows.Forms.NotifyIcon trayIcon;
-        private System.Windows.Forms.ContextMenuStrip contextMenu;
-        private System.Windows.Forms.ToolStripMenuItem openFreenetMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem startFreenetMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem stopFreenetMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewLogsMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem preferencesMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideIconMenuItem;
+        private NotifyIcon trayIcon;
+        private ContextMenuStrip contextMenu;
+        private ToolStripMenuItem openFreenetMenuItem;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem startFreenetMenuItem;
+        private ToolStripMenuItem stopFreenetMenuItem;
+        private ToolStripMenuItem viewLogsMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem exitMenuItem;
+        private ToolStripMenuItem preferencesMenuItem;
+        private ToolStripMenuItem hideIconMenuItem;
     }
 }
 

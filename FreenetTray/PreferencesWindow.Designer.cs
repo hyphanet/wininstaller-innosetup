@@ -37,6 +37,8 @@
             this.BrowserLabel = new System.Windows.Forms.Label();
             this.BehaviorLabel = new System.Windows.Forms.Label();
             this.SlowStartOption = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LogLevelChoice = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // StartupCheckboxList
@@ -93,12 +95,31 @@
             this.SlowStartOption.Name = "SlowStartOption";
             this.SlowStartOption.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // LogLevelChoice
+            // 
+            this.LogLevelChoice.FormattingEnabled = true;
+            this.LogLevelChoice.Items.AddRange(new object[] {
+            resources.GetString("LogLevelChoice.Items"),
+            resources.GetString("LogLevelChoice.Items1"),
+            resources.GetString("LogLevelChoice.Items2"),
+            resources.GetString("LogLevelChoice.Items3"),
+            resources.GetString("LogLevelChoice.Items4")});
+            resources.ApplyResources(this.LogLevelChoice, "LogLevelChoice");
+            this.LogLevelChoice.Name = "LogLevelChoice";
+            // 
             // PreferencesWindow
             // 
             this.AcceptButton = this.ApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ClosePerefencesButton;
+            this.Controls.Add(this.LogLevelChoice);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.SlowStartOption);
             this.Controls.Add(this.BehaviorLabel);
             this.Controls.Add(this.BrowserLabel);
@@ -126,5 +147,7 @@
         private System.Windows.Forms.Label BrowserLabel;
         private System.Windows.Forms.Label BehaviorLabel;
         private System.Windows.Forms.CheckBox SlowStartOption;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox LogLevelChoice;
     }
 }
