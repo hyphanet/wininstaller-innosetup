@@ -134,6 +134,13 @@ namespace FreenetTray
                 var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 var loopback = new IPAddress(new byte[] {127, 0, 0, 1});
                 var fproxyListening = false;
+                var showSlowOpen = Settings.Default.ShowSlowOpenTip;
+                var openArgs = e as OpenArgs;
+                if (openArgs != null)
+                {
+                    showSlowOpen = openArgs.ShowSlow;
+                }
+
                 var timer = new Stopwatch();
 
                 timer.Start();
@@ -154,12 +161,11 @@ namespace FreenetTray
                     }
 
                     // Show a startup notification if it's taking a while.
-                    if (timer.IsRunning && timer.ElapsedMilliseconds > SlowOpenThreshold &&
-                        Settings.Default.ShowSlowOpenTip)
+                    if (showSlowOpen && timer.ElapsedMilliseconds > SlowOpenThreshold)
                     {
                         trayIcon.BalloonTipText = strings.FreenetStarting;
                         trayIcon.ShowBalloonTip(SlowOpenTimeout);
-                        timer.Stop();
+                        showSlowOpen = false;
                     }
                 }
                 timer.Stop();
@@ -269,7 +275,7 @@ namespace FreenetTray
                         trayIcon.BalloonTipTitle = strings.FreenetStarting;
                         trayIcon.BalloonTipText = strings.WelcomeTip;
                         trayIcon.ShowBalloonTip(WelcomeTimeout);
-                        openFreenetMenuItem_Click();
+                        openFreenetMenuItem_Click(null, new OpenArgs { ShowSlow = false });
                         break;
                 }
             }
@@ -289,6 +295,11 @@ namespace FreenetTray
                 strings.CannotReadConfigTitle,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             Application.Exit();
+        }
+
+        private class OpenArgs : EventArgs
+        {
+            public bool ShowSlow { get; set; }
         }
     }
 }
