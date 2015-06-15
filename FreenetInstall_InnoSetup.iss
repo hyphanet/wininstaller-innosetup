@@ -5,7 +5,7 @@
 #define AppVersion "0.7.5 build 1459"
 #define AppPublisher "freenetproject.org"
 #define AppURL "https://freenetproject.org/"
-#define AppExeName "freenet.exe"
+#define AppExeName "FreenetTray.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -47,10 +47,9 @@ Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl,.\translations\Me
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "install_node\bcprov-jdk15on-151.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\Freenet.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\FreenetLauncher.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\seednodes.fref"; DestDir: "{app}"; Flags: ignoreversion
@@ -85,10 +84,12 @@ Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desk
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\{#AppExeName}"; Parameters: "/welcome"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
+Filename: "{app}\{#AppExeName}"; Parameters: "-welcome"; Flags: nowait postinstall skipifsilent; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
 
 [UninstallDelete]
+; TODO: See http://www.jrsoftware.org/ishelp/index.php?topic=uninstalldeletesection - this should enumerate expected files instead of complete wildcard.
 Type: filesandordirs; Name: "{app}\*"
+Type: filesandordirs; Name: "{localappdata}\FreenetTray"
 
 [Registry]
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
