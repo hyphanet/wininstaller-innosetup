@@ -100,7 +100,6 @@ UseRelativePaths=True
 [Code]
 var
   JavaMissingPage: TWizardPage;
-  bIsJavaInstalled: boolean;
   TextJavaMissing: TNewStaticText;
 
   sWrapperJavaMaxMemory, sFproxyPort, sFcpPort :string;
@@ -115,12 +114,10 @@ function fCheckJavaInstall():boolean;
 var
   JavaVersion : string;
 begin
-  bIsJavaInstalled := False;
+  Result := False;
   if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.7') >= 0  then
-      bIsJavaInstalled := True;
-
-  Result := bIsJavaInstalled;
+      Result := True;
 end;
 
 procedure ButtonInstallJavaOnClick(Sender: TObject);
@@ -172,7 +169,6 @@ var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
   ButtonInstallJava: TNewButton;
 begin
-  bIsJavaInstalled := False;
   JavaMissingPage := CreateCustomPage(wpWelcome, CustomMessage('DependencyMissingPageCaption'), FmtMessage(CustomMessage('DependencyMissingPageDescription'), ['Java']));
 
   TextJavaMissing := TNewStaticText.Create(JavaMissingPage);
@@ -239,5 +235,5 @@ end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  if (PageID = JavaMissingPage.ID) And (bIsJavaInstalled = True) then Result := True;
+  if (PageID = JavaMissingPage.ID) And fCheckJavaInstall then Result := True;
 end;
