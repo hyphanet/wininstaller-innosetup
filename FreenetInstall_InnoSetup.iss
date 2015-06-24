@@ -98,9 +98,14 @@ Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType
 UseRelativePaths=True
 
 [Code]
+type
+  TDependencyPage = record
+    Page: TWizardPage;
+    Explanation: TNewStaticText;
+  end;
+
 var
-  JavaMissingPage: TWizardPage;
-  TextJavaMissing: TNewStaticText;
+  JavaDependency: TDependencyPage;
 
   sWrapperJavaMaxMemory, sFproxyPort, sFcpPort :string;
 
@@ -109,6 +114,8 @@ external 'fIsPortAvailable@files:FreenetInstaller_InnoSetup_library.dll stdcall 
 
 function MemoryTotalPhys(var NodeMaxMem: integer): boolean;
 external 'fMemoryTotalPhys@files:FreenetInstaller_InnoSetup_library.dll stdcall setuponly';
+
+function CreateDependencyPage(Name: string; InstallClickHandler: TNotifyEvent) : TDependencyPage; Forward;
 
 function fCheckJavaInstall():boolean;
 var
@@ -137,7 +144,7 @@ begin
     ButtonInstallJava.Enabled := True;
     if fCheckJavaInstall() then begin
       ButtonInstallJava.Visible := False;
-      TextJavaMissing.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['Java']);
+      JavaDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['Java']);
       WizardForm.NextButton.Enabled :=  True;
     end;
   end;
@@ -167,27 +174,8 @@ end;
 procedure InitializeWizard;
 var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
-  ButtonInstallJava: TNewButton;
 begin
-  JavaMissingPage := CreateCustomPage(wpWelcome, CustomMessage('DependencyMissingPageCaption'), FmtMessage(CustomMessage('DependencyMissingPageDescription'), ['Java']));
-
-  TextJavaMissing := TNewStaticText.Create(JavaMissingPage);
-  TextJavaMissing.Top := 10;
-  TextJavaMissing.AutoSize := True;
-  TextJavaMissing.WordWrap := True;
-  TextJavaMissing.Parent := JavaMissingPage.Surface;
-  TextJavaMissing.Caption :=  CustomMessage('JavaMissingText');
-  TextJavaMissing.Width := ScaleX(400);
-
-  ButtonInstallJava := TNewButton.Create(JavaMissingPage);
-  ButtonInstallJava.Width := ScaleX(280);
-  ButtonInstallJava.Height := ScaleY(30);
-  ButtonInstallJava.Top := 100;
-  ButtonInstallJava.Left := 60;
-  ButtonInstallJava.Caption := FmtMessage(CustomMessage('ButtonInstallDependency'), ['Java']);
-  ButtonInstallJava.OnClick := @ButtonInstallJavaOnClick;
-  ButtonInstallJava.Parent := JavaMissingPage.Surface;
-
+  JavaDependency := CreateDependencyPage('Java', @ButtonInstallJavaOnClick);
 
   iFproxyPort := 8888;
   repeat
@@ -226,14 +214,40 @@ begin
   fCheckJavaInstall();
 end;
 
+function CreateDependencyPage(Name: string; InstallClickHandler: TNotifyEvent) : TDependencyPage;
+var
+  InstallButton: TNewButton;
+begin;
+  Result.Page := CreateCustomPage(wpWelcome,
+                                  CustomMessage('DependencyMissingPageCaption'),
+                                  FmtMessage(CustomMessage('DependencyMissingPageDescription'), [Name]));
+  
+  Result.Explanation := TNewStaticText.Create(Result.Page);
+  Result.Explanation.Top := 10;
+  Result.Explanation.AutoSize := True;
+  Result.Explanation.WordWrap := True;
+  Result.Explanation.Parent := Result.Page.Surface;
+  Result.Explanation.Caption := CustomMessage(Format('%sMissingText', [Name]));
+  Result.Explanation.Width := ScaleX(400);
+
+  InstallButton := TNewButton.Create(Result.Page);
+  InstallButton.Width := ScaleX(280);
+  InstallButton.Height := ScaleY(30);
+  InstallButton.Top := 100;
+  InstallButton.Left := 60;
+  InstallButton.Caption := FmtMessage(CustomMessage('ButtonInstallDependency'), [Name]);
+  InstallButton.OnClick := InstallClickHandler;
+  InstallButton.Parent := Result.Page.Surface;
+end;
+
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  if (CurPageID = JavaMissingPage.ID) then begin
+  if (CurPageID = JavaDependency.Page.ID) then begin
     WizardForm.NextButton.Enabled := False;
   end;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
-  if (PageID = JavaMissingPage.ID) And fCheckJavaInstall then Result := True;
+  if (PageID = JavaDependency.Page.ID) And fCheckJavaInstall() then Result := True;
 end;
