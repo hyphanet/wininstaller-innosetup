@@ -46,6 +46,7 @@ Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl,.\translations\Me
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "install_bundle\dotNetFx35setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_node\bcprov-jdk15on-151.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
@@ -105,7 +106,7 @@ type
   end;
 
 var
-  JavaDependency: TDependencyPage;
+  JavaDependency, NetDependency: TDependencyPage;
 
   sWrapperJavaMaxMemory, sFproxyPort, sFcpPort :string;
 
@@ -115,7 +116,7 @@ external 'fIsPortAvailable@files:FreenetInstaller_InnoSetup_library.dll stdcall 
 function MemoryTotalPhys(var NodeMaxMem: integer): boolean;
 external 'fMemoryTotalPhys@files:FreenetInstaller_InnoSetup_library.dll stdcall setuponly';
 
-function CreateDependencyPage(Name: string; InstallClickHandler: TNotifyEvent) : TDependencyPage; Forward;
+function CreateDependencyPage(Name, MissingKey: string; InstallClickHandler: TNotifyEvent) : TDependencyPage; Forward;
 
 function fCheckJavaInstall():boolean;
 var
@@ -125,6 +126,13 @@ begin
   if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.7') >= 0  then
       Result := True;
+end;
+
+function IsNetInstalled() : boolean;
+var
+  NetVersion : string;
+begin
+  Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5', 'Version', NetVersion);
 end;
 
 procedure ButtonInstallJavaOnClick(Sender: TObject);
@@ -145,6 +153,28 @@ begin
     if fCheckJavaInstall() then begin
       ButtonInstallJava.Visible := False;
       JavaDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['Java']);
+      WizardForm.NextButton.Enabled :=  True;
+    end;
+  end;
+end;
+
+procedure NetInstallOnClick(Sender: TObject);
+var
+  ErrorCode : Integer;
+  InstallButton: TNewButton;
+begin
+  InstallButton := TNewButton (Sender);
+  InstallButton.Enabled := False;
+  ExtractTemporaryFiles('{tmp}\dotNetFx35setup.exe');
+  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx35setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
+    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 3.5', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
+           mbError, MB_OK);
+    InstallButton.Enabled := True;
+  end else begin
+    InstallButton.Enabled := True;
+    if IsNetInstalled() then begin
+      InstallButton.Visible := False;
+      NetDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['.NET 3.5']);
       WizardForm.NextButton.Enabled :=  True;
     end;
   end;
@@ -175,7 +205,8 @@ procedure InitializeWizard;
 var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
 begin
-  JavaDependency := CreateDependencyPage('Java', @ButtonInstallJavaOnClick);
+  JavaDependency := CreateDependencyPage('Java', 'JavaMissingText', @ButtonInstallJavaOnClick);
+  NetDependency := CreateDependencyPage('.NET 3.5', 'NetMissingText', @NetInstallOnClick);
 
   iFproxyPort := 8888;
   repeat
@@ -214,7 +245,7 @@ begin
   fCheckJavaInstall();
 end;
 
-function CreateDependencyPage(Name: string; InstallClickHandler: TNotifyEvent) : TDependencyPage;
+function CreateDependencyPage(Name, MissingKey: string; InstallClickHandler: TNotifyEvent) : TDependencyPage;
 var
   InstallButton: TNewButton;
 begin;
@@ -227,7 +258,7 @@ begin;
   Result.Explanation.AutoSize := True;
   Result.Explanation.WordWrap := True;
   Result.Explanation.Parent := Result.Page.Surface;
-  Result.Explanation.Caption := CustomMessage(Format('%sMissingText', [Name]));
+  Result.Explanation.Caption := CustomMessage(MissingKey);
   Result.Explanation.Width := ScaleX(400);
 
   InstallButton := TNewButton.Create(Result.Page);
@@ -242,12 +273,16 @@ end;
 
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  if (CurPageID = JavaDependency.Page.ID) then begin
+  if (CurPageID = JavaDependency.Page.ID) or
+     (CurPageID = NetDependency.Page.ID)
+      then begin
     WizardForm.NextButton.Enabled := False;
   end;
 end;
 
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
+  Result := False;
   if (PageID = JavaDependency.Page.ID) And fCheckJavaInstall() then Result := True;
+  if (PageID = NetDependency.Page.ID) And IsNetInstalled() then Result := True;
 end;
