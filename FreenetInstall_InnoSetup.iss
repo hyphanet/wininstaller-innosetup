@@ -134,13 +134,13 @@ begin
   ExtractTemporaryFiles('{tmp}\jxpiinstall.exe');
   if not ShellExec('runas',ExpandConstant('{tmp}\jxpiinstall.exe'),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
     sErrorCode := inttostr(ErrorCode);
-    MsgBox(FmtMessage(CustomMessage('ErrorLaunchJavaInstaller'),[sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
+    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['Java', sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
   end else begin
     ButtonInstallJava.Enabled := True;
     if fCheckJavaInstall() then begin
       ButtonInstallJava.Visible := False;
-      TextJavaMissing.Caption := CustomMessage('JavaInstalled');
+      TextJavaMissing.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['Java']);
       WizardForm.NextButton.Enabled :=  True;
     end;
   end;
@@ -172,7 +172,7 @@ var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
 begin
   bIsJavaInstalled := False;
-  JavaMissingPage := CreateCustomPage(wpWelcome, CustomMessage('JavaMissingPageCaption'), CustomMessage('JavaMissingPageDescription'));
+  JavaMissingPage := CreateCustomPage(wpWelcome, CustomMessage('DependencyMissingPageCaption'), FmtMessage(CustomMessage('DependencyMissingPageDescription'), ['Java']));
 
   TextJavaMissing := TNewStaticText.Create(JavaMissingPage);
   TextJavaMissing.Top := 10;
@@ -187,7 +187,7 @@ begin
   ButtonInstallJava.Height := ScaleY(30);
   ButtonInstallJava.Top := 100;
   ButtonInstallJava.Left := 60;
-  ButtonInstallJava.Caption := CustomMessage('ButtonInstallJava');
+  ButtonInstallJava.Caption := FmtMessage(CustomMessage('ButtonInstallDependency'), ['Java']);
   ButtonInstallJava.OnClick := @ButtonInstallJavaOnClick;
   ButtonInstallJava.Parent := JavaMissingPage.Surface;
 
