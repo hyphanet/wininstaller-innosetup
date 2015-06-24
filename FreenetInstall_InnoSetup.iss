@@ -101,7 +101,6 @@ UseRelativePaths=True
 var
   JavaMissingPage: TWizardPage;
   bIsJavaInstalled: boolean;
-  ButtonInstallJava: TNewButton;
   TextJavaMissing: TNewStaticText;
 
   sWrapperJavaMaxMemory, sFproxyPort, sFcpPort :string;
@@ -128,8 +127,9 @@ procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
   sErrorCode: string;
-
+  ButtonInstallJava: TNewButton;
 begin
+  ButtonInstallJava := TNewButton (Sender);
   ButtonInstallJava.Enabled := False;
   ExtractTemporaryFiles('{tmp}\jxpiinstall.exe');
   if not ShellExec('runas',ExpandConstant('{tmp}\jxpiinstall.exe'),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
@@ -170,6 +170,7 @@ end;
 procedure InitializeWizard;
 var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
+  ButtonInstallJava: TNewButton;
 begin
   bIsJavaInstalled := False;
   JavaMissingPage := CreateCustomPage(wpWelcome, CustomMessage('DependencyMissingPageCaption'), FmtMessage(CustomMessage('DependencyMissingPageDescription'), ['Java']));
