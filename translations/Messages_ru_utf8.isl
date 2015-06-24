@@ -4,12 +4,12 @@ LanguageID=$0419
 LanguageCodePage=1251
 
 [CustomMessages]
-JavaMissingPageCaption=Требования Freenet
-JavaMissingPageDescription=Зависимости Java
+DependencyMissingPageCaption=Требования Freenet
+DependencyMissingPageDescription=Зависимости %1
 JavaMissingText=Freenet требует Java Runtime Environment, но кажется, в вашей системе не устновлена последняя версия. Вы можете установить Java с помощью входящего в комплект онлайн-инсталлятора, который скачивает и устанавливает необходимые файлы с веб-сайта Java автоматически.
-ButtonInstallJava=Установить Java
-JavaInstalled=Java установлена в вашу систему
-ErrorLaunchJavaInstaller=Не возможно запустить установщик Java.%n%nОшибка (%1): %2.
+ButtonInstallDependency=Установить %1
+DependencyInstalled=%1 установлена в вашу систему
+ErrorLaunchDependencyInstaller=Не возможно запустить установщик %1.%n%nОшибка (%2): %3.
 AdditionalOptions=Дополнительные параметры:
 StartFreenetWithWindows=Запускать Freenet при старте Windows
 

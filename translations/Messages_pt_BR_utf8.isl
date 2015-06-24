@@ -1,10 +1,10 @@
 ﻿[CustomMessages]
-JavaMissingPageCaption=Requisitos para instalação do software Freenet
-JavaMissingPageDescription=Dependências Java
+DependencyMissingPageCaption=Requisitos para instalação do software Freenet
+DependencyMissingPageDescription=Dependências %1
 JavaMissingText=O software Freenet requer o Ambiente de Execução Java, mas, ao que parece, o seu sistema não possui uma versão atualizada instalada. Você pode instalar o Java via instalador online, incluso, que baixará do website oficial do Java os arquivos necessários, instalando-os automaticamente.
-ButtonInstallJava=Instalar Java
-JavaInstalled=O Java foi instalado no seu sistema.
-ErrorLaunchJavaInstaller=Não foi possível lançar o instalador Java.%n%nErro (%1): %2.
+ButtonInstallDependency=Instalar %1
+DependencyInstalled=O %1 foi instalado no seu sistema.
+ErrorLaunchDependencyInstaller=Não foi possível lançar o instalador %1.%n%nErro (%2): %3.
 AdditionalOptions=Opções adicionais:
 StartFreenetWithWindows=Iniciar Freenet na inicialização do Windows
 
