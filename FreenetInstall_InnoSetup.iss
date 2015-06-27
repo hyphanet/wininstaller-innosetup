@@ -42,6 +42,14 @@ Name: "dutch"; MessagesFile: "compiler:Languages\Dutch.isl,.\translations\Messag
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl,.\translations\Messages_ru.isl"
 Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl,.\translations\Messages_hu.isl"
 Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl,.\translations\Messages_fi.isl"
+Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl,.\translations\Messages_cs.isl"
+Name: "german"; MessagesFile: "compiler:Languages\German.isl,.\translations\Messages_de.isl"
+Name: "greek"; MessagesFile: "compiler:Languages\Greek.isl,.\translations\Messages_el.isl"
+Name: "indonesian"; MessagesFile: ".\unofficial\Indonesian.isl,.\translations\Messages_id_ID.isl"
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl,.\translations\Messages_it.isl"
+Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl,.\translations\Messages_pl.isl"
+Name: "brazilian_portuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl,.\translations\Messages_pt_BR.isl"
+Name: "simplified_chinese"; MessagesFile: ".\unofficial\ChineseSimplified.isl,.\translations\Messages_zh_CN.isl"
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
