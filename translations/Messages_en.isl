@@ -7,7 +7,7 @@ ButtonInstallDependency=Install %1
 DependencyInstalled=%1 has been installed on your system.
 ErrorLaunchDependencyInstaller=Can't launch %1 installer.%n%nError (%2): %3.
 AdditionalOptions=Additional options:
-StartFreenetWithWindows=Start Freenet on Windows startup
+StartFreenetWithWindows=Start Freenet when I log in to Windows
 
 [Messages]
 WelcomeLabel2=This will install [name/ver] on your computer.
