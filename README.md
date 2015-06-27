@@ -3,7 +3,8 @@ such a file please keep it that way.
 
 So that they can be uploaded to Transifex there are two encodings of the
 localization files. UTF8 as required by Transifex, and usually-ANSI, as required
-by InnoSetup.
+by InnoSetup. To convert between them see
+[convert-inno-setup](https://github.com/freenet/scripts/blob/master/convert-inno-setup).
 
 --
 ## How to build
