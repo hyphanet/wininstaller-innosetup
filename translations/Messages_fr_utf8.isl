@@ -1,12 +1,13 @@
 ﻿[CustomMessages]
-DependencyMissingPageCaption=Prérequis pour installer Freenet
+DependencyMissingPageCaption=Exigences de Freenet
 DependencyMissingPageDescription=Dépendance %1
-JavaMissingText=Freenet a besoin d'une machine virtuelle Java, mais votre système n'a pas l'air d'en posséder une. Vous pouvez installer Java en utilisant l'installeur fourni, qui téléchargera et installera les fichiers nécessaires automatiquement.
+JavaMissingText=Freenet exige le moteur d'exécution Java, mais il semble qu'une version à jour n'est pas installée sur votre système. Vous pouvez installer Java en utilisant le programme d'installation en ligne inclus qui téléchargera et installera automatiquement les fichiers requis du site Web Java.
+NetMissingText=Freenet exige .NET 3.5 mais il n'est pas installé sur votre système. Le bouton ci-dessous le téléchargera et l'installera.
 ButtonInstallDependency=Installer %1
 DependencyInstalled=%1 a été installé sur votre système.
-ErrorLaunchDependencyInstaller=Impossible de lancer l'installateur %1.%n%nErreur (%2): %3.
+ErrorLaunchDependencyInstaller=Impossible de lancer l'installateur %1.%n%nErreur (%2) : %3.
 AdditionalOptions=Options supplémentaires :
 StartFreenetWithWindows=Démarrer Freenet avec Windows
 
 [Messages]
-WelcomeLabel2=Cet assistant va vous guider dans l'installation de [name/ver] sur votre ordinateur.
+WelcomeLabel2=Ceci installera [name/ver] sur votre ordinateur.
