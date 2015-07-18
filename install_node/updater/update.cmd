@@ -199,14 +199,17 @@ ECHO    - Update script is current.
 ECHO -----
 
 :: Check for dependencies.
-:: Check for bcprov-jdk15on-151.jar
-:: Necessary to run 1467 and later.
+:: Check for bcprov-jdk15on-152.jar
+:: Necessary to run 1469 and later.
 
-IF NOT EXIST bcprov-jdk15on-151.jar updater\wget.exe -o NUL --timeout=5 --tries=5 --waitretry=10 https://downloads.freenetproject.org/alpha/deps/bcprov-jdk15on-151.jar -O bcprov-jdk15on-151.jar
+IF NOT EXIST bcprov-jdk15on-152.jar updater\wget.exe -o NUL --timeout=5 --tries=5 --waitretry=10 https://downloads.freenetproject.org/alpha/deps/bcprov-jdk15on-152.jar -O bcprov-jdk15on-152.jar
 
-:: If it has bcprov 151 we are OK.
+:: If it has bcprov 152 we are OK.
+FIND "bcprov-jdk15on-152.jar" %WRAPPER% > NUL
+IF NOT ERRORLEVEL 1 GOTO has152
+:: If it has bcprov 151 we need a new wrapper.conf
 FIND "bcprov-jdk15on-151.jar" %WRAPPER% > NUL
-IF NOT ERRORLEVEL 1 GOTO has151
+IF NOT ERRORLEVEL 1 GOTO error5
 :: If it has bcprov 147 we need a new wrapper.conf
 FIND "bcprov-jdk15on-147.jar" %WRAPPER% > NUL
 IF NOT ERRORLEVEL 1 GOTO error5
@@ -214,10 +217,12 @@ IF NOT ERRORLEVEL 1 GOTO error5
 FIND "bcprov-jdk15on-149.jar" %WRAPPER% > NUL
 IF NOT ERRORLEVEL 1 GOTO error5
 :: If it has neither, we can simply append to wrapper.conf, no need to clobber it.
-ECHO wrapper.java.classpath.3=bcprov-jdk15on-151.jar >> %WRAPPER%
+ECHO wrapper.java.classpath.3=bcprov-jdk15on-152.jar >> %WRAPPER%
 GOTO checkwrapperjar
 
-:has151
+:has152
+FIND "bcprov-jdk15on-151.jar" %WRAPPER% > NUL
+if ERRORLEVEL 1 GOTO checkwrapperjar
 FIND "bcprov-jdk15on-147.jar" %WRAPPER% > NUL
 if ERRORLEVEL 1 GOTO checkwrapperjar
 FIND "bcprov-jdk15on-149.jar" %WRAPPER% > NUL
