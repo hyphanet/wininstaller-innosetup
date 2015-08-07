@@ -7,7 +7,7 @@ ButtonInstallDependency=Installer %1
 DependencyInstalled=%1 a été installé sur votre système.
 ErrorLaunchDependencyInstaller=Impossible de lancer l'installateur %1.%n%nErreur (%2) : %3.
 AdditionalOptions=Options supplémentaires :
-StartFreenetWithWindows=Démarrer Freenet avec Windows
+StartFreenetWithWindows=Démarrer Freenet lorsque je me connecte à Windows
 
 [Messages]
 WelcomeLabel2=Ceci installera [name/ver] sur votre ordinateur.
