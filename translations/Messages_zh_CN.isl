@@ -7,7 +7,7 @@ ButtonInstallDependency=安装 %1
 DependencyInstalled=您的系统上已安装 %1。
 ErrorLaunchDependencyInstaller=不能启动 %1 安装程序。%n%n错误 (%2): %3。
 AdditionalOptions=附加选项：
-StartFreenetWithWindows=在 Windows 启动时启动 Freenet
+StartFreenetWithWindows=在我登录 Windows 后启动 Freenet
 
 [Messages]
 WelcomeLabel2=这将在您的计算机上安装 [name/ver]。
