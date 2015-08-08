@@ -51,7 +51,7 @@ Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl,.\translations\Mess
 Name: "brazilian_portuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl,.\translations\Messages_pt_BR.isl"
 Name: "simplified_chinese"; MessagesFile: ".\unofficial\ChineseSimplified.isl,.\translations\Messages_zh_CN.isl"
 Name: "portuguese_portugal"; MessagesFile: "compiler:Languages\Portuguese.isl,.\translations\Messages_pt_PT.isl"
-Name: "serbian"; MessagesFile: "compiler:Languages\SerbianCryllic.isl,.\translations\Messages_sr.isl"
+Name: "serbian"; MessagesFile: "compiler:Languages\SerbianCyrillic.isl,.\translations\Messages_sr.isl"
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
