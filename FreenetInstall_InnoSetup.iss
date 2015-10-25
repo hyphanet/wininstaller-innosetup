@@ -52,6 +52,9 @@ Name: "brazilian_portuguese"; MessagesFile: "compiler:Languages\BrazilianPortugu
 Name: "simplified_chinese"; MessagesFile: ".\unofficial\ChineseSimplified.isl,.\translations\Messages_zh_CN.isl"
 Name: "portuguese_portugal"; MessagesFile: "compiler:Languages\Portuguese.isl,.\translations\Messages_pt_PT.isl"
 Name: "serbian"; MessagesFile: "compiler:Languages\SerbianCyrillic.isl,.\translations\Messages_sr.isl"
+Name: "bulgarian"; MessagesFile: ".\unofficial\Bulgarian.isl,.\translations\Messages_bg.isl"
+Name: "croatian"; MessagesFile: ".\unofficial\Croatian.isl,.\translations\Messages_hr.isl"
+Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl,.\translations\Messages_ja.isl"
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy

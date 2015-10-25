@@ -10,4 +10,4 @@ AdditionalOptions=追加の選択肢:
 StartFreenetWithWindows=ログインした時にFreenetを起動する
 
 [Messages]
-WelcomeLabel2=これは [name/var] をコンピュータにインストールします。
+WelcomeLabel2=これは [name/ver] をコンピュータにインストールします。

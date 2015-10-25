@@ -1,7 +1,11 @@
+[LangOptions]
+LanguageName=<0431><044A><043B><0433><0430><0440><0441><043A><0438>
+LanguageID=$0402
+LanguageCodePage=1251
+
 [CustomMessages]
 DependencyMissingPageCaption=Freenet изисквания
 DependencyMissingPageDescription=%1 зависимости
-# JavaMissingText=Freenet requires the 32-bit Java Runtime Environment, but your system does not appear to have an up-to-date version installed. You can install Java by using the included online installer, which will download and install the necessary files from the Java website automatically.
 NetMissingText=Freenet изисква .NET 3.5, но системата ви не го притежава. Бутона по-долу ще го изтегли и ще го инсталирате.
 ButtonInstallDependency=Инсталиране %1
 DependencyInstalled=%1 беше инсталиран на вашата система.

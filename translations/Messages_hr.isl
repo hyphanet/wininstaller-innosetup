@@ -1,3 +1,8 @@
+[LangOptions]
+LanguageName=Hrvatski
+LanguageID=$041a
+LanguageCodePage=1250
+
 [CustomMessages]
 DependencyMissingPageCaption=Freenet zahtjevi
 DependencyMissingPageDescription=%1 ovisnost
