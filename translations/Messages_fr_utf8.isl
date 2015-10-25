@@ -10,4 +10,4 @@ AdditionalOptions=Options supplémentaires :
 StartFreenetWithWindows=Démarrer Freenet lorsque je me connecte à Windows
 
 [Messages]
-WelcomeLabel2=Ceci installera [name/ver] sur votre ordinateur.
+WelcomeLabel2=Cela installera [name/ver] sur votre ordinateur.
