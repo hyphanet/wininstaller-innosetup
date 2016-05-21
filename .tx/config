@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[freenet.windows-installer]
+file_filter = translations/Messages_<lang>_utf8.isl
+source_file = translations/Messages_en_utf8.isl
+source_lang = en
+type = INI
