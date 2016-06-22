@@ -8,6 +8,7 @@ DependencyInstalled=%1 has been installed on your system.
 ErrorLaunchDependencyInstaller=Can't launch %1 installer.%n%nError (%2): %3.
 AdditionalOptions=Additional options:
 StartFreenetWithWindows=Start Freenet when I log in to Windows
+FreenetAlreadyInstalled=An existing Freenet installation is found. This installer cannot be used to update Freenet to a newer version. To update, enable Freenet's built-in automatic updates or run 'update.cmd' from the installation directory. To re-install, please uninstall Freenet first.
 
 [Messages]
 WelcomeLabel2=This will install [name/ver] on your computer.
