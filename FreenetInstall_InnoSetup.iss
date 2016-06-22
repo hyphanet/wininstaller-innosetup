@@ -300,3 +300,22 @@ begin
   if (PageID = JavaDependency.Page.ID) And fCheckJavaInstall() then Result := True;
   if (PageID = NetDependency.Page.ID) And IsNetInstalled() then Result := True;
 end;
+
+function IsFreenetInstalled(): Boolean;
+var
+  RegPath: String;
+begin
+  Result := False;
+  RegPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\{#emit SetupSetting("AppId")}_is1');
+  if RegValueExists(HKLM, RegPath, 'UninstallString') or RegValueExists(HKCU, RegPath, 'UninstallString')
+  then Result := True;
+end;
+
+function InitializeSetup(): Boolean;
+begin
+  Result := True;
+  if (IsFreenetInstalled()) then begin
+    Result := False;
+    MsgBox(CustomMessage('FreenetAlreadyInstalled'), mbCriticalError, MB_OK);
+  end;
+end;
