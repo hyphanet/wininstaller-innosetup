@@ -60,7 +60,7 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\dotNetFx35setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_node\bcprov-jdk15on-154.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
@@ -146,7 +146,7 @@ function IsNetInstalled() : boolean;
 var
   NetVersion : string;
 begin
-  Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5', 'Version', NetVersion);
+  Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Version', NetVersion);
 end;
 
 procedure ButtonInstallJavaOnClick(Sender: TObject);
@@ -179,16 +179,16 @@ var
 begin
   InstallButton := TNewButton (Sender);
   InstallButton.Enabled := False;
-  ExtractTemporaryFiles('{tmp}\dotNetFx35setup.exe');
-  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx35setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
-    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 3.5', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
+  ExtractTemporaryFiles('{tmp}\dotNetFx40_Full_setup.exe');
+  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx40_Full_setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
+    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 4.0', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
            mbError, MB_OK);
     InstallButton.Enabled := True;
   end else begin
     InstallButton.Enabled := True;
     if IsNetInstalled() then begin
       InstallButton.Visible := False;
-      NetDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['.NET 3.5']);
+      NetDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['.NET 4.0']);
       WizardForm.NextButton.Enabled :=  True;
     end;
   end;
@@ -220,7 +220,7 @@ var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
 begin
   JavaDependency := CreateDependencyPage('Java', 'JavaMissingText', @ButtonInstallJavaOnClick);
-  NetDependency := CreateDependencyPage('.NET 3.5', 'NetMissingText', @NetInstallOnClick);
+  NetDependency := CreateDependencyPage('.NET 4.0', 'NetMissingText', @NetInstallOnClick);
 
   iFproxyPort := 8888;
   repeat
