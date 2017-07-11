@@ -175,6 +175,9 @@ function IsNetInstalled() : boolean;
 var
   NetVersion : string;
 begin
+// TODO: is this correct by accident? As the installer is a 32-bit process, if .NET installers always put a registry key 
+// in the 32-bit registery view on a 64-bit machine this will always work. If not it may break on some machines, or on all
+// machines in the future if that changes
   Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Version', NetVersion);
 end;
 
