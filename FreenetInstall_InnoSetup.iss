@@ -110,6 +110,8 @@ Type: filesandordirs; Name: "{app}\*"
 Type: filesandordirs; Name: "{localappdata}\FreenetTray"
 
 [Registry]
+; NOTE: this is going to end up in the 32-bit registry view on a 64-bit machine, 
+; but for this specific case it doesn't matter, autostart will work properly either way
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
 
 [ThirdParty]
