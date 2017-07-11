@@ -33,6 +33,8 @@ InternalCompressLevel=ultra
 RestartIfNeededByRun=False
 AllowUNCPath=False
 AllowNoIcons=yes
+;Prevent installer from being run multiple times in parallel
+SetupMutex=SetupMutex{#SetupSetting("AppId")}
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl,.\translations\Messages_en.isl"
