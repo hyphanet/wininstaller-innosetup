@@ -59,7 +59,8 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\jre-8u131-windows-i586-iftw.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\jre-8u131-windows-x64.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_node\bcprov-jdk15on-154.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -132,14 +133,38 @@ external 'fMemoryTotalPhys@files:FreenetInstaller_InnoSetup_library.dll stdcall 
 
 function CreateDependencyPage(Name, MissingKey: string; InstallClickHandler: TNotifyEvent) : TDependencyPage; Forward;
 
-function fCheckJavaInstall():boolean;
+
+function fCheckJava64Install():boolean;
 var
   JavaVersion : string;
 begin
   Result := False;
+  // the installer is a 32-bit process, so we need to explicitly 
+  // check the 64-bit registry view to find out if a 64-bit JRE is installed
+  if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
+    if CompareStr(JavaVersion,'1.7') >= 0  then
+      Result := True;
+end;
+
+function fCheckJava32Install():boolean;
+var
+  JavaVersion : string;
+begin
+  Result := False;
+  // this is checking the default registry view for the process, which happens to be 32-bit
   if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.7') >= 0  then
       Result := True;
+end;
+
+function fCheckJavaInstall():boolean;
+begin
+  Result := False;
+  if (isWin64()) then begin
+    if fCheckJava64Install() then Result := True;
+  end else begin
+    if fCheckJava32Install() then Result := True;
+  end;
 end;
 
 function IsNetInstalled() : boolean;
@@ -153,12 +178,18 @@ procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
   sErrorCode: string;
+  sJavaInstaller: string;
   ButtonInstallJava: TNewButton;
 begin
   ButtonInstallJava := TNewButton (Sender);
   ButtonInstallJava.Enabled := False;
-  ExtractTemporaryFiles('{tmp}\jxpiinstall.exe');
-  if not ShellExec('runas',ExpandConstant('{tmp}\jxpiinstall.exe'),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
+  if (isWin64()) then begin
+    sJavaInstaller := '{tmp}\jre-8u131-windows-x64.exe';
+  end else begin
+    sJavaInstaller := '{tmp}\jre-8u131-windows-i586-iftw.exe';
+  end;
+  ExtractTemporaryFiles(sJavaInstaller);
+  if not ShellExec('runas',ExpandConstant(sJavaInstaller),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
     sErrorCode := inttostr(ErrorCode);
     MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['Java', sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
