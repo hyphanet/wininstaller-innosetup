@@ -246,8 +246,10 @@ end;
 
 procedure WrapperConfDoAfterInstall();
 begin
-  SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), '# Memory limit for the node' + #13#10 , True);
-  SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.maxmemory=' + sWrapperJavaMaxMemory + #13#10 , True);
+  if not FileExists(ExpandConstant('{app}\wrapper\wrapper.conf')) then begin
+    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), '# Memory limit for the node' + #13#10 , True);
+    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.maxmemory=' + sWrapperJavaMaxMemory + #13#10 , True);
+  end;
 end;
 
 procedure InitializeWizard;
