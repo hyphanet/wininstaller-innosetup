@@ -66,6 +66,7 @@ Source: "install_bundle\jre-8u131-windows-x64.exe"; DestDir: "{tmp}"; Flags: ign
 Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_node\bcprov-jdk15on-154.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\FreenetTray.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
