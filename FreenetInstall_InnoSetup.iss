@@ -140,6 +140,110 @@ external 'fMemoryTotalPhys@files:FreenetInstaller_InnoSetup_library.dll stdcall 
 
 function CreateDependencyPage(Name, MissingKey: string; InstallClickHandler: TNotifyEvent) : TDependencyPage; Forward;
 
+procedure OpenWebSupport();
+var
+ErrorCode : Integer;
+sErrorCode: string;
+begin
+  if not ShellExec('', 'https://freenetproject.org/support', '', '', SW_SHOW, ewWaitUntilIdle, ErrorCode) then 
+    begin
+      sErrorCode := inttostr(ErrorCode);
+      MsgBox(FmtMessage(CustomMessage('ErrorLaunchBrowser'), [sErrorCode, SysErrorMessage(ErrorCode)]), mbError, MB_OK);
+    end;
+end;
+
+procedure ExistingInstallationDamaged();
+begin
+  case MsgBox(CustomMessage('ErrorInstallationDamaged'), mbError, MB_YESNO) of
+    IDYES:
+    begin
+      OpenWebSupport();
+    end;
+    IDNO:
+    begin
+      // user pressed No
+    end;
+  end;
+end;
+
+function OpenUpdateScript(InstallationPath: string) :boolean;
+var
+ErrorCode : Integer;
+sErrorCode: string;
+begin
+  result := true;
+
+  if not ShellExec('', Format('%s\update.cmd', [InstallationPath]), '', '', SW_SHOW, ewWaitUntilTerminated, ErrorCode) then 
+  begin
+    ExistingInstallationDamaged();
+  end;
+end;
+
+function OpenWebInterface(InstallationPath: string) :boolean;
+var
+ErrorCode : Integer;
+sErrorCode: string;
+begin
+  result := true;
+
+  if not ShellExec('', Format('%s\FreenetTray.exe', [InstallationPath]), '-welcome', '', SW_SHOW, ewWaitUntilIdle, ErrorCode) then 
+  begin
+    ExistingInstallationDamaged();
+  end;
+end;
+
+function InitializeSetup: boolean;
+var 
+RegKey: string;
+ExistingInstallation: Boolean;
+RegistryLocationRootKey: Integer;
+ExistingInstallationPath : string;
+begin
+  result := true;
+  ExistingInstallation := false;
+  
+  RegKey := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\{#SetupSetting("AppId")}_is1');
+
+  if RegKeyExists(HKLM, RegKey) then 
+  begin 
+    ExistingInstallation := true;
+    RegistryLocationRootKey := HKLM;
+  end;
+  
+  if RegKeyExists(HKCU, RegKey) then 
+  begin 
+    ExistingInstallation := true;
+    RegistryLocationRootKey := HKCU;
+  end;
+  
+  if RegKeyExists(HKU, RegKey) then 
+  begin 
+    ExistingInstallation := true;
+    RegistryLocationRootKey := HKU;
+  end;
+
+  if ExistingInstallation then
+  begin
+    if RegQueryStringValue(RegistryLocationRootKey, RegKey, 'InstallLocation', ExistingInstallationPath) then
+    begin
+      case MsgBox(CustomMessage('ErrorFreenetAlreadyInstalled'), mbError, MB_YESNO) of
+        IDYES:
+        begin
+          OpenUpdateScript(ExistingInstallationPath);
+        end;
+        IDNO:
+        begin
+          // user pressed No
+        end;
+      end;
+    end else begin
+      ExistingInstallationDamaged();
+    end;
+
+    // installer exits in all cases
+    result := false;
+  end;
+end;
 
 function fCheckJava64Install():boolean;
 var
