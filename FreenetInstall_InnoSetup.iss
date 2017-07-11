@@ -87,8 +87,10 @@ Source: "install_node\updater\startssl.pem"; DestDir: "{app}\updater"; Flags: ig
 Source: "install_node\updater\update.cmd"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\wget.exe"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper.jar"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion onlyifdoesntexist; AfterInstall: WrapperConfDoAfterInstall
 
 [Tasks]
