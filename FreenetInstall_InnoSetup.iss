@@ -95,7 +95,6 @@ Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ig
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "startwithwindows"; Description: "{cm:StartFreenetWithWindows}"; GroupDescription: "{cm:AdditionalOptions}"
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Icons]
@@ -115,7 +114,7 @@ Type: filesandordirs; Name: "{localappdata}\FreenetTray"
 [Registry]
 ; NOTE: this is going to end up in the 32-bit registry view on a 64-bit machine, 
 ; but for this specific case it doesn't matter, autostart will work properly either way
-Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
+Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue
 
 [ThirdParty]
 UseRelativePaths=True
