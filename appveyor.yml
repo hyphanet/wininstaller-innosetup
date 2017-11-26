@@ -1,0 +1,43 @@
+environment:
+  PROJECT_NAME: FreenetInstaller
+  VS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  CONFIGURATION: Release
+  ARCH: x64
+
+install:
+  - if defined VS call "%VS%" %ARCH%
+  - choco install -y innosetup
+  - set PATH="C:\Program Files (x86)\Inno Setup 5";%PATH%
+
+build_script:
+  - iscc FreenetInstall_InnoSetup.iss /DPWD=%CD% /OOutput
+
+before_deploy:
+  - cd Output
+  - copy /y %PROJECT_NAME%.exe %PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%.exe
+  - appveyor PushArtifact %PROJECT_NAME%-%APPVEYOR_REPO_TAG_NAME%.exe
+
+deploy:
+  description: 'FreenetInstaller'
+  artifact: /.*\.exe/
+  #  To change this token:
+  #
+  # - Go to 'https://github.com/settings/tokens/new' and generate a Token with only the `public_repo` scope enabled
+  # - Go to 'https://ci.appveyor.com/tools/encrypt', log in, and paste the token
+  # - Replace the "value" below
+  auth_token:
+    secure: Eyt7YsHauCv2tX8PfbrAP1D5bVauUO9qMGqkfLe9FM3X5l/EjnZ4NBp4oKooz8A1
+  provider: GitHub
+  on:
+    appveyor_repo_tag: true
+
+branches:
+  only:
+    - master
+    - fix-64
+    # IMPORTANT Regex to match tags. Required, or appveyor may not trigger deploys when a new tag
+    # is pushed. This regex matches semantic versions like v1.2.3-rc4+2016.02.22
+    - /^v\d+\.\d+\.\d+.*$/
+
+

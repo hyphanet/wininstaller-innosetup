@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "Freenet"
-#define AppVersion "0.7.5 build 1459"
+#define AppVersion "0.7.5 build 1478"
 #define AppPublisher "freenetproject.org"
 #define AppURL "https://freenetproject.org/"
 #define AppExeName "FreenetTray.exe"
@@ -33,6 +33,8 @@ InternalCompressLevel=ultra
 RestartIfNeededByRun=False
 AllowUNCPath=False
 AllowNoIcons=yes
+;Prevent installer from being run multiple times in parallel
+SetupMutex=SetupMutex{#SetupSetting("AppId")}
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl,.\translations\Messages_en.isl"
@@ -59,10 +61,12 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\jxpiinstall.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\dotNetFx35setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\jre-8u131-windows-i586-iftw.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\jre-8u131-windows-x64.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_node\bcprov-jdk15on-154.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\FreenetTray.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
@@ -83,13 +87,14 @@ Source: "install_node\updater\startssl.pem"; DestDir: "{app}\updater"; Flags: ig
 Source: "install_node\updater\update.cmd"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\wget.exe"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper.jar"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion onlyifdoesntexist; AfterInstall: WrapperConfDoAfterInstall
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "startwithwindows"; Description: "{cm:StartFreenetWithWindows}"; GroupDescription: "{cm:AdditionalOptions}"
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Icons]
@@ -107,7 +112,7 @@ Type: filesandordirs; Name: "{app}\*"
 Type: filesandordirs; Name: "{localappdata}\FreenetTray"
 
 [Registry]
-Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue; Tasks: startwithwindows
+Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Freenet"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue
 
 [ThirdParty]
 UseRelativePaths=True
@@ -132,33 +137,170 @@ external 'fMemoryTotalPhys@files:FreenetInstaller_InnoSetup_library.dll stdcall 
 
 function CreateDependencyPage(Name, MissingKey: string; InstallClickHandler: TNotifyEvent) : TDependencyPage; Forward;
 
-function fCheckJavaInstall():boolean;
+procedure OpenWebSupport();
+var
+ErrorCode : Integer;
+sErrorCode: string;
+begin
+  if not ShellExec('', 'https://freenetproject.org/support', '', '', SW_SHOW, ewWaitUntilIdle, ErrorCode) then 
+    begin
+      sErrorCode := inttostr(ErrorCode);
+      MsgBox(FmtMessage(CustomMessage('ErrorLaunchBrowser'), [sErrorCode, SysErrorMessage(ErrorCode)]), mbError, MB_OK);
+    end;
+end;
+
+procedure ExistingInstallationDamaged();
+begin
+  case MsgBox(CustomMessage('ErrorInstallationDamaged'), mbError, MB_YESNO) of
+    IDYES:
+    begin
+      OpenWebSupport();
+    end;
+    IDNO:
+    begin
+      // user pressed No
+    end;
+  end;
+end;
+
+function OpenUpdateScript(InstallationPath: string) :boolean;
+var
+ErrorCode : Integer;
+sErrorCode: string;
+begin
+  result := true;
+
+  if not ShellExec('', Format('%s\update.cmd', [InstallationPath]), '', '', SW_SHOW, ewWaitUntilTerminated, ErrorCode) then 
+  begin
+    ExistingInstallationDamaged();
+  end;
+end;
+
+function OpenWebInterface(InstallationPath: string) :boolean;
+var
+ErrorCode : Integer;
+sErrorCode: string;
+begin
+  result := true;
+
+  if not ShellExec('', Format('%s\FreenetTray.exe', [InstallationPath]), '-welcome', '', SW_SHOW, ewWaitUntilIdle, ErrorCode) then 
+  begin
+    ExistingInstallationDamaged();
+  end;
+end;
+
+function InitializeSetup: boolean;
+var 
+RegKey: string;
+ExistingInstallation: Boolean;
+RegistryLocationRootKey: Integer;
+ExistingInstallationPath : string;
+begin
+  result := true;
+  ExistingInstallation := false;
+  
+  RegKey := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\{#SetupSetting("AppId")}_is1');
+
+  if RegKeyExists(HKLM, RegKey) then 
+  begin 
+    ExistingInstallation := true;
+    RegistryLocationRootKey := HKLM;
+  end;
+  
+  if RegKeyExists(HKCU, RegKey) then 
+  begin 
+    ExistingInstallation := true;
+    RegistryLocationRootKey := HKCU;
+  end;
+  
+  if RegKeyExists(HKU, RegKey) then 
+  begin 
+    ExistingInstallation := true;
+    RegistryLocationRootKey := HKU;
+  end;
+
+  if ExistingInstallation then
+  begin
+    if RegQueryStringValue(RegistryLocationRootKey, RegKey, 'InstallLocation', ExistingInstallationPath) then
+    begin
+      case MsgBox(CustomMessage('ErrorFreenetAlreadyInstalled'), mbError, MB_YESNO) of
+        IDYES:
+        begin
+          OpenUpdateScript(ExistingInstallationPath);
+        end;
+        IDNO:
+        begin
+          // user pressed No
+        end;
+      end;
+    end else begin
+      ExistingInstallationDamaged();
+    end;
+
+    // installer exits in all cases
+    result := false;
+  end;
+end;
+
+function fCheckJava64Install():boolean;
 var
   JavaVersion : string;
 begin
   Result := False;
+  // the installer is a 32-bit process, so we need to explicitly 
+  // check the 64-bit registry view to find out if a 64-bit JRE is installed
+  if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
+    if CompareStr(JavaVersion,'1.7') >= 0  then
+      Result := True;
+end;
+
+function fCheckJava32Install():boolean;
+var
+  JavaVersion : string;
+begin
+  Result := False;
+  // this is checking the default registry view for the process, which happens to be 32-bit
   if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.7') >= 0  then
       Result := True;
+end;
+
+function fCheckJavaInstall():boolean;
+begin
+  Result := False;
+  if (isWin64()) then begin
+    if fCheckJava64Install() then Result := True;
+  end else begin
+    if fCheckJava32Install() then Result := True;
+  end;
 end;
 
 function IsNetInstalled() : boolean;
 var
   NetVersion : string;
 begin
-  Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5', 'Version', NetVersion);
+// TODO: is this correct by accident? As the installer is a 32-bit process, if .NET installers always put a registry key 
+// in the 32-bit registery view on a 64-bit machine this will always work. If not it may break on some machines, or on all
+// machines in the future if that changes
+  Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Version', NetVersion);
 end;
 
 procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
   sErrorCode: string;
+  sJavaInstaller: string;
   ButtonInstallJava: TNewButton;
 begin
   ButtonInstallJava := TNewButton (Sender);
   ButtonInstallJava.Enabled := False;
-  ExtractTemporaryFiles('{tmp}\jxpiinstall.exe');
-  if not ShellExec('runas',ExpandConstant('{tmp}\jxpiinstall.exe'),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
+  if (isWin64()) then begin
+    sJavaInstaller := '{tmp}\jre-8u131-windows-x64.exe';
+  end else begin
+    sJavaInstaller := '{tmp}\jre-8u131-windows-i586-iftw.exe';
+  end;
+  ExtractTemporaryFiles(sJavaInstaller);
+  if not ShellExec('runas',ExpandConstant(sJavaInstaller),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
     sErrorCode := inttostr(ErrorCode);
     MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['Java', sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
@@ -179,16 +321,16 @@ var
 begin
   InstallButton := TNewButton (Sender);
   InstallButton.Enabled := False;
-  ExtractTemporaryFiles('{tmp}\dotNetFx35setup.exe');
-  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx35setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
-    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 3.5', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
+  ExtractTemporaryFiles('{tmp}\dotNetFx40_Full_setup.exe');
+  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx40_Full_setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
+    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 4.0', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
            mbError, MB_OK);
     InstallButton.Enabled := True;
   end else begin
     InstallButton.Enabled := True;
     if IsNetInstalled() then begin
       InstallButton.Visible := False;
-      NetDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['.NET 3.5']);
+      NetDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['.NET 4.0']);
       WizardForm.NextButton.Enabled :=  True;
     end;
   end;
@@ -220,7 +362,7 @@ var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
 begin
   JavaDependency := CreateDependencyPage('Java', 'JavaMissingText', @ButtonInstallJavaOnClick);
-  NetDependency := CreateDependencyPage('.NET 3.5', 'NetMissingText', @NetInstallOnClick);
+  NetDependency := CreateDependencyPage('.NET 4.0', 'NetMissingText', @NetInstallOnClick);
 
   iFproxyPort := 8888;
   repeat
