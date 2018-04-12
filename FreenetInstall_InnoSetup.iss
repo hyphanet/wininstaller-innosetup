@@ -254,6 +254,9 @@ begin
   if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.7') >= 0  then
       Result := True;
+  if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion) = true then
+    if CompareStr(JavaVersion,'1.7') >= 0  then
+      Result := True;
 end;
 
 function fCheckJava32Install():boolean;
