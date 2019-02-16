@@ -84,6 +84,7 @@ Source: "install_node\plugins\KeyUtils.jar"; DestDir: "{app}\plugins"; Flags: ig
 Source: "install_node\plugins\Library.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "install_node\plugins\ThawIndexBrowser.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "install_node\plugins\UPnP.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
+Source: "install_node\plugins\Sharesite.jar"; DestDir: "{app}\plugins"; Flags: ignoreversion
 Source: "install_node\updater\sha1test.jar"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\startssl.pem"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\update.cmd"; DestDir: "{app}\updater"; Flags: ignoreversion
@@ -348,7 +349,7 @@ begin
   if not FileExists(ExpandConstant('{app}\freenet.ini')) then begin
     sConfigLines[0] := 'fproxy.port=' + sFproxyPort;
     sConfigLines[1] := 'fcp.port=' + sFcpPort;
-    sConfigLines[2] := 'pluginmanager.loadplugin=JSTUN;KeyUtils;ThawIndexBrowser;UPnP;Library';
+    sConfigLines[2] := 'pluginmanager.loadplugin=JSTUN;KeyUtils;ThawIndexBrowser;UPnP;Sharesite';
     sConfigLines[3] := 'node.updater.autoupdate=true';
     sConfigLines[4] := 'node.downloadsDir=.\downloads';
     sConfigLines[5] := 'End';
