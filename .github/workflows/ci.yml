@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest  # For a list of available runner types, refer to 
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Downloading / installing InnoSetup
+      run: |
+        $url = "https://jrsoftware.org/download.php/is.exe"
+        $output = "is.exe"
+        (New-Object System.Net.WebClient).DownloadFile($url, $output)
+        .\is.exe /silent /currentuser /PORTABLE=1
+
+    - name: Building the installer
+      run: |
+        "%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe" "FreenetInstall_InnoSetup.iss"
+
+      shell: cmd
+
+    - name: Upload PDB artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: Output
+        name: wininstaller-innosetup
+
