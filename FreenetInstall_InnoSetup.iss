@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "Freenet"
-#define AppVersion "0.7.5 build 1481"
+#include "fred_version.iss"
 #define AppPublisher "freenetproject.org"
 #define AppURL "https://freenetproject.org/"
 #define AppExeName "FreenetTray.exe"

@@ -10,9 +10,28 @@ dependencies {
     compile project(':fred')
 }
 
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+def fredversion
+task buildInfo {
+    try {
+        def gitcmd = "git"
+        if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) {
+            gitcmd = "C:\\Program Files\\Git\\bin\\git.exe"
+        }
+        def cmd = "${gitcmd} describe --always --abbrev=4 --dirty"
+	def proc = cmd.execute(null, new File("fred"))
+	fredversion = proc.text.trim().substring(6,10)
+    } catch (java.io.IOException e) {
+        fredversion = "@unknown@"
+    }
+}
+
 task updateSetupFile {
 	doLast {
-		def file = new File("fred_deps.iss")
+		def file = new File("fred_version.iss")
+		file.write("#define AppVersion \"0.7.5 build ${fredversion}\"\r\n")
+
+		file = new File("fred_deps.iss")
 		file.delete()
 		configurations.compile.resolvedConfiguration.resolvedArtifacts.each {
 			dep -> switch(dep.getName()) {
