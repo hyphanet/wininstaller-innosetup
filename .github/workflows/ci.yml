@@ -2,15 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+  pull_request:
 
 jobs:
   build:
-    runs-on: windows-latest  # For a list of available runner types, refer to 
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-latest
 
     steps:
-
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -42,6 +40,7 @@ jobs:
 
     - name: Sign the installer
       uses: nextgens/authenticode-sign-action@v1.0.0
+      if: ${{ github.event_name != 'pull_request' }}
       with:
         certificate: '${{ secrets.CERTIFICATES }}'
         credentials: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
@@ -50,11 +49,13 @@ jobs:
         recursive: true
 
     - name: Verify the signature
+      if: ${{ github.event_name != 'pull_request' }}
       run: call "%programfiles(x86)%/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" verify /v /pa "Output/FreenetInstaller.exe"
       shell: cmd
 
     - name: Upload the installer as an artifact
       uses: actions/upload-artifact@v2
+      if: ${{ github.event_name != 'pull_request' }}
       with:
         path: "Output/FreenetInstaller.exe"
         name: wininstaller-innosetup
