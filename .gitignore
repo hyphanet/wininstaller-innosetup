@@ -1,1 +1,6 @@
 /Output/
+/fred
+/FreenetInstall_InnoSetup.iss
+*.swp
+/.gradle
+/fred_deps.iss

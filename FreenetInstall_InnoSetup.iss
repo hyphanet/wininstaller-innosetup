@@ -64,17 +64,13 @@ Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.d
 Source: "install_bundle\jre-8u131-windows-i586-iftw.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jre-8u131-windows-x64.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_node\bcprov-jdk15on-1.59.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\jna-4.5.2.jar"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\jna-platform-4.5.2.jar"; DestDir: "{app}"; Flags: ignoreversion
+#include "fred_deps.iss"
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\FreenetTray.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\freenet-ext.jar"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\seednodes.fref"; DestDir: "{app}"; Flags: ignoreversion
-Source: "install_node\freenet.jar"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: FreenetJarDoAfterInstall
 Source: "install_node\installid.dat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\installlayout.dat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\licenses\LICENSE.Freenet"; DestDir: "{app}\licenses"; Flags: ignoreversion

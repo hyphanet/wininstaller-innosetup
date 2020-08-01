@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+repositories {
+    mavenLocal() // TODO: use lib/ instead?
+    maven { url 'https://mvn.freenetproject.org' }
+    jcenter()
+}
+
+dependencies {
+    compile project(':fred')
+}
+
+task updateSetupFile {
+	doLast {
+		def file = new File("fred_deps.iss")
+		file.delete()
+		configurations.compile.resolvedConfiguration.resolvedArtifacts.each {
+			dep -> switch(dep.getName()) {
+				case "freenet":
+					file.append("Source: \"freenet.jar\"; DestDir: \"{app}\"; Flags: ignoreversion; AfterInstall: FreenetJarDoAfterInstall\r\n"); break;
+				case "freenet-ext":
+					file.append("Source: \"${dep.getFile()}\"; DestDir: \"{app}\"; DestName: \"freenet-ext.jar\"; Flags: ignoreversion; AfterInstall: FreenetJarDoAfterInstall\r\n"); break;
+				default:
+					file.append("Source: \"${dep.getFile()}\"; DestDir: \"{app}\"; Flags: ignoreversion;\r\n"); break;
+			}
+		} 
+	}
+}

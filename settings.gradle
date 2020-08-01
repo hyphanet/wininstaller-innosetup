@@ -1,0 +1,3 @@
+include ':fred'
+
+project(':fred').projectDir = new File("fred");
