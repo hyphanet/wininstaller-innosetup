@@ -13,7 +13,7 @@ by InnoSetup. To convert between them see
 ### On Linux (with wine)
 * Install InnoSetup : wine is-unicode.exe /SILENT
 * TODO: How to build [wintray](https://github.com/freenet/wintray) on Linux?
-* Build the Setup :  wine "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" "FreenetInstall_InnoSetup.iss"
+* Build the Setup :  wine "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "FreenetInstall_InnoSetup.iss"
 * See Output folder
 
 ### On Windows
