@@ -21,3 +21,7 @@ by InnoSetup. To convert between them see
 * Build [wintray](https://github.com/freenet/wintray) and copy it to install_node\FreenetTray.exe
 * Build the Setup : ISCC.exe "FreenetInstall_InnoSetup.iss"
 * See Output folder
+
+### On the CI
+
+See .github/workflows/ci.yml
