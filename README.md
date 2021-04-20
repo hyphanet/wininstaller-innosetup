@@ -1,5 +1,5 @@
-﻿Because this is Windows software it is okay for a file to not have an ending newline. If you edit
-such a file please keep it that way.
+﻿Because this is Windows software it is okay for a file to not have an ending newline.
+If you edit such a file please keep it that way.
 
 So that they can be uploaded to Transifex there are two encodings of the
 localization files. UTF8 as required by Transifex, and usually-ANSI, as required
