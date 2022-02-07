@@ -62,6 +62,7 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jre-8u261-windows-i586.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+; must be bundled as zip, because the raw exe breaks the 100MiB filesize limit of github
 Source: "install_bundle\jre-10.0.2_windows-x64_bin.zip"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 #include "fred_deps.iss"
