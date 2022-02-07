@@ -291,6 +291,7 @@ procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
   sErrorCode: string;
+  sJavaInstallerZip: string;
   sJavaInstaller: string;
   ButtonInstallJava: TNewButton;
 begin
