@@ -299,7 +299,7 @@ begin
   ButtonInstallJava.Enabled := False;
   if (isWin64()) then begin
     sJavaInstallerZip := '{tmp}\jre-10.0.2_windows-x64_bin.zip';
-    ShellExec('runas','unzip',ExpandConstant(sJavaInstaller),'-d',ExpandConstant('{tmp}\'),SW_SHOW,ewWaitUntilTerminated,ErrorCode)
+    ShellExec('runas','unzip',ExpandConstant(sJavaInstallerZip),'-d',ExpandConstant('{tmp}\'),SW_SHOW,ewWaitUntilTerminated,ErrorCode)
     sJavaInstaller := '{tmp}\jre-10.0.2_windows-x64_bin.exe';
   end else begin
     sJavaInstaller := '{tmp}\jre-8u261-windows-i586.exe';
