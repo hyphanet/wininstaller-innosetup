@@ -61,12 +61,12 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\jre-8u261-windows-i586.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\jre-8u261-windows-i586.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 ; must be bundled as zip, because the raw exe breaks the 100MiB filesize limit of github
-Source: "install_bundle\jre-10.0.2_windows-x64_bin.zip"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
+Source: "install_bundle\jre-10.0.2_windows-x64_bin.zip"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
+Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 #include "fred_deps.iss"
-Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion nocompression
 Source: "install_node\FreenetTray.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenet.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "install_node\freenetoffline.ico"; DestDir: "{app}"; Flags: ignoreversion
@@ -86,8 +86,8 @@ Source: "install_node\updater\sha1test.jar"; DestDir: "{app}\updater"; Flags: ig
 Source: "install_node\updater\startssl.pem"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\update.cmd"; DestDir: "{app}\updater"; Flags: ignoreversion
 Source: "install_node\updater\wget.exe"; DestDir: "{app}\updater"; Flags: ignoreversion
-Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
-Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion
+Source: "install_node\wrapper\freenetwrapper.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion nocompression
+Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; Flags: ignoreversion nocompression
 Source: "install_node\wrapper\wrapper.jar"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
@@ -292,15 +292,21 @@ procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
   sErrorCode: string;
-  sJavaInstallerZip: string;
   sJavaInstaller: string;
   ButtonInstallJava: TNewButton;
 begin
   ButtonInstallJava := TNewButton (Sender);
   ButtonInstallJava.Enabled := False;
   if (isWin64()) then begin
-    sJavaInstallerZip := '{tmp}\jre-10.0.2_windows-x64_bin.zip';
-    ShellExec('runas','unzip',ExpandConstant(sJavaInstaller),'-d',ExpandConstant('{tmp}\'),SW_SHOW,ewWaitUntilTerminated,ErrorCode)
+    ShellExec(
+        'runas',
+        ExpandConstant('unzip {tmp}\jre-10.0.2_windows-x64_bin.zip -d {tmp}'),
+        '',
+        '',
+        SW_SHOW,
+        ewWaitUntilTerminated,
+        ErrorCode
+    );
     sJavaInstaller := '{tmp}\jre-10.0.2_windows-x64_bin.exe';
   end else begin
     sJavaInstaller := '{tmp}\jre-8u261-windows-i586.exe';
