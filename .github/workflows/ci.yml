@@ -31,6 +31,11 @@ jobs:
 
     - uses: eskatos/gradle-command-action@v1
       with:
+        arguments: unzip
+
+
+    - uses: eskatos/gradle-command-action@v1
+      with:
         arguments: updateSetupFile
 
     - name: Building the installer

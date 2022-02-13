@@ -5,3 +5,4 @@
 /.gradle
 /fred_deps.iss
 /fred_version.iss
+*_bin.exe
