@@ -62,7 +62,7 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\jre-8u261-windows-i586.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
-Source: "install_bundle\jre-10.0.2_windows-x64_bin.zip"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
+Source: "install_bundle\jre-10.0.2_windows-x64_bin.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 #include "fred_deps.iss"
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion nocompression
@@ -297,15 +297,6 @@ begin
   ButtonInstallJava := TNewButton (Sender);
   ButtonInstallJava.Enabled := False;
   if (isWin64()) then begin
-    ShellExec(
-        'runas',
-        ExpandConstant('unzip {tmp}\jre-10.0.2_windows-x64_bin.zip -d {tmp}'),
-        '',
-        '',
-        SW_SHOW,
-        ewWaitUntilTerminated,
-        ErrorCode
-    );
     sJavaInstaller := '{tmp}\jre-10.0.2_windows-x64_bin.exe';
   end else begin
     sJavaInstaller := '{tmp}\jre-8u261-windows-i586.exe';
