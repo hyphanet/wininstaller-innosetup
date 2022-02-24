@@ -249,10 +249,17 @@ begin
   // the installer is a 32-bit process, so we need to explicitly 
   // check the 64-bit registry view to find out if a 64-bit JRE is installed
   if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.8') >= 0  then
+    if CompareStr(JavaVersion,'1.9') >= 0  then
       Result := True;
   if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.8') >= 0  then
+    if CompareStr(JavaVersion,'1.9') >= 0  then
+      Result := True;
+  // but try without explicit 64-bit check anyway
+  if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
+    if CompareStr(JavaVersion,'1.9') >= 0  then
+      Result := True;
+  if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion) = true then
+    if CompareStr(JavaVersion,'1.9') >= 0  then
       Result := True;
 end;
 
