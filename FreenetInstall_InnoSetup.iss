@@ -255,6 +255,7 @@ begin
     if CompareStr(JavaVersion,'1.9') >= 0  then
       Result := True;
   // but try without explicit 64-bit check anyway
+  
   if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.9') >= 0  then
       Result := True;
@@ -402,7 +403,9 @@ begin
   sFcpPort := IntToStr(iFcpPort);
 
   MemoryTotalPhys(iMemTotalPhys);
-  if iMemTotalPhys >= 2048 then
+  if iMemTotalPhys >= 4096 then
+    iWrapperJavaMaxMemory := 1024
+  else if iMemTotalPhys >= 2048 then
     iWrapperJavaMaxMemory := 512
   else if iMemTotalPhys >= 1024 then
     iWrapperJavaMaxMemory := 256
