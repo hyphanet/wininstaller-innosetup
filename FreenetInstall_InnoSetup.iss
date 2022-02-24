@@ -358,10 +358,10 @@ begin
   SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), '# Memory limit for the node' + #13#10 , True);
   SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.maxmemory=' + sWrapperJavaMaxMemory + #13#10 , True);
   if (isWin64()) then begin
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.4=--illegal-access=permit' , True);
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.5=--add-opens=java.base/java.lang=ALL-UNNAMED' , True);
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.6=--add-opens=java.base/java.util=ALL-UNNAMED' , True);
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.7=--add-opens=java.base/java.io=ALL-UNNAMED' , True);
+    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.4=--illegal-access=permit'  + #13#10 , True);
+    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.5=--add-opens=java.base/java.lang=ALL-UNNAMED'  + #13#10 , True);
+    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.6=--add-opens=java.base/java.util=ALL-UNNAMED'  + #13#10 , True);
+    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.7=--add-opens=java.base/java.io=ALL-UNNAMED'  + #13#10 , True);
   end;
 end;
 
