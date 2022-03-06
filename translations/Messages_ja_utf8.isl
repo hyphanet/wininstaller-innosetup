@@ -1,7 +1,7 @@
 ﻿[CustomMessages]
 DependencyMissingPageCaption=Freenet インストール要件
 DependencyMissingPageDescription=%1 依存性
-# JavaMissingText=Freenet requires the 32-bit Java Runtime Environment, but your system does not appear to have an up-to-date version installed. You can install Java by using the included online installer, which will download and install the necessary files from the Java website automatically.
+# JavaMissingText=Freenet requires the Java Runtime Environment, but your system does not appear to have an up-to-date version installed. You can install Java by using the included online installer, which will download and install the necessary files from the Java website automatically.
 NetMissingText=Freenetが動作するためには .NET 3.5 が必要ですが、あなたのシステムにはインストールされていません。下のボタンでダウンロード・インストールできます。
 ButtonInstallDependency=%1 をインストール
 DependencyInstalled=%1 があなたのシステムにインストールされました。
