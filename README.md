@@ -36,3 +36,5 @@ To convert between them see
 ### On the CI
 
 See .github/workflows/ci.yml
+
+(you can re-trigger a run to get the most recent freenet files into the installer)
