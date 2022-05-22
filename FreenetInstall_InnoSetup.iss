@@ -276,12 +276,18 @@ begin
 end;
 
 function fCheckJavaInstall():boolean;
+var
+  ErrorCode : Integer;
 begin
   Result := False;
   if (isWin64()) then begin
     if fCheckJava64Install() then Result := True;
   end else begin
     if fCheckJava32Install() then Result := True;
+  end;
+  if not Result then begin
+    // Fallback, check if java.exe in PATH
+    Result := ShellExec('', 'java', '', '', SW_HIDE, ewWaitUntilIdle, ErrorCode);
   end;
 end;
 
@@ -310,7 +316,7 @@ begin
     sJavaInstaller := '{tmp}\jre-8u261-windows-i586.exe';
   end;
   ExtractTemporaryFiles(sJavaInstaller);
-  if not ShellExec('runas',ExpandConstant(sJavaInstaller),'SPONSORS=0','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
+  if not ShellExec('',ExpandConstant(sJavaInstaller),'','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
     sErrorCode := inttostr(ErrorCode);
     MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['Java', sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
