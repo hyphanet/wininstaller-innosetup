@@ -61,8 +61,8 @@ Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,
 
 [Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
-Source: "install_bundle\jre-8u261-windows-i586.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
-Source: "install_bundle\jre-10.0.2_windows-x64_bin.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
+Source: "install_bundle\OpenJDK11U-jre_x86-32_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
+Source: "install_bundle\OpenJDK11U-jre_x64_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 #include "fred_deps.iss"
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion nocompression
@@ -241,50 +241,29 @@ begin
   end;
 end;
 
-function fCheckJava64Install():boolean;
+function fCheckJavaInstall():boolean;
 var
+  ErrorCode : Integer;
   JavaVersion : string;
 begin
   Result := False;
   // the installer is a 32-bit process, so we need to explicitly 
-  // check the 64-bit registry view to find out if a 64-bit JRE is installed
-  if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.9') >= 0  then
-      Result := True;
-  if RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.9') >= 0  then
-      Result := True;
-  // but try without explicit 64-bit check anyway
+  // check the 64-bit registry view to find out if a 64-bit JVM is installed
+  // then also check for 32-bit JVM.
+  // 'JavaVersion' does not change, if nothing was found.
+  RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion)
+  RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion)
+  RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion)
+  RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion)
+
+  RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\Java Development Kit', 'CurrentVersion', JavaVersion)
+  RegQueryStringValue(HKLM64, 'SOFTWARE\JavaSoft\JDK', 'CurrentVersion', JavaVersion)
+  RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Development Kit', 'CurrentVersion', JavaVersion)
+  RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\JDK', 'CurrentVersion', JavaVersion)
   
-  if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
     if CompareStr(JavaVersion,'1.9') >= 0  then
       Result := True;
-  if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\JRE', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.9') >= 0  then
-      Result := True;
-end;
 
-function fCheckJava32Install():boolean;
-var
-  JavaVersion : string;
-begin
-  Result := False;
-  // this is checking the default registry view for the process, which happens to be 32-bit
-  if RegQueryStringValue(HKLM, 'SOFTWARE\JavaSoft\Java Runtime Environment', 'CurrentVersion', JavaVersion) = true then
-    if CompareStr(JavaVersion,'1.8') >= 0  then
-      Result := True;
-end;
-
-function fCheckJavaInstall():boolean;
-var
-  ErrorCode : Integer;
-begin
-  Result := False;
-  if (isWin64()) then begin
-    if fCheckJava64Install() then Result := True;
-  end else begin
-    if fCheckJava32Install() then Result := True;
-  end;
   if not Result then begin
     // Fallback, check if java.exe in PATH
     Result := ShellExec('', 'java', '', '', SW_HIDE, ewWaitUntilIdle, ErrorCode);
@@ -311,12 +290,12 @@ begin
   ButtonInstallJava := TNewButton (Sender);
   ButtonInstallJava.Enabled := False;
   if (isWin64()) then begin
-    sJavaInstaller := '{tmp}\jre-10.0.2_windows-x64_bin.exe';
+    sJavaInstaller := '{tmp}\OpenJDK11U-jre_x64_windows_hotspot_11.0.15_10.msi';
   end else begin
-    sJavaInstaller := '{tmp}\jre-8u261-windows-i586.exe';
+    sJavaInstaller := '{tmp}\OpenJDK11U-jre_x86-32_windows_hotspot_11.0.15_10.msi';
   end;
   ExtractTemporaryFiles(sJavaInstaller);
-  if not ShellExec('',ExpandConstant(sJavaInstaller),'','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
+  if not ShellExec('',ExpandConstant(sJavaInstaller),'ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureOracleJavaSoft','',SW_SHOW,ewWaitUntilTerminated,ErrorCode) then begin
     sErrorCode := inttostr(ErrorCode);
     MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['Java', sErrorCode,SysErrorMessage(ErrorCode)]), mbError, MB_OK)
     ButtonInstallJava.Enabled := True;
@@ -371,12 +350,6 @@ procedure WrapperConfDoAfterInstall();
 begin
   SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), '# Memory limit for the node' + #13#10 , True);
   SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.maxmemory=' + sWrapperJavaMaxMemory + #13#10 , True);
-  if (isWin64()) then begin
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.4=--illegal-access=permit'  + #13#10 , True);
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.5=--add-opens=java.base/java.lang=ALL-UNNAMED'  + #13#10 , True);
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.6=--add-opens=java.base/java.util=ALL-UNNAMED'  + #13#10 , True);
-    SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.additional.7=--add-opens=java.base/java.io=ALL-UNNAMED'  + #13#10 , True);
-  end;
 end;
 
 procedure InitializeWizard;
