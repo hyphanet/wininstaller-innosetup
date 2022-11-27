@@ -225,19 +225,21 @@ begin
       case MsgBox(CustomMessage('ErrorFreenetAlreadyInstalled'), mbError, MB_YESNO) of
         IDYES:
         begin
-          OpenUpdateScript(ExistingInstallationPath);
+          result := True;
+
+          // Don't use outdated script - instead just overwrite installation
+          // Installer will warn if "FreenetTray.exe", "OpenJDK Platform binary" or "Java Service Wrapper Community Edition" are running
+          //OpenUpdateScript(ExistingInstallationPath);
         end;
         IDNO:
         begin
           // user pressed No
+          result := False;
         end;
       end;
     end else begin
       ExistingInstallationDamaged();
     end;
-
-    // installer exits in all cases
-    result := false;
   end;
 end;
 
