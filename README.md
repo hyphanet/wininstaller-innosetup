@@ -8,7 +8,6 @@ by InnoSetup.
 To convert between them see
 [convert-inno-setup](https://github.com/freenet/scripts/blob/master/convert-inno-setup).
 
-
 ------
 
 
