@@ -8,7 +8,7 @@ DependencyInstalled=%1 has been installed on your system.
 ErrorLaunchDependencyInstaller=Can't launch %1 installer.%n%nError (%2): %3.
 AdditionalOptions=Additional options:
 StartFreenetWithWindows=Start Freenet when I log in to Windows
-ErrorFreenetAlreadyInstalled=Freenet is already installed on this machine, would you like to check for updates?
+ErrorFreenetAlreadyInstalled=Freenet is already installed on this machine, would you like to update?
 ErrorInstallationDamaged=Freenet is installed but the installation is damaged, contact Freenet support?
 ErrorLaunchBrowser=Can't launch browser.%n%nError (%d): %s.
 
