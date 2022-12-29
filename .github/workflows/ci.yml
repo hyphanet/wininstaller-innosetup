@@ -22,7 +22,7 @@ jobs:
         path: 'fred'
 
     - name: Download fred from the Github Release
-      uses: i3h/download-release-asset@v1.3.3
+      uses: i3h/download-release-asset@v1.1.0
       with:
         owner: "freenet"
         repo: "fred"
