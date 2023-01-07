@@ -60,6 +60,11 @@ Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl,.\translations\
 Name: "traditional_chinese"; MessagesFile: ".\unofficial\ChineseTraditional.isl,.\translations\Messages_zh_TW.isl"
 
 [Files]
+// this is used to copy wrapper.conf to wrapper.conf.old before overwriting the file when updating the node.
+// there is a check for wrapper.conf.old you have to adjust if you change the name here.
+Source: "{app}\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; DestName: "wrapper.conf.old"; Flags: external skipifsourcedoesntexist
+
+[Files]
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\OpenJDK11U-jre_x86-32_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 Source: "install_bundle\OpenJDK11U-jre_x64_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
@@ -90,7 +95,7 @@ Source: "install_node\wrapper\freenetwrapper-64.exe"; DestDir: "{app}\wrapper"; 
 Source: "install_node\wrapper\wrapper.jar"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-32.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
 Source: "install_node\wrapper\wrapper-windows-x86-64.dll"; DestDir: "{app}\wrapper"; Flags: ignoreversion
-Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion onlyifdoesntexist; AfterInstall: WrapperConfDoAfterInstall
+Source: "install_node\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; Flags: ignoreversion; AfterInstall: WrapperConfDoAfterInstall
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -350,6 +355,10 @@ end;
 
 procedure WrapperConfDoAfterInstall();
 begin
+  if FileExists(ExpandConstant('{app}\wrapper\wrapper.conf.old')) then begin // do not notify on very first installation, only when updating   
+    MsgBox(CustomMessage('WrapperOverwritten'), mbInformation, MB_OK);
+  end;
+
   SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), '# Memory limit for the node' + #13#10 , True);
   SaveStringToFile(ExpandConstant('{app}\wrapper\wrapper.conf'), 'wrapper.java.maxmemory=' + sWrapperJavaMaxMemory + #13#10 , True);
 end;
