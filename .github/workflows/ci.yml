@@ -17,14 +17,14 @@ jobs:
     - name: Checkout fred
       uses: actions/checkout@v2
       with:
-        repository: 'freenet/fred'
+        repository: 'hyphanet/fred'
         fetch-depth: 0
         path: 'fred'
 
     - name: Download fred from the Github Release
       uses: i3h/download-release-asset@v1.1.0
       with:
-        owner: "freenet"
+        owner: "hyphanet"
         repo: "fred"
         tag: "latest"
         file: "freenet.jar"
