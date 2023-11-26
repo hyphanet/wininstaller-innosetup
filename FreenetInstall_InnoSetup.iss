@@ -345,7 +345,7 @@ begin
   if not FileExists(ExpandConstant('{app}\freenet.ini')) then begin
     sConfigLines[0] := 'fproxy.port=' + sFproxyPort;
     sConfigLines[1] := 'fcp.port=' + sFcpPort;
-    sConfigLines[2] := 'pluginmanager.loadplugin=JSTUN;KeyUtils;ThawIndexBrowser;UPnP;Sharesite';
+    sConfigLines[2] := 'pluginmanager.loadplugin=JSTUN;KeyUtils;UPnP;Sharesite';
     sConfigLines[3] := 'node.updater.autoupdate=true';
     sConfigLines[4] := 'node.downloadsDir=.\downloads';
     sConfigLines[5] := 'End';
