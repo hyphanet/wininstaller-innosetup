@@ -169,3 +169,16 @@ ecdsa.P256.pub=MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEiyQndHLrgIt36r3MfdpMPx8XigB9o
 physical.udp==MTM4LjIuNTcuMTA5OjUyMDQx
 End
 
+identity=N8zHY30Cd4sPturui7nDb85UtQb4uMnmvTZiExnxoYM
+lastGoodVersion==RnJlZCwwLjcsMS4wLDE0NzU
+location==MC4wODIyNDkxNzgzODY5NDAwMQ
+opennet=true
+sigP256=MEUCIHm-c0pWwMAGlu0kW1-~9vCwoO2tlfBnOdS-70sDssGdAiEApDZ5uX9lQpfHXb~lA8e-0pB~yXD5McFW7dClPUCjx-A
+version==RnJlZCwwLjcsMS4wLDE0OTQ
+ark.number=7468
+ark.pubURI=SSK@skS0fLCTWmahKFZcz53mqNIMnQi0iF6g1bFoPiUHQr0,AbmNpSMTEhF1BU7FDwwKpiAFhE6W-n~5Rg6mSwOy-Hw,AQACAAE/ark
+auth.negTypes=10
+ecdsa.P256.pub=MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzBvR0BJQcqWTm2ZomTVuNd-8-c9A~BeIKnGgFZ027xfho7SO9Mo5h9On2dAIBpo4P~9GfnwvIXSbH3b4L0223Q
+physical.udp==ZnJlZW5ldC5wdGVyb2RhY3R5bHVzLm5ldDo1MjQzNDsyYTAxOjRmODoxNjI6NDMyYjowOjA6MDoyOjUyNDM0OzUuOS4xMDcuMzg6NTI0MzQ
+End
+
