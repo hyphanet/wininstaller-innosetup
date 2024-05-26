@@ -393,16 +393,14 @@ begin
   sFcpPort := IntToStr(iFcpPort);
 
   MemoryTotalPhys(iMemTotalPhys);
-  if iMemTotalPhys >= 4096 then
+  if iMemTotalPhys >= 8192 then
+    iWrapperJavaMaxMemory := 1536
+  else if iMemTotalPhys >= 4096 then
     iWrapperJavaMaxMemory := 1024
   else if iMemTotalPhys >= 2048 then
     iWrapperJavaMaxMemory := 512
-  else if iMemTotalPhys >= 1024 then
-    iWrapperJavaMaxMemory := 256
-  else if iMemTotalPhys >= 512 then
-    iWrapperJavaMaxMemory := 192
   else
-    iWrapperJavaMaxMemory := 128;
+    iWrapperJavaMaxMemory := 256;
 
   sWrapperJavaMaxMemory := InttoStr(iWrapperJavaMaxMemory);
  
