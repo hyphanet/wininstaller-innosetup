@@ -8,6 +8,10 @@ DependencyInstalled=%1 wurde auf Ihrem System installiert.
 ErrorLaunchDependencyInstaller=%1-Installationsprogramm kann nicht gestartet werden.%n%nFehler (%2): %3.
 AdditionalOptions=Zusätzliche Optionen:
 StartFreenetWithWindows=Freenet beim Anmelden in Windows starten
+ErrorFreenetAlreadyInstalled=Freenet ist bereits auf diesem Rechner installiert, möchten Sie aktualisieren?
+ErrorInstallationDamaged=Freenet ist installiert, aber die Installation ist beschädigt, kontaktieren Sie den Freenet Support?
+ErrorLaunchBrowser=Der Browser kann nicht gestartet werden.%n%nFehler (%d): %s.
+WrapperOverwritten=Ihre 'wrapper.conf'-Datei wurde überschrieben. Die alte Datei wurde als "wrapper.conf.old" gespeichert.
 
 [Messages]
 WelcomeLabel2=Dies wird [name/ver] auf Ihrem Computer installieren.
