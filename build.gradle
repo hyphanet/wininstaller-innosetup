@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':fred')
+    api project(':fred')
 }
 
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
@@ -41,7 +41,7 @@ task updateSetupFile {
 
 		file = new File("fred_deps.iss")
 		file.delete()
-		configurations.api.resolvedConfiguration.resolvedArtifacts.each {
+		configurations.compile.resolvedConfiguration.resolvedArtifacts.each {
 			dep -> switch(dep.getName()) {
 				case "freenet":
 					file.append("Source: \"freenet.jar\"; DestDir: \"{app}\"; Flags: ignoreversion; AfterInstall: FreenetJarDoAfterInstall\r\n"); break;
