@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':fred')
+    api/implementation project(':fred')
 }
 
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
