@@ -29,12 +29,12 @@ jobs:
         tag: "latest"
         file: "freenet.jar"
 
-    - uses: eskatos/gradle-command-action@v1
+    - uses: eskatos/gradle-command-action@v3
       with:
         arguments: unzip
 
 
-    - uses: eskatos/gradle-command-action@v1
+    - uses: eskatos/gradle-command-action@v3
       with:
         arguments: updateSetupFile
 
