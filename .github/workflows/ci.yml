@@ -1,3 +1,4 @@
+---
 name: CI
 
 on:
@@ -10,33 +11,30 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Checkout fred
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: 'hyphanet/fred'
         fetch-depth: 0
         path: 'fred'
 
     - name: Download fred from the Github Release
-      uses: i3h/download-release-asset@v1.1.0
-      with:
-        owner: "hyphanet"
-        repo: "fred"
-        tag: "latest"
-        file: "freenet.jar"
+      shell: pwsh
+      run: |
+        $json = curl.exe "https://api.github.com/repos/hyphanet/fred/releases/latest" | ConvertFrom-Json
+        foreach ($asset in $json.assets){if ($asset.name -eq "freenet.jar"){$url = $asset.browser_download_url.ToString()}}
+        curl.exe --output freenet.jar --location $url
 
-    - uses: eskatos/gradle-command-action@v3
-      with:
-        arguments: unzip
+    - uses: gradle/actions/wrapper-validation@v4
 
-
-    - uses: eskatos/gradle-command-action@v3
-      with:
-        arguments: updateSetupFile
+    - name: Unzip and update setup files
+      run: |
+        .\gradlew.bat unzip
+        .\gradlew.bat updateSetupFile
 
     - name: Building the installer
       run: |
@@ -67,4 +65,3 @@ jobs:
       with:
         path: "Output/FreenetInstaller.exe"
         name: wininstaller-innosetup
-
