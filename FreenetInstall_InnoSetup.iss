@@ -68,7 +68,6 @@ Source: "{app}\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; DestName: "wrapp
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\OpenJDK11U-jre_x86-32_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 Source: "install_bundle\OpenJDK11U-jre_x64_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
-Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 #include "fred_deps.iss"
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion nocompression
 Source: "install_node\FreenetTray.exe.config"; DestDir: "{app}"; Flags: ignoreversion
@@ -129,7 +128,7 @@ type
   end;
 
 var
-  JavaDependency, NetDependency: TDependencyPage;
+  JavaDependency: TDependencyPage;
 
   sWrapperJavaMaxMemory, sFproxyPort, sFcpPort :string;
 
@@ -277,16 +276,6 @@ begin
   end;
 end;
 
-function IsNetInstalled() : boolean;
-var
-  NetVersion : string;
-begin
-// TODO: is this correct by accident? As the installer is a 32-bit process, if .NET installers always put a registry key 
-// in the 32-bit registery view on a 64-bit machine this will always work. If not it may break on some machines, or on all
-// machines in the future if that changes
-  Result := RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full', 'Version', NetVersion);
-end;
-
 procedure ButtonInstallJavaOnClick(Sender: TObject);
 var
   ErrorCode : Integer;
@@ -311,28 +300,6 @@ begin
     if fCheckJavaInstall() then begin
       ButtonInstallJava.Visible := False;
       JavaDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['Java']);
-      WizardForm.NextButton.Enabled :=  True;
-    end;
-  end;
-end;
-
-procedure NetInstallOnClick(Sender: TObject);
-var
-  ErrorCode : Integer;
-  InstallButton: TNewButton;
-begin
-  InstallButton := TNewButton (Sender);
-  InstallButton.Enabled := False;
-  ExtractTemporaryFiles('{tmp}\dotNetFx40_Full_setup.exe');
-  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx40_Full_setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
-    MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 4.0', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
-           mbError, MB_OK);
-    InstallButton.Enabled := True;
-  end else begin
-    InstallButton.Enabled := True;
-    if IsNetInstalled() then begin
-      InstallButton.Visible := False;
-      NetDependency.Explanation.Caption := FmtMessage(CustomMessage('DependencyInstalled'), ['.NET 4.0']);
       WizardForm.NextButton.Enabled :=  True;
     end;
   end;
@@ -368,7 +335,6 @@ var
   iMemTotalPhys, iWrapperJavaMaxMemory, iFproxyPort, iFcpPort : integer;
 begin
   JavaDependency := CreateDependencyPage('Java', 'JavaMissingText', @ButtonInstallJavaOnClick);
-  NetDependency := CreateDependencyPage('.NET 4.0', 'NetMissingText', @NetInstallOnClick);
 
   iFproxyPort := 8888;
   repeat
@@ -435,8 +401,7 @@ end;
 
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  if (CurPageID = JavaDependency.Page.ID) or
-     (CurPageID = NetDependency.Page.ID)
+  if (CurPageID = JavaDependency.Page.ID)
       then begin
     WizardForm.NextButton.Enabled := False;
   end;
@@ -446,5 +411,4 @@ function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   Result := False;
   if (PageID = JavaDependency.Page.ID) And fCheckJavaInstall() then Result := True;
-  if (PageID = NetDependency.Page.ID) And IsNetInstalled() then Result := True;
 end;
