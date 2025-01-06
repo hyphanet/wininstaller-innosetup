@@ -26,12 +26,7 @@ task buildInfo {
     }
 }
 
-task unzip(type: Copy) {
-    // since your zip is in the buildDir, I suppose you'll need deferred evaluation, hence the from(Closure) variant
-    from {
-        zipTree("install_bundle/jre-10.0.2_windows-x64_bin.zip").singleFile
-    }
-    into "install_bundle"
+task unzip {
 }
 
 task updateSetupFile {
