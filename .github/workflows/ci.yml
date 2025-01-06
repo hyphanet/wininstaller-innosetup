@@ -41,6 +41,7 @@ jobs:
         "%programfiles(x86)%\Inno Setup 6\iscc.exe" "FreenetInstall_InnoSetup.iss"
       shell: cmd
 
+# signing moved to https://github.com/hyphanet/sign-windows-installer
 #     - name: Sign the installer
 #       uses: nextgens/authenticode-sign-action@v1.0.1
 #       if: ${{ github.event_name != 'pull_request' }}
