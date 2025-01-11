@@ -12,7 +12,6 @@ Also see <https://github.com/hyphanet/sign-windows-installer>
 
 ------
 
-
 ## How to build
 
 * Download InnoSetup from http://www.jrsoftware.org/download.php/is-unicode.exe (see http://www.jrsoftware.org/isdl.php)
