@@ -16,7 +16,6 @@ Also see <https://github.com/hyphanet/sign-windows-installer>
 
 * Download InnoSetup from http://www.jrsoftware.org/download.php/is-unicode.exe (see http://www.jrsoftware.org/isdl.php)
 
-
 ### On Linux (with wine)
 
 * Install InnoSetup : wine is-unicode.exe /SILENT
@@ -24,14 +23,12 @@ Also see <https://github.com/hyphanet/sign-windows-installer>
 * Build the Setup :  wine "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "FreenetInstall_InnoSetup.iss"
 * See Output folder
 
-
 ### On Windows
 
 * Install InnoSetup
 * Build [wintray](https://github.com/freenet/wintray) and copy it to install_node\FreenetTray.exe
 * Build the Setup : ISCC.exe "FreenetInstall_InnoSetup.iss"
 * See Output folder
-
 
 ### On the CI
 
