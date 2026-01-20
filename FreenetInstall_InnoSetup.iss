@@ -68,7 +68,7 @@ Source: "{app}\wrapper\wrapper.conf"; DestDir: "{app}\wrapper"; DestName: "wrapp
 Source: "FreenetInstaller_InnoSetup_library\FreenetInstaller_InnoSetup_library.dll"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy
 Source: "install_bundle\OpenJDK11U-jre_x86-32_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 Source: "install_bundle\OpenJDK11U-jre_x64_windows_hotspot_11.0.15_10.msi"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
-Source: "install_bundle\dotNetFx40_Full_setup.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
+Source: "install_bundle\ndp48-web.exe"; DestDir: "{tmp}"; Flags: ignoreversion dontcopy nocompression
 #include "fred_deps.iss"
 Source: "install_node\FreenetTray.exe"; DestDir: "{app}"; Flags: ignoreversion nocompression
 Source: "install_node\FreenetTray.exe.config"; DestDir: "{app}"; Flags: ignoreversion
@@ -323,8 +323,8 @@ var
 begin
   InstallButton := TNewButton (Sender);
   InstallButton.Enabled := False;
-  ExtractTemporaryFiles('{tmp}\dotNetFx40_Full_setup.exe');
-  if not ShellExec('runas', ExpandConstant('{tmp}\dotNetFx40_Full_setup.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
+  ExtractTemporaryFiles('{tmp}\ndp48-web.exe');
+  if not ShellExec('runas', ExpandConstant('{tmp}\ndp48-web.exe'), '', '', SW_SHOW, ewWaitUntilTerminated,ErrorCode) then begin
     MsgBox(FmtMessage(CustomMessage('ErrorLaunchDependencyInstaller'), ['.NET 4.0', inttostr(ErrorCode), SysErrorMessage(ErrorCode)]),
            mbError, MB_OK);
     InstallButton.Enabled := True;
